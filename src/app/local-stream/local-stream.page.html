@@ -1,0 +1,24 @@
+<ion-header>
+	<ion-toolbar color="primary">
+		<ion-buttons slot="start">
+			<ion-back-button defaultHref="/home"></ion-back-button>
+		</ion-buttons>
+		<ion-title text-center>Viewing</ion-title>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+	<!-- <ion-button ion-button (click)="addRow()">Add</ion-button> -->
+	<ion-list>
+		<div
+			*ngFor="let file of dir_data; let ii=index; trackBy:trackByFn"
+			tappable
+			style="font-size:smaller"
+		>
+			<app-input-row
+				[data]="file"
+				(onDelete)="onDelete($event)"
+			></app-input-row>
+		</div>
+	</ion-list>
+</ion-content>
