@@ -41,12 +41,4 @@ export class VideoListPage implements OnInit {
 	trackByFn (index, item) {
 		return index;
 	}
-	changeVideo (_event) {
-		console.log(_event);
-		/* 		this.http
-			.post('http://localhost:8080/rest/video/newvid', { title: _event })
-			.subscribe((res) => {
-				console.log('res:', res);
-			}); */
-	}
 }

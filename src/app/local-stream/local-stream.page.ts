@@ -8,5 +8,12 @@ import { HttpClient } from '@angular/common/http';
 		'./local-stream.page.scss',
 	],
 })
-class LocalStreamPage {}
+class LocalStreamPage {
+	constructor (private http: HttpClient) {}
+	stopVideo () {
+		this.http.post('http://localhost:8080/rest/video/stop', {}).subscribe((res) => {
+			console.log('res:', res);
+		});
+	}
+}
 export { LocalStreamPage };
