@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
 	selector: 'app-input-row',
@@ -8,7 +9,7 @@ export class InputRowComponent implements OnInit {
 	@Input() data: string;
 
 	@Output() onDelete = new EventEmitter<any>();
-	constructor () {}
+	constructor (private http: HttpClient) {}
 
 	ngOnInit () {
 		// this.data = new Date().getTime().toString();
@@ -17,6 +18,14 @@ export class InputRowComponent implements OnInit {
 	deleteClicked () {
 		console.log('deleteClicked');
 		this.onDelete.next(this.data);
+	}
+	changeVideo () {
+		console.log(this.data);
+		this.http
+			.post('http://localhost:8080/rest/video/newvid', { title: this.data })
+			.subscribe((res) => {
+				console.log('res:', res);
+			});
 	}
 }
 export class InputRow {}

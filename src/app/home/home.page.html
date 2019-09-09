@@ -1,18 +1,18 @@
 <ion-header>
 	<ion-toolbar color="primary">
-		<ion-title text-center>
+		<ion-title class="ion-text-center">
 			Dash Cam Pi Viewer
 		</ion-title>
 	</ion-toolbar>
 </ion-header>
 
-<ion-content padding>
-	<div text-center>
+<ion-content class="ion-padding">
+	<div class="ion-text-center">
 		
 		<ion-button
 			expand="block"
 			color="secondary"
-			routerLink="/local-stream"
+			routerLink="/video-list"
 			routerDirection="forward"
 		>
 			Recorded Videos</ion-button
@@ -26,14 +26,10 @@
 			Streaming</ion-button
 		>
 	</div>
-	<div>
+	<!-- <div>
 		{{data.name}}
-	</div>
+	</div> -->
 	<!-- <input #userInput/> -->
-	<ion-input type="text" text-center [(ngModel)]="userInput"></ion-input>
-	<ion-button (click)="changeVideo()">Click to save</ion-button>
+	<!-- <ion-input type="text" text-center [(ngModel)]="userInput"></ion-input> -->
 
-	<video width="420" height="315" controls> 
-		<source src = "http://localhost:8080/rest/video/" type="video/mp4">
-	</video> 
 </ion-content>

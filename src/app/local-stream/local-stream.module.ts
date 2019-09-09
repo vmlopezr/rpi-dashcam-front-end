@@ -6,7 +6,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { LocalStreamPage } from './local-stream.page';
-import { InputRowComponent } from './components/input-row.component';
 
 const routes: Routes = [
 	{
@@ -24,10 +23,10 @@ const routes: Routes = [
 	],
 	declarations: [
 		LocalStreamPage,
-		InputRowComponent,
+		//InputRowComponent,
 	],
 	entryComponents: [
-		InputRowComponent,
+		//InputRowComponent,
 	],
 })
 export class LocalStreamPageModule {}

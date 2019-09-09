@@ -1,9 +1,11 @@
 <ion-item-sliding>
     <ion-item>
-        <ion-label text-center>{{data}}</ion-label>
+        <ion-label class="ion-text-center">{{data}}</ion-label>
     </ion-item>
     <ion-item-options side="end">
-        <ion-button ion-button-color="tertiary">Play</ion-button>
+
+        <ion-button ion-button-color="tertiary" routerLink="/local-stream"
+        routerDirection="forward" (click)="changeVideo()"> Play </ion-button>
         <ion-button ion-button color="danger" (click)="deleteClicked()">
             DELETE
         </ion-button>

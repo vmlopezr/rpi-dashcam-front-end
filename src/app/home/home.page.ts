@@ -34,11 +34,11 @@ export class HomePage implements OnInit {
 			});
 		console.log('done...');
 	}
-	changeVideo () {
+	/* 	changeVideo () {
 		this.http
 			.post('http://localhost:8080/rest/video/newvid', { title: 'Mar23_2019_19-22-31.mp4' })
 			.subscribe((res) => {
 				console.log('res:', res);
 			});
-	}
+	} */
 }
