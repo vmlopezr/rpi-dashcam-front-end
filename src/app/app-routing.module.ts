@@ -10,7 +10,7 @@ const routes: Routes = [
 	{ path: 'video-list', loadChildren: './video-list/video-list.module#VideoListPageModule' },
 	{ path: 'live-stream', loadChildren: './live-stream/live-stream.module#LiveStreamPageModule' },
 	{
-		path: 'local-stream',
+		path: 'local-stream/:vid',
 		loadChildren: './local-stream/local-stream.module#LocalStreamPageModule',
 	},
 ];

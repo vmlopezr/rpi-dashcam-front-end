@@ -24,15 +24,8 @@ export class VideoListPage implements OnInit {
 	addRow () {
 		this.dir_data.push('new');
 	}
-	onDelete (_event) {
-		const index = this.dir_data.indexOf(_event, 0);
-
-		this.dir_data.splice(index, 1);
-
-		console.log(_event);
-	}
 	getDirs () {
-		this.http.get('http://localhost:8080/rest/info/dir').subscribe((res) => {
+		this.http.get('http://localhost:50000/rest/info/dir').subscribe((res) => {
 			localStorage.setItem('dir_data', JSON.stringify(res['data']));
 			this.dir_data = res['data'];
 			//console.log(this.dir_data);

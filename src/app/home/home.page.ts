@@ -1,6 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { AlertController, NavController } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -14,21 +12,13 @@ export class HomePage implements OnInit {
 	data: any = { name: 'poop' };
 
 	userInput: string = '';
-	constructor (
-		private alertCtrl: AlertController,
-		private navCtrl: NavController,
-		private http: HttpClient,
-	) {}
+	constructor (private http: HttpClient) {}
 
-	ngOnInit () {
-		this.http.get('http://localhost:8080/rest/info/file').subscribe((res) => {
-			this.data.name = res['data'];
-		});
-	}
+	ngOnInit () {}
 
 	saveData () {
 		this.http
-			.post('http://localhost:8080/rest/info/save', { name: this.userInput })
+			.post('http://localhost:50000/rest/info/save', { name: this.userInput })
 			.subscribe((res) => {
 				console.log('res:', res);
 			});

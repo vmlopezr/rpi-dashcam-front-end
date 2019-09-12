@@ -1,7 +1,7 @@
 <ion-header>
 	<ion-toolbar color="primary">
 		<ion-buttons slot="start">
-			<ion-back-button (click)="stopVideo()" defaultHref="/video-list"></ion-back-button>
+			<ion-back-button  defaultHref="/video-list"></ion-back-button>
 		</ion-buttons>
 		<ion-title class="ion-text-center">Local Streaming</ion-title>
 	</ion-toolbar>
@@ -10,7 +10,8 @@
 	<div class="page-centered-element">
 		<div class="content">
 			<video width="350" height="300" controls preload="metadata"> 
-					<source src = "http://localhost:8080/rest/video/" type="video/mp4">
+					<!-- <source src = "http://localhost:50000/rest/video/" > -->
+					<source src={{video_path}}>
 			</video> 
 		</div>
 	</div>
