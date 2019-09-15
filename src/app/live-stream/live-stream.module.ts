@@ -10,7 +10,7 @@ import { LiveStreamPage } from './live-stream.page';
 const routes: Routes = [
   {
     path: '',
-    component: LiveStreamPage
+    component: LiveStreamPage,
   }
 ];
 

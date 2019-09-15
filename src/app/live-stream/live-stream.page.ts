@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 	],
 })
 export class LiveStreamPage implements OnInit {
-	constructor () {}
+	constructor() { }
 
-	ngOnInit () {}
+	ngOnInit() { }
 }

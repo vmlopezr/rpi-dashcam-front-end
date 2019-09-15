@@ -1,20 +1,22 @@
-
-
 <div class="Polaroid">
-    <img src={{thumbnail}}  routerLink={{video_path}} routerDirection="forward">
-    <div class="container">
-        <h1>{{title_displayed}}</h1>
-    </div>
+  <img
+    src="{{ thumbnail }}"
+    routerLink="{{ videoPath }}"
+    routerDirection="forward"
+  />
+  <div class="container">
+    <h1>{{ titleDisplayed }}</h1>
+  </div>
 </div>
-   
+
 <!--     <img src={{thumbnail}} >
-    
+
     <ion-item-sliding>
         <ion-item>
             <ion-label class="ion-text-center">{{data}}</ion-label>
         </ion-item>
         <ion-item-options side="end">
-    
+
             <ion-button ion-button-color="tertiary" routerLink="/local-stream"
             routerDirection="forward" (click)="changeVideo()"> Play </ion-button>
             <ion-button ion-button color="danger" (click)="deleteClicked()">
@@ -22,7 +24,3 @@
             </ion-button>
         </ion-item-options>
     </ion-item-sliding> -->
-
-
-
-

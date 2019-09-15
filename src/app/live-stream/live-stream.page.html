@@ -1,22 +1,17 @@
 <ion-header>
-	<ion-toolbar color="primary">
-		<ion-buttons slot="start">
-			<ion-back-button defaultHref="/home"></ion-back-button>
-		</ion-buttons>
-		<ion-title class="ion-text-center">Live Streaming</ion-title>
-	</ion-toolbar>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center">Live Streaming</ion-title>
+  </ion-toolbar>
 </ion-header>
 <ion-content>
-	<div class="page-centered-element">
-		<div class="content">
-			<video width="350" height="300" controls preload="metadata"> 
-					<source src = "http://localhost:8080/stream" >
-			</video> 
-		</div>
-	</div>
-
-	
-
+  <div class="page-centered-element">
+    <div class="content">
+      <video width="350" height="300" controls>
+        <source src="http://localhost:8080/stream" />
+      </video>
+    </div>
+  </div>
 </ion-content>
-
-

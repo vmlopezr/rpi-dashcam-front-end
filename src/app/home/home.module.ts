@@ -22,4 +22,4 @@ import { HomePage } from './home.page';
 		HomePage,
 	],
 })
-export class HomePageModule {}
+export class HomePageModule { }
