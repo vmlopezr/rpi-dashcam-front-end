@@ -38,7 +38,7 @@ export class InputRowComponent implements OnInit {
 
   ngOnInit(): void {
     this.thumbnail =
-      'http://localhost:50000/rest/info/thumbnail/' +
+      'http://localhost:8000/rest/info/thumbnail/' +
       this.data.substr(0, this.data.lastIndexOf('.')) +
       '.jpg';
     this.processImageTitle();

@@ -23,11 +23,9 @@ export class VideoListPage implements OnInit {
     this.dirData.push('new');
   }
   getDirs(): void {
-    this.http.get('http://localhost:50000/rest/info/dir').subscribe(res => {
+    this.http.get('http://localhost:8000/rest/info/dir').subscribe(res => {
       localStorage.setItem('dirData', JSON.stringify(res['data']));
       this.dirData = res['data'];
-      //console.log(this.dirData);
     });
   }
-
 }
