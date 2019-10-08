@@ -16,7 +16,7 @@ export class HomePage implements OnInit {
 
   saveData(): void {
     this.http
-      .post('http://localhost:8000/rest/info/save', { name: this.userInput })
+      .post('http://localhost:50000/rest/info/save', { name: this.userInput })
       .subscribe(res => {
         console.log('res:', res);
       });

@@ -11,12 +11,13 @@ class LocalStreamPage implements OnInit {
   videoPath = '';
   constructor(private http: HttpClient, private route: ActivatedRoute) {
     this.videoPath =
-      'http://localhost:8000/rest/video/showvideo/' +
+      'http://localhost:50000/rest/video/showvideo/' +
       this.route.snapshot.paramMap.get('vid');
+    console.log(this.videoPath);
   }
   stopVideo(): void {
     this.http
-      .post('http://localhost:8000/rest/video/stop', {})
+      .post('http://localhost:50000/rest/video/stop', {})
       .subscribe(res => {});
   }
   ngOnInit(): void {}
