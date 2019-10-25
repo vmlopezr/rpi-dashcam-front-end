@@ -8,6 +8,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { ConfigService } from '../../services/config.service';
 
 @Component({
   selector: 'app-input-row',
@@ -18,27 +19,17 @@ export class InputRowComponent implements OnInit {
   @Input() data: string;
   thumbnail: string;
   titleDisplayed: string;
-  Months = {
-    Jan: ' January',
-    Feb: 'February',
-    Mar: 'March',
-    Apr: 'April',
-    May: 'May',
-    Jun: 'June',
-    Jul: 'July',
-    Aug: 'August',
-    Sep: 'September',
-    Oct: 'October',
-    Nov: 'November',
-    Dec: 'December',
-  };
   videoPath: string;
 
-  constructor() {}
+  constructor(private configService: ConfigService) {}
 
   ngOnInit(): void {
     this.thumbnail =
-      'http://localhost:50000/rest/info/thumbnail/' +
+      'http://' +
+      this.configService.getNodeAddress() +
+      ':' +
+      this.configService.getNodePort() +
+      '/rest/info/thumbnail/' +
       this.data.substr(0, this.data.lastIndexOf('.')) +
       '.jpg';
     this.processImageTitle();
@@ -46,31 +37,10 @@ export class InputRowComponent implements OnInit {
   }
 
   processImageTitle(): void {
-    const timestamp = this.data
+    this.titleDisplayed = this.data
       .substr(0, this.data.lastIndexOf('.'))
-      .replace(/\_|-/g, '');
-    const seconds = timestamp.slice(-2);
-
-    const minutes = timestamp.substring(
-      timestamp.length - 4,
-      timestamp.length - 2,
-    );
-    const hours = parseInt(
-      timestamp.substring(timestamp.length - 6, timestamp.length - 4),
-    );
-    const year = parseInt(
-      timestamp.substring(timestamp.length - 10, timestamp.length - 6),
-    );
-    const day = parseInt(
-      timestamp.substring(timestamp.length - 12, timestamp.length - 10),
-    );
-    const month = timestamp.substring(0, timestamp.length - 12);
-    const suffix = hours >= 12 ? ' PM' : ' AM';
-    const newTime =
-      ((hours + 11) % 12) + 1 + ':' + minutes + ':' + seconds + suffix;
-
-    this.titleDisplayed =
-      this.Months[month] + ' ' + day + ', ' + year + ' at ' + newTime;
+      .replace(/_/g, ' ');
+    this.titleDisplayed = this.titleDisplayed.replace(/\./g, ':');
   }
 }
 

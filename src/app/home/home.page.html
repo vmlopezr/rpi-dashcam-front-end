@@ -10,7 +10,7 @@
 	<div class="ion-text-center">
 		<ion-button expand="block" color="secondary" routerLink="/video-list" routerDirection="forward">
 			Recorded Videos</ion-button>
-		<ion-button expand="block" color="secondary" routerLink="/live-stream" routerDirection="backward">
+		<ion-button expand="block" color="secondary" routerLink="/live-stream" routerDirection="backward" (click)="startStreamServer()">
 			Streaming</ion-button>
 	</div>
 </ion-content>

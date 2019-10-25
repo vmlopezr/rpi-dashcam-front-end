@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { ConfigService } from '../services/config.service';
 
 @Component({
   selector: 'app-video-list',
@@ -10,7 +11,7 @@ export class VideoListPage implements OnInit {
   dirData: string[];
   storageDirectory = '';
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private configService: ConfigService) {
     const cache = localStorage.getItem('dirData');
     if (cache) {
       this.dirData = JSON.parse(cache);
@@ -23,9 +24,17 @@ export class VideoListPage implements OnInit {
     this.dirData.push('new');
   }
   getDirs(): void {
-    this.http.get('http://localhost:50000/rest/info/dir').subscribe(res => {
-      localStorage.setItem('dirData', JSON.stringify(res['data']));
-      this.dirData = res['data'];
-    });
+    this.http
+      .get(
+        'http://' +
+          this.configService.getNodeAddress() +
+          ':' +
+          this.configService.getNodePort() +
+          '/rest/info/dir',
+      )
+      .subscribe(res => {
+        localStorage.setItem('dirData', JSON.stringify(res['data']));
+        this.dirData = res['data'];
+      });
   }
 }
