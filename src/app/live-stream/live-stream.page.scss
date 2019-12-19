@@ -1,21 +1,106 @@
-// video {
-// 	transform: rotate(0deg);
-// }
-.page-centered-element {
-	position: absolute;
+.header {
+	--ion-color-primary: #22096e;
+	--ion-color-primary-rgb: 0,35,180;
+	--ion-color-primary-contrast: #ffffff;
+	--ion-color-primary-contrast-rgb: 255,255,255;
+	--ion-color-primary-shade: #000e5a;
+	--ion-color-primary-tint: #16239b;
+
+}
+.page-title{
+	font-size: 20px;
+}
+.livestream {
 	left: 0;
 	right: 0;
 	top: 0;
 	bottom: 0;
-	display: flex;
 	align-items: center;
 	justify-content: center;
 }
-
-.content {
-	text-align: center;
+.content-style {
+	--background:#4c4b50;
 }
-// video {
-// 	width: 100%;
-// 	height: 100%;
-// }
+.card-title {
+	color: white;
+}
+
+.p-text {
+	color: white;
+	margin: 0;
+    padding: 0;
+	padding-left: 16px;
+}
+.slider {
+	margin-left: 0px;
+	--knob-background: #dfdfdf;
+    --bar-background-active: #1aafb4 ;
+    --bar-background: #3a2a2a;
+    --bar-height: 3px;
+    --knob-size: 15px;
+    --knob-border-radius: 50%;
+    --bar-border-radius: 20px;
+	--knob-box-shadow: 0px 0px 0px 1px rgb(100, 100, 100);
+	--ion-text-color: white !important;
+}
+
+.range-label {
+	font-weight: bold;
+	font-size: medium;
+}
+.slider-label {
+	width: 95px;
+	word-wrap: break-word;
+	font-size: 16px;
+}
+.slider-value {
+	width: 50px;
+}
+.toggle-container {
+	--background: #737275;
+}
+.toggle {
+	--background: rgb(209, 206, 206) !important;
+	--background-checked: #1aafb4 !important;
+	--handle-background-checked: rgb(245, 245, 245) !important;
+}
+.card-style {
+	--background: #737275;
+	margin-top: 0px;
+	margin-left: 1px;
+	margin-right: 1px;
+	margin-bottom: 2px;
+}
+
+.toggle-label {
+	width: 100px;
+	word-wrap: break-word;
+	font-size: 16px;
+}
+.card-header {
+	display: flex;
+	position: relative;
+
+}
+.heading-text {
+	color: white;
+	text-align: start;
+	padding-left: 16px;
+	vertical-align: middle;
+	padding-top: 7px;
+	margin: 0;
+
+}
+.info-icon {
+	position: absolute;
+	top: 0px;
+	right: 0;
+	margin: 0;
+	padding: 0;
+}
+.reset-button {
+	margin-left: 7px;
+    margin-right: 7px;
+	display: block !important;
+	--background: #2d0d8f;
+}

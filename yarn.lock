@@ -4834,6 +4834,13 @@ neo-async@^2.5.0, neo-async@^2.6.0:
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.1.tgz#ac27ada66167fa8849a6addd837f6b189ad2081c"
   integrity sha512-iyam8fBuCUpWeKPGpaNMetEocMt364qkCsfL9JuhjXX6dRnguRVOfk2GZaDpPjcOKiiXCPINZC1GczQ7iTq3Zw==
 
+ngx-ionic-image-viewer@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/ngx-ionic-image-viewer/-/ngx-ionic-image-viewer-0.1.0.tgz#9fe25bd15d041ce47d6d0b9656f5e7d0fc0cd208"
+  integrity sha512-1gOmAM0/EfzANDJUqYdSWkplT63B4yCVc89llPY3vuxYcEUMvlZZ862Z+m2pfJlCTdDHFV2y2k0SK2YMfi8bHw==
+  dependencies:
+    tslib "^1.9.0"
+
 nice-try@^1.0.4:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/nice-try/-/nice-try-1.0.5.tgz#a3378a7696ce7d223e88fc9b764bd7ef1089e366"

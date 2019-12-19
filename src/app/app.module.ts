@@ -6,7 +6,7 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ConfigService } from './services/config.service';
-
+import { NgxIonicImageViewerModule } from 'ngx-ionic-image-viewer';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -15,6 +15,7 @@ import { ConfigService } from './services/config.service';
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
+    NgxIonicImageViewerModule,
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },

@@ -10,42 +10,34 @@ import * as attributes from '../../appconfig.json';
 })
 export class HomePage implements OnInit {
   userInput: '';
-  nodePort: number;
-  address: string;
-  liveStreamport: number;
+  NodeAddress: string;
+  NodePort: number;
+
   constructor(private http: HttpClient, private configService: ConfigService) {
-    configService.setNodePort(attributes.node_port);
-    configService.setNodeAddress(attributes.ip_address);
+    configService.setNodePort(attributes.NodePort);
+    configService.setNodeAddress(attributes.IPAddress);
     configService.setLiveStreamPort(attributes.Live_Stream_Port);
+    configService.setDevice(attributes.Device);
+    this.NodePort = configService.getNodePort();
+    this.NodeAddress = configService.getNodeAddress();
   }
 
   ngOnInit(): void {}
 
   saveData(): void {
-    this.http
-      .post(
-        'http://' +
-          this.configService.getNodeAddress() +
-          ':' +
-          this.configService.getNodePort() +
-          '/rest/info/save',
-        { name: this.userInput },
-      )
-      .subscribe(res => {
-        console.log('res:', res);
-      });
+    // this.http
+    //   .post(`http://${this.NodeAddress}:${this.NodePort}/rest/info/save`, {
+    //     name: this.userInput,
+    //   })
+    //   .subscribe(res => {
+    //     console.log('res:', res);
+    //   });
     console.log('done...');
   }
   startStreamServer(): void {
     this.http
-      .get(
-        'http://' +
-          this.configService.getNodeAddress() +
-          ':' +
-          this.configService.getNodePort() +
-          '/rest/info/start',
-      )
+      .get(`http://${this.NodeAddress}:${this.NodePort}/rest/info/start`)
       .subscribe();
-    console.log('started server');
+    console.log('started server ' + window.location.href);
   }
 }

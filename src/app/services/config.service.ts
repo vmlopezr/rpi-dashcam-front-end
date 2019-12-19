@@ -5,6 +5,7 @@ class ConfigService {
   private NodePort;
   private NodeAddress;
   private LiveStreamPort;
+  private Device;
   setNodePort(port: number): void {
     this.NodePort = port;
   }
@@ -14,6 +15,9 @@ class ConfigService {
   setLiveStreamPort(port: number): void {
     this.LiveStreamPort = port;
   }
+  setDevice(device: string): void {
+    this.Device = device;
+  }
   getNodePort(): number {
     return this.NodePort;
   }
@@ -22,6 +26,9 @@ class ConfigService {
   }
   getLiveStreamPort(): number {
     return this.LiveStreamPort;
+  }
+  getDevice(): string {
+    return this.Device;
   }
 }
 export { ConfigService };
