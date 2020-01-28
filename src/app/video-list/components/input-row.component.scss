@@ -2,24 +2,31 @@ img {
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
-	border-radius: 8px;
-	border: 1px solid #ddd;
+	border-radius: 2px;
+	border: 1px solid rgb(53, 48, 48);
 	padding: 5px;
 	width: 320px;
 	height: 240px;
+	background-color: rgb(255, 255, 255);
 }
 img:hover {
 	box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
 }
-
+.title {
+	padding-top: 0px;
+	margin-top: 0px;
+}
 div.polaroid {
 	width: 80%;
-	background-color: white;
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-	margin-bottom: 25px;
+	margin-bottom: 10px;
+	padding-bottom: 15px;
 }
-
-div.container {
+.title-container {
 	text-align: center;
-	padding: 10px 20px;
+	padding-top: 0px;
+	margin-top: 0px;
+	margin-left: 20px;
+	margin-right: 20px;
+	// padding: 15px 20px;
 }

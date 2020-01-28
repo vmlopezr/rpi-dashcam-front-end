@@ -1,5 +1,7 @@
 {
   "name": "DashCam_App",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": ""
 }

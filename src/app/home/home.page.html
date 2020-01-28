@@ -7,10 +7,12 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-	<div class="ion-text-center">
-		<ion-button expand="block" color="secondary" routerLink="/video-list" routerDirection="forward">
+	<div>
+		<ion-button mode="ios" class="reset-button" expand="block" routerLink="/video-list" routerDirection="forward">
 			Recorded Videos</ion-button>
-		<ion-button expand="block" color="secondary" routerLink="/live-stream" routerDirection="backward" (click)="startStreamServer()">
-			Streaming</ion-button>
+		<ion-button mode="ios" class="reset-button" expand="block" routerLink="/live-stream" routerDirection="backward" (click)="startStreamServer()">
+			Live Camera</ion-button>
+		<ion-button mode="ios" class="exit-button" expand="block" (click)="exit()">
+			Shutdown</ion-button>
 	</div>
 </ion-content>

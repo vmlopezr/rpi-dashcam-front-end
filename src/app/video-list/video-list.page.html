@@ -7,10 +7,12 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <ion-list>
-    <div *ngFor="let file of dirData" tappable style="font-size:smaller">
-      <app-input-row [data]="file"></app-input-row>
-    </div>
-  </ion-list>
+<ion-content class="content-background" >
+  <div >
+    <ion-list class="list-background">
+      <div class="image" *ngFor="let file of dirData" tappable style="font-size:smaller">
+        <app-input-row [data]="file"></app-input-row>
+      </div>
+    </ion-list>
+  </div>
 </ion-content>

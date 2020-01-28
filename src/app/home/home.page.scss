@@ -7,3 +7,14 @@
 	--ion-color-primary-shade: #000e5a;
 	--ion-color-primary-tint: #16239b;
 }
+.reset-button {
+	width: 96%;
+	--background: #2d0d8f;
+}
+.exit-button {
+	width: 90%;
+	position: absolute;
+	bottom: 10%;
+	text-align: center;
+	--background: #b60303;
+}

@@ -1,27 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-// import { IonicImageViewerModule } from 'ionic-img-viewer';
 import * as io from 'socket.io-client';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ConfigService } from '../services/config.service';
+import { StreamService } from '../services/streaming.service';
+import { ModalController, IonApp } from '@ionic/angular';
+import { LivestreamModal } from './Modals/livestream-modal';
+import { Platform } from '@ionic/angular';
 
-@Component({
-  selector: 'app-live-stream',
-  templateUrl: './live-stream.page.html',
-  styleUrls: ['./live-stream.page.scss'],
-})
-export class LiveStreamPage implements OnInit {
-  // Back End Info
-  NodeAddress: string;
-  NodePort: number;
-  Device: string;
-  LiveStreamPort: number;
-
-  // Front End Info
-  test: number;
-  imgSrc: string;
-  socket: any;
-  image: SafeUrl;
+export interface CamData {
   brightness: number;
   contrast: number;
   saturation: number;
@@ -39,159 +26,196 @@ export class LiveStreamPage implements OnInit {
   exposureAutoPriority: boolean;
   focusAuto: boolean;
   backlightComp: boolean;
+}
+@Component({
+  selector: 'app-live-stream',
+  templateUrl: './live-stream.page.html',
+  styleUrls: ['./live-stream.page.scss'],
+})
+export class LiveStreamPage implements OnInit {
+  // Back End Info
+  NodeAddress: string;
+  NodePort: number;
+  Device: string;
+  LiveStreamPort: number;
+
+  // Front End Info
+  camData: CamData;
+  videoLength: number;
+  test: number;
+  imgSrc: string;
+  socket: any;
+  image: SafeUrl;
   width: number;
   height: number;
   settingsCommand: string;
+  platform: Platform;
 
   constructor(
+    private _platform: Platform,
     private http: HttpClient,
     private sanitizer: DomSanitizer,
-    private configService: ConfigService,
+    private modalController: ModalController,
+    configService: ConfigService,
+    private streamService: StreamService,
   ) {
-    this.test = 100;
+    this.platform = _platform;
+    this.videoLength = 30;
     this.LiveStreamPort = configService.getLiveStreamPort();
     this.NodeAddress = configService.getNodeAddress();
     this.NodePort = configService.getNodePort();
     this.Device = configService.getDevice();
     this.width = window.innerWidth;
     this.height = this.width - 100;
-    this.resetDefaults();
-    this.imgSrc = `http://${this.NodeAddress}:${this.NodePort}/rest/info/thumbnail/loading.jpg`;
-    // this.imgSrc = 'assets/loading.jpg';
-
-    console.log(
-      'connecting to: ' + `http://${this.NodeAddress}:${this.LiveStreamPort}`,
-    );
-    this.socket = io.connect(
-      `http://${this.NodeAddress}:${this.LiveStreamPort}`,
-    );
-    this.updateImage();
+    this.camData = this.streamService.getData();
+    // this.imgSrc = `http://${this.NodeAddress}:${this.NodePort}
+    //   /rest/info/thumbnail/loading.jpg`.replace(/\s/g, '');
+    this.imgSrc = './assets/icon/car.jpg';
+    // this.streamService.startSocket();
+    // this.socket = this.streamService.getSocket();
+    // this.startListener();
+    console.log('Live stream constructor running');
   }
-
   ngOnInit(): void {
-    this.updateAutoSettings();
+    // this.updateAutoSettings();
   }
-
-  private stopStreamServer(): void {
-    this.http
-      .get(`http://${this.NodeAddress}:${this.NodePort}/rest/info/stop`)
-      .subscribe();
-    this.socket.destroy();
-    console.log('stopped the streaming server');
-  }
-  private updateImage(): void {
-    this.socket.on('image', data => {
-      this.imgSrc = 'data:image/jpeg;base64, ' + data.toString('base64');
+  async OpenModal(): Promise<void> {
+    const modal = await this.modalController.create({
+      component: LivestreamModal,
+      cssClass: 'caminfo',
     });
+    modal.onDidDismiss().then(dataReturned => {
+      console.log('Closed Modal');
+    });
+    return modal.present();
   }
-  private getImgContent(): SafeUrl {
+  backHandler(): void {
+    // // Stop the TCP camera feed on the python application
+    // this.http
+    //   .get(`http://${this.NodeAddress}:${this.NodePort}/rest/info/stop`)
+    //   .subscribe();
+    // // cleanup socket
+    // console.log('back to home page');
+    // this.socket.off('image', this.updateImage);
+    // this.socket.destroy();
+    // this.streamService.stopSocket();
+    console.log('Leaving Streaming Page');
+    this.streamService.saveData(this.camData);
+  }
+  startListener(): void {
+    this.socket.on('image', this.updateImage);
+  }
+  updateImage = (data): void => {
+    this.imgSrc = 'data:image/jpeg;base64, ' + data.toString('base64');
+  };
+  getImgContent(): SafeUrl {
     return this.sanitizer.bypassSecurityTrustUrl(this.imgSrc);
   }
-  private resetDefaults(): void {
-    this.brightness = 128;
-    this.contrast = 128;
-    this.saturation = 128;
-    this.gain = 0;
-    this.whiteBalanceTemp = 4000;
-    this.sharpness = 128;
-    this.exposureAbsolute = 250;
-    this.panAbsolute = 0;
-    this.tiltAbsolute = 0;
-    this.focusAbsolute = 0;
-    this.zoomAbsolute = 100;
-    this.powerFreq = 2;
-    this.whiteBalanceAuto = true;
-    this.exposureAuto = true;
-    this.exposureAutoPriority = false;
-    this.focusAuto = true;
-    this.backlightComp = true;
-  }
-  private updateAutoSettings(): void {
-    this.settingsCommand =
-      `v4l2-ctl -d ${this.Device} --set-ctrl ` +
-      `exposure_auto=` +
-      (this.exposureAuto ? 3 : 1) +
-      `,white_balance_temperature_auto=` +
-      (this.whiteBalanceAuto ? 1 : 0) +
-      `,focus_auto=` +
-      (this.focusAuto ? 1 : 0);
+  setDefault(): void {
+    this.camData = this.streamService.dataDefaults();
     this.sendCameraSettings();
   }
-  private updateExposureSettings(): void {
-    this.settingsCommand =
-      `v4l2-ctl -d ${this.Device} --set-ctrl ` +
-      `exposure_auto=` +
-      (this.exposureAuto ? 3 : 1);
-    this.sendCameraSettings();
-  }
-  private updateWhiteBalanceSettings(): void {
-    this.settingsCommand =
-      `v4l2-ctl -d ${this.Device} --set-ctrl ` +
-      `white_balance_temperature_auto=` +
-      (this.whiteBalanceAuto ? 1 : 0);
-    this.sendCameraSettings();
-  }
-  private updateFocusSettings(): void {
-    this.settingsCommand =
-      `v4l2-ctl -d ${this.Device} --set-ctrl ` +
-      `focus_auto=` +
-      (this.focusAuto ? 1 : 0);
-    this.sendCameraSettings();
-  }
-  private sendCameraSettings(): void {
+
+  sendVideoLength(): void {
+    const socketdata = 'newtime ' + this.videoLength.toString();
     this.http
-      .post(
-        `http://${this.NodeAddress}:${this.NodePort}/rest/info/CamSettings`,
-        {
-          command: this.settingsCommand,
-        },
-      )
+      .post(`http://${this.NodeAddress}:${this.NodePort}/rest/info/VidLength`, {
+        data: socketdata,
+      })
       .subscribe();
     console.log('data updated');
   }
-  private getBackLightComp(): number {
-    return this.backlightComp ? 1 : 0;
+  rotateStream(): void {
+    console.log('rotated');
+    // this.http
+    // .get(`http://${this.NodeAddress}:${this.NodePort}/rest/info/rotate`)
+    // .subscribe();
   }
-  private updateCameraSettings(): void {
-    this.test = this.brightness;
+
+  updateCameraSettings(): void {
     const settings =
-      `brightness=${this.brightness},
-      contrast=${this.contrast},
-      saturation=${this.saturation},` +
+      `brightness=${this.camData.brightness},
+      contrast=${this.camData.contrast},
+      saturation=${this.camData.saturation},` +
       this.getWhiteBalance() +
-      `gain=${this.gain},
-      power_line_frequency=${this.powerFreq},
-      sharpness=${this.sharpness},
+      `gain=${this.camData.gain},
+      power_line_frequency=${this.camData.powerFreq},
+      sharpness=${this.camData.sharpness},
       backlight_compensation=${this.getBackLightComp()},` +
       this.getExposure() +
       `exposure_auto_priority=${this.getExposurePriority()},
-      pan_absolute=${this.panAbsolute},
-      tilt_absolute=${this.tiltAbsolute},` +
+      pan_absolute=${this.camData.panAbsolute},
+      tilt_absolute=${this.camData.tiltAbsolute},` +
       this.getFocus() +
-      `zoom_absolute=${this.zoomAbsolute}`;
+      `zoom_absolute=${this.camData.zoomAbsolute}`;
 
     this.settingsCommand =
       `v4l2-ctl -d ${this.Device} --set-ctrl ` + settings.replace(/\s/g, '');
     this.sendCameraSettings();
   }
-
-  private getFocus(): string {
-    return this.focusAuto ? `` : `focus_absolute=${this.focusAbsolute},`;
+  sendCameraSettings(): void {
+    this.http
+      .post(
+        `http://${this.NodeAddress}:${this.NodePort}/rest/info/CamSettings`,
+        {
+          data: this.settingsCommand,
+        },
+      )
+      .subscribe();
+    console.log('data updated length');
   }
-
-  private getExposure(): string {
-    return this.exposureAuto
+  updateAutoSettings(): void {
+    this.settingsCommand =
+      `v4l2-ctl -d ${this.Device} --set-ctrl ` +
+      `exposure_auto=` +
+      (this.camData.exposureAuto ? 3 : 1) +
+      `,white_balance_temperature_auto=` +
+      (this.camData.whiteBalanceAuto ? 1 : 0) +
+      `,focus_auto=` +
+      (this.camData.focusAuto ? 1 : 0);
+    this.sendCameraSettings();
+  }
+  getBackLightComp(): number {
+    return this.camData.backlightComp ? 1 : 0;
+  }
+  getFocus(): string {
+    return this.camData.focusAuto
       ? ``
-      : `exposure_absolute=${this.exposureAbsolute},`;
+      : `focus_absolute=${this.camData.focusAbsolute},`;
   }
-  private getExposurePriority(): number {
-    return this.exposureAutoPriority ? 1 : 0;
-  }
-  private getWhiteBalance(): string {
-    return this.whiteBalanceAuto
+
+  getExposure(): string {
+    return this.camData.exposureAuto
       ? ``
-      : `white_balance_temperature=${this.whiteBalanceTemp},`;
+      : `exposure_absolute=${this.camData.exposureAbsolute},`;
+  }
+  getExposurePriority(): number {
+    return this.camData.exposureAutoPriority ? 1 : 0;
+  }
+  getWhiteBalance(): string {
+    return this.camData.whiteBalanceAuto
+      ? ``
+      : `white_balance_temperature=${this.camData.whiteBalanceTemp},`;
+  }
+  updateExposureSettings(): void {
+    this.settingsCommand =
+      `v4l2-ctl -d ${this.Device} --set-ctrl ` +
+      `exposure_auto=` +
+      (this.camData.exposureAuto ? 3 : 1);
+    this.sendCameraSettings();
+  }
+  updateWhiteBalanceSettings(): void {
+    this.settingsCommand =
+      `v4l2-ctl -d ${this.Device} --set-ctrl ` +
+      `white_balance_temperature_auto=` +
+      (this.camData.whiteBalanceAuto ? 1 : 0);
+    this.sendCameraSettings();
+  }
+  updateFocusSettings(evt): void {
+    this.settingsCommand =
+      `v4l2-ctl -d ${this.Device} --set-ctrl ` +
+      `focus_auto=` +
+      (this.camData.focusAuto ? 1 : 0);
+    this.sendCameraSettings();
   }
 }
-
-// v4l2-ctl -d ${this.Device} --set-ctrl brightness=129,contrast=129,saturation=129

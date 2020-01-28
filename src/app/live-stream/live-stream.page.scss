@@ -1,106 +1,132 @@
+@media screen and (orientation:portrait){
+	img {
+		width: auto;
+		height: auto;
+	}
+}
+@media screen and (orientation:landscape){
+	img {
+		width: auto;
+		height: auto;
+	}
+}
+$main-bg-color: #fdfdfd;
 .header {
-	--ion-color-primary: #22096e;
-	--ion-color-primary-rgb: 0,35,180;
-	--ion-color-primary-contrast: #ffffff;
-	--ion-color-primary-contrast-rgb: 255,255,255;
-	--ion-color-primary-shade: #000e5a;
-	--ion-color-primary-tint: #16239b;
-
+	--ion-color-primary: #eeeeee;
+	--border-color: #999999;
+	--border-width: 1px;	
 }
-.page-title{
+ion-back-button {
+	padding: 5px;
+	color: rgb(87, 87, 87);
+}
+.page-title {
 	font-size: 20px;
+	color: rgb(88, 88, 88);
 }
-.livestream {
-	left: 0;
-	right: 0;
-	top: 0;
-	bottom: 0;
-	align-items: center;
-	justify-content: center;
+.camera-stream {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
 }
-.content-style {
-	--background:#4c4b50;
+.control-section {
+	background: $main-bg-color;
+	border-bottom: 1px;
+	border-top: 0px;
+	border-left: 0px;
+	border-right: 0px;
+	border-color: rgb(185, 185, 185);
+	border-style: solid;
 }
-.card-title {
-	color: white;
+.card-header {
+	display: flex;
+	position: relative;
+	background: $main-bg-color;
 }
-
-.p-text {
-	color: white;
+.heading-text {
+	color: rgb(92, 92, 92);
+	font-size: 20px;
+	text-align: start;
+	vertical-align: middle;
+	padding-top: 7px;
+	padding-bottom: 8px;
+	padding-left: 16px;
 	margin: 0;
-    padding: 0;
+}
+.info-icon {
+	position: absolute;
+	top: 0px;
+	right: 4%;
+	margin: 0;
+	padding: 0;
+}
+.p-text {
+	color: black;
+	background: $main-bg-color;
+	margin: 0;
+	
+    padding-bottom: 8px;
 	padding-left: 16px;
 }
 .slider {
 	margin-left: 0px;
-	--knob-background: #dfdfdf;
+	--knob-background: #e0e0e0;
     --bar-background-active: #1aafb4 ;
     --bar-background: #3a2a2a;
     --bar-height: 3px;
     --knob-size: 15px;
     --knob-border-radius: 50%;
     --bar-border-radius: 20px;
-	--knob-box-shadow: 0px 0px 0px 1px rgb(100, 100, 100);
-	--ion-text-color: white !important;
+	--knob-box-shadow: 0px 0px 0px 1px rgb(0, 0, 0);
+	padding-top: 5px;
+	padding-bottom: 5px;
 }
-
-.range-label {
-	font-weight: bold;
-	font-size: medium;
-}
-.slider-label {
+.control-label {
 	width: 95px;
 	word-wrap: break-word;
 	font-size: 16px;
 }
-.slider-value {
-	width: 50px;
+.slider-value-container {
+	width: 15%;
+	text-align: center;
 }
-.toggle-container {
-	--background: #737275;
+.slider-value {
+	--color: #ff0404;
 }
 .toggle {
-	--background: rgb(209, 206, 206) !important;
+	--background: $main-bg-color;
 	--background-checked: #1aafb4 !important;
 	--handle-background-checked: rgb(245, 245, 245) !important;
+	border: 0px;
 }
-.card-style {
-	--background: #737275;
-	margin-top: 0px;
-	margin-left: 1px;
-	margin-right: 1px;
-	margin-bottom: 2px;
+.input-label {
+	--background: $main-bg-color;
+	padding: 1px;
 }
-
-.toggle-label {
-	width: 100px;
-	word-wrap: break-word;
+.input-text {
+	padding: 5px;
+	font-weight: bold;
 	font-size: 16px;
+	color: black;
 }
-.card-header {
-	display: flex;
-	position: relative;
-
-}
-.heading-text {
-	color: white;
-	text-align: start;
-	padding-left: 16px;
-	vertical-align: middle;
-	padding-top: 7px;
-	margin: 0;
-
-}
-.info-icon {
-	position: absolute;
-	top: 0px;
-	right: 0;
-	margin: 0;
-	padding: 0;
+.input-item {
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: flex-start;
+	background-color: $main-bg-color;
 }
 .reset-button {
 	margin-left: 7px;
-    margin-right: 7px;
+	margin-right: 7px;
+	padding-bottom: 5px;
 	display: block !important;
 	--background: #2d0d8f;
+}
+ion-label {
+	--color: #0000ff;
+}
+ion-item {
+	--border-width: 0px;
+	--border-style: none;
+	--background: $main-bg-color;
 }

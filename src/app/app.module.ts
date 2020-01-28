@@ -6,7 +6,8 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ConfigService } from './services/config.service';
-import { NgxIonicImageViewerModule } from 'ngx-ionic-image-viewer';
+import { StreamService } from './services/streaming.service';
+import { LivestreamModalModule } from './live-stream/Modals/livestream-modal.module';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -15,11 +16,12 @@ import { NgxIonicImageViewerModule } from 'ngx-ionic-image-viewer';
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
-    NgxIonicImageViewerModule,
+    LivestreamModalModule,
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     ConfigService,
+    StreamService,
   ],
   bootstrap: [AppComponent],
 })

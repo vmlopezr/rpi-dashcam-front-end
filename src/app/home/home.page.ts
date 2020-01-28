@@ -23,21 +23,13 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit(): void {}
-
-  saveData(): void {
-    // this.http
-    //   .post(`http://${this.NodeAddress}:${this.NodePort}/rest/info/save`, {
-    //     name: this.userInput,
-    //   })
-    //   .subscribe(res => {
-    //     console.log('res:', res);
-    //   });
-    console.log('done...');
+  exit(): void {
+    console.log('exiting');
   }
   startStreamServer(): void {
-    this.http
-      .get(`http://${this.NodeAddress}:${this.NodePort}/rest/info/start`)
-      .subscribe();
+    // this.http
+    //   .get(`http://${this.NodeAddress}:${this.NodePort}/rest/info/start`)
+    //   .subscribe();
     console.log('started server ' + window.location.href);
   }
 }
