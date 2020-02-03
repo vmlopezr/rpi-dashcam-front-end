@@ -1,14 +1,33 @@
-<div class="Polaroid">
-
+<div>
+  
+  <div class="title-container">
+    <div class="left"></div>  
+    <ion-label class="title" routerLink="{{videoPath}}" routerDirection="forward">
+      {{titleDisplayed}}
+    </ion-label>
+    
+    <div class="right">
+      <div class="iconContainer">
+        <ion-icon class="icon" name="more" on></ion-icon>
+        <div id="dropdown" class="dropdown-content">
+          <!-- <div class="menu-label" (click)="downloadPress()">
+              <ion-icon name="md-download"></ion-icon>
+              <ion-label>Download</ion-label>
+          </div> -->
+          <div class="menu-label" (click)="deleteAlertConfirm()">
+            <ion-icon name="ios-trash"></ion-icon>
+            <ion-label>Delete</ion-label>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
   <img
     src="{{ thumbnail }}"
     onerror="this.style.display='none'"
     routerLink="{{ videoPath }}"
     routerDirection="forward"
   />
-  <div class="title-container">
-    <h1 class="title" routerLink="{{ videoPath }}" routerDirection="forward">
-      {{ titleDisplayed }}
-    </h1>
-  </div>
+
 </div>

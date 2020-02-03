@@ -12,7 +12,8 @@
 			Recorded Videos</ion-button>
 		<ion-button mode="ios" class="reset-button" expand="block" routerLink="/live-stream" routerDirection="backward" (click)="startStreamServer()">
 			Live Camera</ion-button>
-		<ion-button mode="ios" class="exit-button" expand="block" (click)="exit()">
+		
+		<ion-button mode="ios" class="exit-button" expand="block" (click)="shutDownConfirm()">
 			Shutdown</ion-button>
 	</div>
 </ion-content>

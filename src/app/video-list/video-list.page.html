@@ -7,11 +7,11 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="content-background" >
+<ion-content>
   <div >
     <ion-list class="list-background">
-      <div class="image" *ngFor="let file of dirData" tappable style="font-size:smaller">
-        <app-input-row [data]="file"></app-input-row>
+      <div class="image" *ngFor="let file of dirData; let i = index" tappable style="font-size:smaller">
+        <app-input-row (deleteEvent)="removeVideo($event)" [data]="file" [index]="i"></app-input-row>
       </div>
     </ion-list>
   </div>

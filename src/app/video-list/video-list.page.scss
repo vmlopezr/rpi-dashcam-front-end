@@ -8,8 +8,9 @@ ion-title {
 	text-align: ion-text-center;
 }
 .image {
-	padding-top: 10px;
-
+	padding-bottom: 15px;
+	background-color: rgb(255, 255, 255);
+	border: 1px solid rgb(53, 48, 48);
 }
 .header {
 	--ion-color-primary: #22096e;
@@ -19,9 +20,8 @@ ion-title {
 	--ion-color-primary-shade: #000e5a;
 	--ion-color-primary-tint: #16239b;
 }
-.content-background {
-	--background:#ccccd8;
-}
 .list-background {
-	background-color: #ccccd8;
+	background-color: #ffffff;
+	border-bottom: 1px;
+	border-color: #afafaf;
 }

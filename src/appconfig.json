@@ -1,7 +1,7 @@
 {
-    "IPAddress": "localhost",
+    "IPAddress": "192.168.10.1",
     "NodePort": 50000,
     "TCP_Stream_Port": 50002,
     "Live_Stream_Port": 50003,
-    "Device" : "/dev/video2"
+    "Device" : "/dev/video0"
 }

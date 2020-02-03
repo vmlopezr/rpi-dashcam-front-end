@@ -68,16 +68,16 @@ export class LiveStreamPage implements OnInit {
     this.width = window.innerWidth;
     this.height = this.width - 100;
     this.camData = this.streamService.getData();
-    // this.imgSrc = `http://${this.NodeAddress}:${this.NodePort}
-    //   /rest/info/thumbnail/loading.jpg`.replace(/\s/g, '');
-    this.imgSrc = './assets/icon/car.jpg';
-    // this.streamService.startSocket();
-    // this.socket = this.streamService.getSocket();
-    // this.startListener();
+    this.imgSrc = `http://${this.NodeAddress}:${this.NodePort}
+      /rest/info/thumbnail/loading.jpg`.replace(/\s/g, '');
+    // this.imgSrc = './assets/icon/car.jpg';
+    this.streamService.startSocket();
+    this.socket = this.streamService.getSocket();
+    this.startListener();
     console.log('Live stream constructor running');
   }
   ngOnInit(): void {
-    // this.updateAutoSettings();
+    this.updateAutoSettings();
   }
   async OpenModal(): Promise<void> {
     const modal = await this.modalController.create({
@@ -90,15 +90,15 @@ export class LiveStreamPage implements OnInit {
     return modal.present();
   }
   backHandler(): void {
-    // // Stop the TCP camera feed on the python application
-    // this.http
-    //   .get(`http://${this.NodeAddress}:${this.NodePort}/rest/info/stop`)
-    //   .subscribe();
-    // // cleanup socket
-    // console.log('back to home page');
-    // this.socket.off('image', this.updateImage);
-    // this.socket.destroy();
-    // this.streamService.stopSocket();
+    // Stop the TCP camera feed on the python application
+    this.http
+      .get(`http://${this.NodeAddress}:${this.NodePort}/rest/info/stop`)
+      .subscribe();
+    // cleanup socket
+    console.log('back to home page');
+    this.socket.off('image', this.updateImage);
+    this.socket.destroy();
+    this.streamService.stopSocket();
     console.log('Leaving Streaming Page');
     this.streamService.saveData(this.camData);
   }
@@ -113,7 +113,8 @@ export class LiveStreamPage implements OnInit {
   }
   setDefault(): void {
     this.camData = this.streamService.dataDefaults();
-    this.sendCameraSettings();
+    this.updateAutoSettings();
+    this.updateCameraSettings();
   }
 
   sendVideoLength(): void {
@@ -127,9 +128,9 @@ export class LiveStreamPage implements OnInit {
   }
   rotateStream(): void {
     console.log('rotated');
-    // this.http
-    // .get(`http://${this.NodeAddress}:${this.NodePort}/rest/info/rotate`)
-    // .subscribe();
+    this.http
+      .get(`http://${this.NodeAddress}:${this.NodePort}/rest/info/rotate`)
+      .subscribe();
   }
 
   updateCameraSettings(): void {

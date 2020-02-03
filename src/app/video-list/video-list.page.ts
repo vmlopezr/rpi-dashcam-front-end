@@ -23,6 +23,10 @@ export class VideoListPage implements OnInit {
   addRow(): void {
     this.dirData.push('new');
   }
+  removeVideo(event): void {
+    console.log('function in parent ' + event);
+    this.dirData.splice(event, 1);
+  }
   getDirs(): void {
     this.http
       .get(
