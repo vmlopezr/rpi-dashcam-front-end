@@ -8,25 +8,25 @@ import { IonicModule } from '@ionic/angular';
 import { LocalStreamPage } from './local-stream.page';
 
 const routes: Routes = [
-	{
-		path: '',
-		component: LocalStreamPage,
-	},
+  {
+    path: '',
+    component: LocalStreamPage,
+  },
 ];
 
 @NgModule({
-	imports: [
-		CommonModule,
-		FormsModule,
-		IonicModule,
-		RouterModule.forChild(routes),
-	],
-	declarations: [
-		LocalStreamPage,
-		//InputRowComponent,
-	],
-	entryComponents: [
-		//InputRowComponent,
-	],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    RouterModule.forChild(routes),
+  ],
+  declarations: [
+    LocalStreamPage,
+    //InputRowComponent,
+  ],
+  entryComponents: [
+    //InputRowComponent,
+  ],
 })
 export class LocalStreamPageModule {}

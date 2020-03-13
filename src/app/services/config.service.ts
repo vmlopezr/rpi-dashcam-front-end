@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 class ConfigService {
-  private NodePort;
-  private NodeAddress;
-  private LiveStreamPort;
-  private Device;
+  private NodePort: number;
+  private NodeAddress: string;
+  private LiveStreamPort: number;
+  private Device: string;
   setNodePort(port: number): void {
     this.NodePort = port;
   }

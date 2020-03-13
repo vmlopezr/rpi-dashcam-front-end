@@ -3,16 +3,14 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/home"></ion-back-button>
     </ion-buttons>
-    <ion-title class="ion-text-center">View Videos</ion-title>
+    <ion-title class="ion-text-center page-title">Video Library</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <div >
-    <ion-list class="list-background">
-      <div class="image" *ngFor="let file of dirData; let i = index" tappable style="font-size:smaller">
-        <app-input-row (deleteEvent)="removeVideo($event)" [data]="file" [index]="i"></app-input-row>
-      </div>
-    </ion-list>
-  </div>
+<ion-content class="container">
+  <ion-list class="list-background">
+    <div class="image" *ngFor="let file of dirData; let i = index" tappable style="font-size:smaller">
+      <app-input-row (deleteEvent)="removeVideo($event)" [data]="file" [index]="i"></app-input-row>
+    </div>
+  </ion-list>
 </ion-content>

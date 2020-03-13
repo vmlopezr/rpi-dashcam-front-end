@@ -1,20 +1,100 @@
 
 .header {
-	--ion-color-primary: #22096e;
-	--ion-color-primary-rgb: 0,35,180;
-	--ion-color-primary-contrast: #ffffff;
-	--ion-color-primary-contrast-rgb: 255,255,255;
-	--ion-color-primary-shade: #000e5a;
-	--ion-color-primary-tint: #16239b;
+	--ion-color-primary: #ffffff;
+	--border-color: #222;
+	--border-width: 1px 0px;
+	--border-style: solid;
 }
-.reset-button {
-	width: 96%;
-	--background: #2d0d8f;
+ion-header::after {
+	background-image: none;
 }
-.exit-button {
-	width: 90%;
-	position: absolute;
-	bottom: 10%;
+.page-title {
+	font-size: 20px;
+	color: #757575;
+}
+.buttonContainer {
+	border-bottom: 0.5px;
+	border-top: 0px;
+	border-left: 0px;
+	border-right: 0px;
+	border-color: rgb(177, 177, 177); 
+	border-style: solid;
+}
+.buttonContainer ion-button {
+	width: 100%;
+	display:block;
+	margin-left:auto;
+	margin-right:auto;
 	text-align: center;
-	--background: #b60303;
+	--background: #fff;
+	--color: #000;
+	--border-width: 0.5px 0px 0px 0px;
+	--border-color: rgb(177, 177, 177);
+	--background-hover:  rgb(212, 225, 238);
+	--background-activated: rgb(212, 225, 238);
+	--border-style: solid;
+	--border-radius: 0px;
+	margin-bottom: 0px;
+	margin-top: 0px;
+}
+.shutdown-button {
+	width: 100%;
+	display:block;
+	margin-left:auto;
+	margin-right:auto;
+	text-align: center;
+	--background: rgba(253, 56, 56, 0.747);
+	--color: #000;
+	--border-width: 0.5px 0px 0px 0px;
+	--border-color: rgb(177, 177, 177);
+	--background-hover:  rgb(255, 162, 162);
+	--background-activated: rgb(212, 225, 238);
+	--border-style: solid;
+	--border-radius: 0px;
+	margin-bottom: 0px;
+	margin-top: 0px;
+}
+.buttonContainer ion-button.button-disabled {
+	--background: #ddd;
+	--color: #6f6f6f;
+}
+ion-content {
+	--ion-background-color: #fff;
+	width: 100% !important; 
+	padding-top: 10px;
+}
+ion-item {
+	width: 100%;
+	display:block;
+	margin-left:auto;
+	margin-right:auto;
+	display: flex;
+	--background-color: #fff;
+
+	ion-label {
+		min-width: 25%;
+		--background-color: transparent;
+	}
+	ion-select {
+		min-width: 75%;
+		text-align: right;
+		--background-color: transparent;
+		font-size: 15px;
+	}
+}
+.alert-radio-label { text-align: center; } 
+.image {
+	width: 100%;
+	display:block;
+	margin-left:auto;
+	margin-right:auto;
+	margin-bottom: 10px;
+}
+img {
+	display:block;
+	margin-left:auto;
+	margin-right:auto;
+	margin-bottom: 10px;
+	width: auto;
+	height: auto;
 }

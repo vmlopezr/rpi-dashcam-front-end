@@ -1,47 +1,54 @@
 img {
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
-	border-radius: 2px;
-	border: 1px solid rgb(53, 48, 48);
-	width: auto;
-	height: auto;
+	width: 40%;
+	height: 30vw;
+	border: 1px solid #333;
 }
-img:hover {
-	box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
-}
-
-
-.title-container {
+.container {
 	display: flex;
 	flex-direction: row;
-	align-items: center;
-	height: 40px;
+	align-content: center;
+	justify-content: flex-start;
+	height: 30%;
+	width: 100%;
 }	
+.image-container {
+	display: flex;
+	flex-direction: row;
+	align-content: center;
+	justify-content: flex-start;
+	height: 100%;
+	width: 100%;
+}	
+.container ion-label {
+	padding-left: 8px;
+}
+.label-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-content: flex-start;
+	width: 100%;
+}
 .title {
-	margin-bottom: 2px;
-	font-size: 14px;
+	font-size: 20px;
+	font-weight: bold;
+
+}
+.sub-title {
+	font-size: 18px;
+	color: #b9b9b9;
+	
 }
 .iconContainer ion-icon {
 	font-size: 30px;
 	margin-bottom: 2px;
 }
 
-.left {
-	flex: 1;
-	flex-direction: row;
-	width: 200px;
-}
-.right { 
-	flex: 1;
-	flex-direction: row;
-	width: 200px;
-
-}
 .iconContainer {
+	display: flex;
 	position: relative;
-	float: right;
-	display: block;
+	justify-content: flex-end;
+	align-content: flex-end;
 }
 .dropdown-content {
 	display: none;
@@ -51,7 +58,7 @@ img:hover {
 	background-color: #f1f1f1;
 	min-width: 160px;
 	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-	z-index: 1;
+	z-index: 6;
 }
 .dropdown-content .menu-label {
 	color: black;

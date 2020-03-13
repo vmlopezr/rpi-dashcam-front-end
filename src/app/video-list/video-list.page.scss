@@ -7,21 +7,33 @@ ion-title {
 	height: 100%;
 	text-align: ion-text-center;
 }
+.page-title {
+	font-size: 20px;
+	color: rgb(88, 88, 88);
+}
+.container {
+	--ion-background-color: #ebebeb;
+	height: 100%;
+}
 .image {
-	padding-bottom: 15px;
 	background-color: rgb(255, 255, 255);
-	border: 1px solid rgb(53, 48, 48);
+	padding: 10px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	border-bottom: 1px;
+	border-color: #4b4a4a;
+	border-style: solid;
+}
+ion-back-button {
+	color: rgb(88, 88, 88);
 }
 .header {
-	--ion-color-primary: #22096e;
-	--ion-color-primary-rgb: 0,35,180;
-	--ion-color-primary-contrast: #ffffff;
-	--ion-color-primary-contrast-rgb: 255,255,255;
-	--ion-color-primary-shade: #000e5a;
-	--ion-color-primary-tint: #16239b;
+	--ion-color-primary: #ffffff;
+	--border-color: #797979;
+	--border-width: 1px;	
 }
 .list-background {
-	background-color: #ffffff;
+	height: 100%;
 	border-bottom: 1px;
-	border-color: #afafaf;
+	border-color: #6d6c6c;
 }

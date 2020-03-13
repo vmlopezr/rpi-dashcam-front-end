@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { ConfigService } from '../services/config.service';
@@ -8,34 +8,18 @@ import { ConfigService } from '../services/config.service';
   templateUrl: './local-stream.page.html',
   styleUrls: ['./local-stream.page.scss'],
 })
-class LocalStreamPage implements OnInit {
+class LocalStreamPage {
   videoPath = '';
   constructor(
     private http: HttpClient,
     private route: ActivatedRoute,
     private configService: ConfigService,
-  ) {
-    this.videoPath =
-      'http://' +
-      this.configService.getNodeAddress() +
-      ':' +
-      this.configService.getNodePort() +
-      '/rest/video/showvideo/' +
-      this.route.snapshot.paramMap.get('vid');
-    console.log(this.videoPath);
-  }
-  ngOnInit(): void {}
-  stopVideo(): void {
-    this.http
-      .post(
-        'http://' +
-          this.configService.getNodeAddress() +
-          ':' +
-          this.configService.getNodePort() +
-          '/rest/video/stop',
-        {},
-      )
-      .subscribe(res => {});
+  ) {}
+  getVideoPath(): string {
+    const address = this.configService.getNodeAddress();
+    const port = this.configService.getNodePort();
+    const filename = this.route.snapshot.paramMap.get('vid');
+    return `http://${address}:${port}/videos/showvideo/${filename}`;
   }
 }
 export { LocalStreamPage };

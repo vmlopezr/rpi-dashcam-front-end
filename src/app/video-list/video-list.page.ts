@@ -24,21 +24,14 @@ export class VideoListPage implements OnInit {
     this.dirData.push('new');
   }
   removeVideo(event): void {
-    console.log('function in parent ' + event);
     this.dirData.splice(event, 1);
   }
   getDirs(): void {
-    this.http
-      .get(
-        'http://' +
-          this.configService.getNodeAddress() +
-          ':' +
-          this.configService.getNodePort() +
-          '/rest/info/dir',
-      )
-      .subscribe(res => {
-        localStorage.setItem('dirData', JSON.stringify(res['data']));
-        this.dirData = res['data'];
-      });
+    const address = this.configService.getNodeAddress();
+    const port = this.configService.getNodePort();
+    this.http.get(`http://${address}:${port}/videos/dir`).subscribe(res => {
+      localStorage.setItem('dirData', JSON.stringify(res['data']));
+      this.dirData = res['data'];
+    });
   }
 }

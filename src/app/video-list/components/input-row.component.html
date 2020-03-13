@@ -1,33 +1,31 @@
-<div>
-  
-  <div class="title-container">
-    <div class="left"></div>  
-    <ion-label class="title" routerLink="{{videoPath}}" routerDirection="forward">
-      {{titleDisplayed}}
-    </ion-label>
-    
-    <div class="right">
-      <div class="iconContainer">
-        <ion-icon class="icon" name="more" on></ion-icon>
-        <div id="dropdown" class="dropdown-content">
-          <!-- <div class="menu-label" (click)="downloadPress()">
-              <ion-icon name="md-download"></ion-icon>
-              <ion-label>Download</ion-label>
-          </div> -->
-          <div class="menu-label" (click)="deleteAlertConfirm()">
-            <ion-icon name="ios-trash"></ion-icon>
-            <ion-label>Delete</ion-label>
-          </div>
-        </div>
+<div class="container" >
+  <div class="image-container" routerLink="{{getVideoPath()}}" routerDirection="forward" >
+    <img
+      src="{{ getThumbnail() }}"
+      onerror="this.style.display='none'"
+    />
+    <div class="label-container">
+      <ion-label class="title">
+        {{getDate()}}
+      </ion-label>
+      <ion-label class="sub-title">
+        {{getTime()}}
+      </ion-label>
+    </div>
+  </div>
+
+  <div class="iconContainer">
+    <ion-icon class="icon" name="more" on></ion-icon>
+    <div id="dropdown" class="dropdown-content">
+      <div class="menu-label" (click)="downloadPress()">
+          <ion-icon name="md-download"></ion-icon>
+          <ion-label>Download</ion-label>
+      </div>
+      <div class="menu-label" (click)="deleteAlertConfirm()">
+        <ion-icon name="ios-trash"></ion-icon>
+        <ion-label>Delete</ion-label>
       </div>
     </div>
-    
   </div>
-  <img
-    src="{{ thumbnail }}"
-    onerror="this.style.display='none'"
-    routerLink="{{ videoPath }}"
-    routerDirection="forward"
-  />
 
 </div>

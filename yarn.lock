@@ -310,38 +310,10 @@
   dependencies:
     "@types/cordova" latest
 
-"@ionic-native/file-transfer@^5.20.0":
-  version "5.20.0"
-  resolved "https://registry.yarnpkg.com/@ionic-native/file-transfer/-/file-transfer-5.20.0.tgz#ac0a2bdbbc113fbae24c985bea2aad3fc4b973ff"
-  integrity sha512-O+IP9mqo4qHl73uGuiSqu9hpvDWniSwFD0e3lpbGf9TOShBlnHkKGKVYbrAeUrQyTABC7aPM64eAv5OrHcMF4w==
-  dependencies:
-    "@types/cordova" latest
-
-"@ionic-native/file@^5.20.0":
-  version "5.20.0"
-  resolved "https://registry.yarnpkg.com/@ionic-native/file/-/file-5.20.0.tgz#d1fded83641003585e851def4465c4c068088de9"
-  integrity sha512-vhlAYKJN7ivnCTvuBKwmlDkTX6Muc0suqO+drfVafnFH+1oYHpSJh+CWNsTkkliKSYUvCe+FdeGey1HDnBIToA==
-  dependencies:
-    "@types/cordova" latest
-
-"@ionic-native/photo-library@^5.20.0":
-  version "5.20.0"
-  resolved "https://registry.yarnpkg.com/@ionic-native/photo-library/-/photo-library-5.20.0.tgz#63585b602fea5d1a38553b7bfc8243cb0cf73e7f"
-  integrity sha512-Aod2GR92DINQMFbSW1/Aoho9rBTzB0F/lu4DmPBB+IOrd1XTWb8uwHRUK/3qOXFFOwRrkDhwyEb1DG4rCIaODg==
-  dependencies:
-    "@types/cordova" latest
-
-"@ionic-native/splash-screen@^5.0.0":
-  version "5.19.1"
-  resolved "https://registry.yarnpkg.com/@ionic-native/splash-screen/-/splash-screen-5.19.1.tgz#78e4ba354efdc4bc70c17d2b9092d7416ecd9a9b"
-  integrity sha512-xLCnhZU0xjfs2IiDRCLwWGVyFYrRjdbzRfVwv+Jlcnc89Pxl4dixoAhuJLNQEtuR9Dn37v49+gYyQgmNz863Tg==
-  dependencies:
-    "@types/cordova" latest
-
-"@ionic-native/status-bar@^5.0.0":
-  version "5.19.1"
-  resolved "https://registry.yarnpkg.com/@ionic-native/status-bar/-/status-bar-5.19.1.tgz#7a942fe5e9af3e626d15acfe956c52a2cdb234d6"
-  integrity sha512-LvoJi8KPl1avXJiIL7R6HH4rR2p1Sa1uxqbfsKselU+KBUO6iQVc/aOVGuBdpa2LmmWhniogJ/bWZFOCzrAphg==
+"@ionic-native/sqlite@^5.22.0":
+  version "5.22.0"
+  resolved "https://registry.yarnpkg.com/@ionic-native/sqlite/-/sqlite-5.22.0.tgz#be5b16702838f4074c9c82d718a51ebc69e67723"
+  integrity sha512-ZGfXzfToGeueyWIVcAxdCWACle06jtdvrIUyOXf80n97Bg6iXFtYIKCHVUMabZx9M3SfkY7yW/VjvD97FwkVTA==
   dependencies:
     "@types/cordova" latest
 
@@ -370,6 +342,15 @@
   dependencies:
     ionicons "^4.6.3"
     tslib "^1.10.0"
+
+"@ionic/storage@^2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@ionic/storage/-/storage-2.2.0.tgz#ac181991d3bfc8352a5400efb5e9faa5e76b5d4b"
+  integrity sha512-2pszrzmI+fAar2Rx0WmJDVpc15D1k5tvLkB49NLYWJ2pOMaO/3/vp7mg/mEbg3rdsPE9FRbYI6vdKjQ2pP1EWA==
+  dependencies:
+    localforage "1.7.1"
+    localforage-cordovasqlitedriver "1.7.0"
+    tslib "^1.7.1"
 
 "@ngtools/webpack@8.1.3":
   version "8.1.3"
@@ -482,6 +463,11 @@
   version "3.0.16"
   resolved "https://registry.yarnpkg.com/@types/selenium-webdriver/-/selenium-webdriver-3.0.16.tgz#50a4755f8e33edacd9c406729e9b930d2451902a"
   integrity sha512-lMC2G0ItF2xv4UCiwbJGbnJlIuUixHrioOhNGHSCsYCJ8l4t9hMCUimCytvFv7qy6AfSzRxhRHoGa+UqaqwyeA==
+
+"@types/socket.io-client@^1.4.32":
+  version "1.4.32"
+  resolved "https://registry.yarnpkg.com/@types/socket.io-client/-/socket.io-client-1.4.32.tgz#988a65a0386c274b1c22a55377fab6a30789ac14"
+  integrity sha512-Vs55Kq8F+OWvy1RLA31rT+cAyemzgm0EWNeax6BWF8H7QiiOYMJIdcwSDdm5LVgfEkoepsWkS+40+WNb7BUMbg==
 
 "@types/socket.io@^2.1.4":
   version "2.1.4"
@@ -1038,7 +1024,7 @@ async-limiter@~1.0.0:
   resolved "https://registry.yarnpkg.com/async-limiter/-/async-limiter-1.0.1.tgz#dd379e94f0db8310b08291f9d64c3209766617fd"
   integrity sha512-csOlWGAcRFJaI6m+F2WKdnMKr4HhdhFVBk0H/QbJFMCr+uO2kwohwXQPxw/9OCxp05r5ghVBFSyioixx3gfkNQ==
 
-async@^2.1.4, async@^2.5.0, async@^2.6.2:
+async@^2.5.0, async@^2.6.2:
   version "2.6.3"
   resolved "https://registry.yarnpkg.com/async/-/async-2.6.3.tgz#d72625e2344a3656e3a3ad4fa749fa83299d82ff"
   integrity sha512-zflvls11DCy+dQWzTW2dzuilv8Z5X/pjfmZOWba6TNIVDm+2UDaJmXSOXlasHKfNBs8oo3M0aT50fDEWfKZjXg==
@@ -1965,22 +1951,17 @@ copy-webpack-plugin@5.0.3:
     serialize-javascript "^1.7.0"
     webpack-log "^2.0.0"
 
-cordova-plugin-file-transfer@^1.7.1:
-  version "1.7.1"
-  resolved "https://registry.yarnpkg.com/cordova-plugin-file-transfer/-/cordova-plugin-file-transfer-1.7.1.tgz#a75d8be2ebc3bb9b23c5b1bbd199214ec267586b"
-  integrity sha1-p12L4uvDu5sjxbG70ZkhTsJnWGs=
+cordova-sqlite-storage-dependencies@2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/cordova-sqlite-storage-dependencies/-/cordova-sqlite-storage-dependencies-2.1.1.tgz#3706fd035289bdaca5770599986d5b9829b4bab0"
+  integrity sha512-1lV5Pg1FttjBmGO8z4gxtuA4BbPKtgTfUEh1Vx4boa41inizyxaowRyTeaaqEhi5gmYAaX8sRTABm9U/XckRFg==
 
-cordova-plugin-file@^6.0.2:
-  version "6.0.2"
-  resolved "https://registry.yarnpkg.com/cordova-plugin-file/-/cordova-plugin-file-6.0.2.tgz#f3911479f8357e9aacb5576674f8d95b31a1fb20"
-  integrity sha512-m7cughw327CjONN/qjzsTpSesLaeybksQh420/gRuSXJX5Zt9NfgsSbqqKDon6jnQ9Mm7h7imgyO2uJ34XMBtA==
-
-cordova-plugin-photo-library@2.2.1:
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/cordova-plugin-photo-library/-/cordova-plugin-photo-library-2.2.1.tgz#d8b06b238c4875a5d535dcea5a9e4119acff8793"
-  integrity sha512-oz+iWBlW6tBtpmACGshCm0Z/deMbbFwcC67avnx8eFpX4o4nfA4jiHIImW1GO9NBMVkoTKH71OixDKIqq/0uXA==
+cordova-sqlite-storage@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/cordova-sqlite-storage/-/cordova-sqlite-storage-4.0.0.tgz#50a4ac0f4d198fa9837079805572457bc839d9c8"
+  integrity sha512-/n5KT3TyRAC7QRe9A4Sn7bMpdsBJ6aMmHat2PsMxFZBot45SOxbAEgfGmXtq0e7OEdVzk573sIn42bLS6lNLjQ==
   dependencies:
-    async "^2.1.4"
+    cordova-sqlite-storage-dependencies "2.1.1"
 
 core-js@3.1.4:
   version "3.1.4"
@@ -4190,11 +4171,6 @@ jasminewd2@^2.1.0:
   resolved "https://registry.yarnpkg.com/jasminewd2/-/jasminewd2-2.2.0.tgz#e37cf0b17f199cce23bea71b2039395246b4ec4e"
   integrity sha1-43zwsX8ZnM4jvqcbIDk5Uka07E4=
 
-jquery@^3.4.1:
-  version "3.4.1"
-  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.4.1.tgz#714f1f8d9dde4bdfa55764ba37ef214630d80ef2"
-  integrity sha512-36+AdBzCL+y6qjw5Tx7HgzeGCzC81MDDgaUP8ld2zhx58HdqXGoBd+tHdrBMiyjGQs0Hxs/MLZTu/eHNJJuWPw==
-
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
@@ -4452,6 +4428,13 @@ license-webpack-plugin@2.1.1:
     "@types/webpack-sources" "^0.1.5"
     webpack-sources "^1.2.0"
 
+lie@3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/lie/-/lie-3.1.1.tgz#9a436b2cc7746ca59de7a41fa469b3efb76bd87e"
+  integrity sha1-mkNrLMd0bKWd56QfpGmz77dr2H4=
+  dependencies:
+    immediate "~3.0.5"
+
 lie@~3.3.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/lie/-/lie-3.3.0.tgz#dcf82dee545f46074daf200c7c1c5a08e0f40f6a"
@@ -4472,6 +4455,27 @@ loader-utils@1.2.3, loader-utils@^1.0.1, loader-utils@^1.0.2, loader-utils@^1.1.
     big.js "^5.2.2"
     emojis-list "^2.0.0"
     json5 "^1.0.1"
+
+localforage-cordovasqlitedriver@1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/localforage-cordovasqlitedriver/-/localforage-cordovasqlitedriver-1.7.0.tgz#8b93957759ee688d3a58d5ba7c0477f6ccb53838"
+  integrity sha1-i5OVd1nuaI06WNW6fAR39sy1ODg=
+  dependencies:
+    localforage ">=1.5.0"
+
+localforage@1.7.1:
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/localforage/-/localforage-1.7.1.tgz#e4927e042302b864db30f3211f13b5c6f0de965d"
+  integrity sha1-5JJ+BCMCuGTbMPMhHxO1xvDell0=
+  dependencies:
+    lie "3.1.1"
+
+localforage@>=1.5.0:
+  version "1.7.3"
+  resolved "https://registry.yarnpkg.com/localforage/-/localforage-1.7.3.tgz#0082b3ca9734679e1bd534995bdd3b24cf10f204"
+  integrity sha512-1TulyYfc4udS7ECSBT2vwJksWbkwwTX8BzeUIiq8Y07Riy7bDAAnxDaPU/tWyOVmQAcWJIEIFP9lPfBGqVoPgQ==
+  dependencies:
+    lie "3.1.1"
 
 locate-path@^3.0.0:
   version "3.0.0"
@@ -4897,13 +4901,6 @@ neo-async@^2.5.0, neo-async@^2.6.0:
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.1.tgz#ac27ada66167fa8849a6addd837f6b189ad2081c"
   integrity sha512-iyam8fBuCUpWeKPGpaNMetEocMt364qkCsfL9JuhjXX6dRnguRVOfk2GZaDpPjcOKiiXCPINZC1GczQ7iTq3Zw==
-
-ngx-ionic-image-viewer@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/ngx-ionic-image-viewer/-/ngx-ionic-image-viewer-0.1.0.tgz#9fe25bd15d041ce47d6d0b9656f5e7d0fc0cd208"
-  integrity sha512-1gOmAM0/EfzANDJUqYdSWkplT63B4yCVc89llPY3vuxYcEUMvlZZ862Z+m2pfJlCTdDHFV2y2k0SK2YMfi8bHw==
-  dependencies:
-    tslib "^1.9.0"
 
 nice-try@^1.0.4:
   version "1.0.5"
@@ -7197,6 +7194,11 @@ tslib@^1.10.0, tslib@^1.8.0, tslib@^1.8.1, tslib@^1.9.0, tslib@^1.9.3:
   version "1.10.0"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.10.0.tgz#c3c19f95973fb0a62973fb09d90d961ee43e5c8a"
   integrity sha512-qOebF53frne81cf0S9B41ByenJ3/IuH8yJKngAX35CmiZySA0khhkovshKK+jGCaMnVomla7gVlIcc3EvKPbTQ==
+
+tslib@^1.7.1:
+  version "1.11.1"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.11.1.tgz#eb15d128827fbee2841549e171f45ed338ac7e35"
+  integrity sha512-aZW88SY8kQbU7gpV19lN24LtXh/yD4ZZg6qieAJDDg+YBsJcSmLGK9QpnUjAKVG/xefmvJGd1WUmfpT/g6AJGA==
 
 tslint@~5.15.0:
   version "5.15.0"
