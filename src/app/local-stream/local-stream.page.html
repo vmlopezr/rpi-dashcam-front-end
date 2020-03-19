@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar class="header" color="primary">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/video-list"></ion-back-button>
+      <ion-back-button defaultHref="/video-list" (click)="onExit()"></ion-back-button>
     </ion-buttons>
 
   </ion-toolbar>
@@ -9,7 +9,7 @@
 <ion-content>
   <div class="page-centered-element">
     <div class="content">
-      <video width="350" height="300" autoplay="" controls preload="metadata" >
+      <video *ngIf= "showVideo" width="350" height="300" controls pleload="metadata" autoplay="">
         <source src="{{ getVideoPath() }}" type="video/mp4"/>
       </video>
     </div>

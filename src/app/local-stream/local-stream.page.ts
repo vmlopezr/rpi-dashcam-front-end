@@ -9,17 +9,24 @@ import { ConfigService } from '../services/config.service';
   styleUrls: ['./local-stream.page.scss'],
 })
 class LocalStreamPage {
-  videoPath = '';
+  videoPath: string;
+  showVideo: boolean;
   constructor(
     private http: HttpClient,
     private route: ActivatedRoute,
     private configService: ConfigService,
-  ) {}
+  ) {
+    this.videoPath = '';
+    this.showVideo = true;
+  }
   getVideoPath(): string {
     const address = this.configService.getNodeAddress();
     const port = this.configService.getNodePort();
     const filename = this.route.snapshot.paramMap.get('vid');
-    return `http://${address}:${port}/videos/showvideo/${filename}`;
+    return `http://${address}:${port}/videos/playvideo/${filename}`;
+  }
+  onExit(): void {
+    this.showVideo = false;
   }
 }
 export { LocalStreamPage };

@@ -9,7 +9,6 @@ import { ConfigService } from './services/config.service';
 import { StreamService } from './services/streaming.service';
 import { DataService } from './services/data.service';
 import { LivestreamModalModule } from './live-stream/Modals/livestream-modal.module';
-import { IonicStorageModule } from '@ionic/storage';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -19,7 +18,6 @@ import { IonicStorageModule } from '@ionic/storage';
     AppRoutingModule,
     HttpClientModule,
     LivestreamModalModule,
-    IonicStorageModule.forRoot(),
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },

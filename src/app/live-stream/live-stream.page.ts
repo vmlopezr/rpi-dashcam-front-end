@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import * as io from 'socket.io-client';
+// import * as io from 'socket.io-client';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ConfigService } from '../services/config.service';
 import { StreamService } from '../services/streaming.service';

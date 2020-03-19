@@ -1,9 +1,8 @@
 <div class="container" >
   <div class="image-container" routerLink="{{getVideoPath()}}" routerDirection="forward" >
-    <img
-      src="{{ getThumbnail() }}"
-      onerror="this.style.display='none'"
-    />
+    <ion-img
+      [src]="getThumbnail()"
+    ></ion-img>
     <div class="label-container">
       <ion-label class="title">
         {{getDate()}}

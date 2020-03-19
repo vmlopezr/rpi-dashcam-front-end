@@ -1,6 +1,4 @@
 import { Injectable } from '@angular/core';
-import { ConfigService } from './config.service';
-
 export interface MSHD3000Data {
   brightness: number;
   contrast: number;
@@ -48,6 +46,7 @@ class DataService {
     this.videoLength = 30;
     this.camData = this.getDataDefaults(this.camera);
   }
+
   setIsRecording(value: boolean): void {
     this.isRecording = value;
   }

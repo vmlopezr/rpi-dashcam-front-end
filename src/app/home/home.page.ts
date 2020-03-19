@@ -3,8 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { AlertController } from '@ionic/angular';
 import { ConfigService } from '../services/config.service';
 import * as attributes from '../../appconfig.json';
-import { StreamService } from '../services/streaming.service';
-import { Storage } from '@ionic/storage';
+
 import { DataService } from '../services/data.service';
 @Component({
   selector: 'app-home',
@@ -21,7 +20,6 @@ export class HomePage {
     private configService: ConfigService,
     private dataService: DataService,
     private alertController: AlertController,
-    private storage: Storage,
   ) {
     this.camera = this.dataService.getCamera();
     configService.setNodePort(attributes.NodePort);
@@ -58,9 +56,9 @@ export class HomePage {
     this.isRecording = true;
     this.dataService.setIsRecording(true);
     this.camImage = 'assets/CamOn/' + this.camera + '-on.png';
-    this.http
-      .get(`http://${address}:${port}/livestream/startRecording`)
-      .subscribe();
+    // this.http
+    //   .get(`http://${address}:${port}/livestream/startRecording`)
+    //   .subscribe();
   }
   stopRecording(): void {
     const address = this.configService.getNodeAddress();
@@ -68,9 +66,9 @@ export class HomePage {
     this.isRecording = false;
     this.dataService.setIsRecording(false);
     this.camImage = 'assets/CamOff/' + this.camera + '-off.png';
-    this.http
-      .get(`http://${address}:${port}/livestream/stopRecording`)
-      .subscribe();
+    // this.http
+    //   .get(`http://${address}:${port}/livestream/stopRecording`)
+    //   .subscribe();
   }
   setCameraImage(value: boolean): string {
     if (this.isRecording) {
