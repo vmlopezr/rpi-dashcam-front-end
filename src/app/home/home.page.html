@@ -6,19 +6,23 @@
 	</ion-toolbar>
 </ion-header>
 
-<ion-content >
+<ion-content>
 	<div style="height: 20px;"></div>
 	<div class="buttonContainer">
-		<ion-button mode="ios" routerLink="/video-list" routerDirection="forward">
+		<ion-button mode="ios" routerLink="/video-list"
+			routerDirection="forward">
 			View Videos
 		</ion-button>
-		<ion-button mode="ios" routerLink="/live-stream" routerDirection="backward" (click)="startStreamServer()">
+		<ion-button mode="ios" routerLink="/live-stream"
+			routerDirection="forward" (click)="startStreamServer()">
 			View Livestream
 		</ion-button>
-		<ion-button mode="ios"  (click)="startRecording()" [disabled]="isRecording">
+		<ion-button mode="ios" (click)="startRecording()"
+			[disabled]="isRecording">
 			Start Recording
 		</ion-button>
-		<ion-button mode="ios" (click)="stopRecording()" [disabled]="!isRecording">
+		<ion-button mode="ios" (click)="stopRecording()"
+			[disabled]="!isRecording">
 			Stop Recording
 		</ion-button>
 	</div>
@@ -26,18 +30,18 @@
 	<div class="button" style="padding-left: 2px;">
 		<ion-item>
 			<ion-label va>Webcam</ion-label>
-			<ion-select mode="ios" [(ngModel)]="camera" (ionChange)="selectionChange()" disabled="{{isRecording}}">
-				<ion-select-option *ngFor="let camera of camList" value="{{camera}}">{{camera}}</ion-select-option>
+			<ion-select mode="ios" [(ngModel)]="camera"
+				(ionChange)="selectionChange()" disabled="{{isRecording}}">
+				<ion-select-option *ngFor="let camera of camList"
+					value="{{camera}}">{{camera}}</ion-select-option>
 			</ion-select>
 		</ion-item>
 	</div>
-	
 	<div class="image">
-		<img src="{{camImage}}"/>
+		<ion-spinner *ngIf="showSpinner"></ion-spinner>
+		<ion-img *ngIf="!showSpinner" [src]="camImage"></ion-img>
 	</div>
-	<ion-button mode="ios" class="shutdown-button" (click)="shutDownConfirm()" >
+	<ion-button mode="ios" class="shutdown-button" (click)="shutDownConfirm()">
 		Shutdown
 	</ion-button>
 </ion-content>
-
-

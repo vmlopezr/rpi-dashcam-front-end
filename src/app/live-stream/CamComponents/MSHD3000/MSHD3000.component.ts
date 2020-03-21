@@ -1,6 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { StreamService } from '../../../services/streaming.service';
-import { ConfigService } from '../../../services/config.service';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { DataService } from '../../../services/data.service';
 import { MSHD3000Data } from '../../../services/data.service';
 @Component({
@@ -11,33 +9,29 @@ import { MSHD3000Data } from '../../../services/data.service';
 export class MSHD3000 implements OnInit {
   @Output() sendCameraSettings = new EventEmitter<string>();
   @Output() sendVideoLength = new EventEmitter<string>();
-  @Output() rotateStream = new EventEmitter<void>();
+  @Output() rotateStream = new EventEmitter<string>();
   camData: MSHD3000Data;
-  videoLength: number;
   width: number;
   height: number;
-  settingsCommand: string;
-  constructor(
-    private configService: ConfigService,
-    private dataService: DataService,
-  ) {
-    this.videoLength = this.dataService.getVideoLength();
+  constructor(private dataService: DataService) {
     this.width = window.innerWidth;
     this.height = this.width - 100;
     //getData from DB
     this.camData = this.dataService.getData() as MSHD3000Data;
-    console.log('constructor, exposure auto: ' + this.camData.exposureAuto);
   }
   ngOnInit(): void {
     if (this.dataService.getIsRecording()) {
       this.updateAutoSettings();
     }
   }
-  rotateVideoStream(): void {
-    this.rotateStream.emit();
+  rotateVideoStream(toggle: { checked: number }): void {
+    this.camData.verticalFlip = toggle.checked ? 1 : 0;
+    this.rotateStream.emit(this.camData.verticalFlip.toString());
+    this.dataService.setCamData(this.camData);
   }
   updateVideoLength(): void {
-    this.sendVideoLength.emit(this.videoLength.toString());
+    this.sendVideoLength.emit(this.camData.videoLength.toString());
+    this.dataService.setCamData(this.camData);
   }
 
   setDefault(): void {
@@ -48,7 +42,7 @@ export class MSHD3000 implements OnInit {
     this.updateCameraSettings();
   }
   updateCameraSettings(): void {
-    const device = this.configService.getDevice();
+    const { Device } = this.dataService.getConfigData();
     const settings =
       `brightness=${this.camData.brightness},
       contrast=${this.camData.contrast},
@@ -62,21 +56,23 @@ export class MSHD3000 implements OnInit {
       tilt_absolute=${this.camData.tiltAbsolute},` +
       `zoom_absolute=${this.camData.zoomAbsolute}`;
 
-    this.settingsCommand =
-      `v4l2-ctl -d ${device} --set-ctrl ` + settings.replace(/\s/g, '');
-    this.sendCameraSettings.emit(this.settingsCommand);
+    const settingsCommand =
+      `v4l2-ctl -d ${Device} --set-ctrl ` + settings.replace(/\s/g, '');
+    this.sendCameraSettings.emit(settingsCommand);
+    this.dataService.setCamData(this.camData);
   }
   updateAutoSettings(): void {
-    const device = this.configService.getDevice();
+    const { Device } = this.dataService.getConfigData();
 
-    this.settingsCommand =
-      `v4l2-ctl -d ${device} --set-ctrl ` +
+    const settingsCommand =
+      `v4l2-ctl -d ${Device} --set-ctrl ` +
       `exposure_auto=` +
       (this.camData.exposureAuto ? 3 : 1) +
       `,white_balance_temperature_auto=` +
       (this.camData.whiteBalanceAuto ? 1 : 0);
 
-    this.sendCameraSettings.emit(this.settingsCommand);
+    this.sendCameraSettings.emit(settingsCommand);
+    this.dataService.setCamData(this.camData);
   }
   getBackLightComp(): number {
     return this.camData.backlightComp ? 1 : 0;
@@ -93,30 +89,33 @@ export class MSHD3000 implements OnInit {
       ? ``
       : `white_balance_temperature=${this.camData.whiteBalanceTemp},`;
   }
-  exposureAutoToggle(toggle): void {
-    this.camData.exposureAuto = toggle.checked;
-    this.updateExposureAuto();
-  }
+
   updateExposureAuto(): void {
-    const device = this.configService.getDevice();
-    this.settingsCommand =
-      `v4l2-ctl -d ${device} --set-ctrl ` +
+    const { Device } = this.dataService.getConfigData();
+    const settingsCommand =
+      `v4l2-ctl -d ${Device} --set-ctrl ` +
       `exposure_auto=` +
       (this.camData.exposureAuto ? 3 : 1);
     console.log('exposure auto: ' + this.camData.exposureAuto);
-    this.sendCameraSettings.emit(this.settingsCommand);
+    this.sendCameraSettings.emit(settingsCommand);
+    this.dataService.setCamData(this.camData);
   }
-  whiteBalanceAutoToggle(toggle): void {
-    this.camData.whiteBalanceAuto = toggle.checked;
+  exposureAutoToggle(toggle: { checked: boolean }): void {
+    this.camData.exposureAuto = toggle.checked ? 1 : 0;
+    this.updateExposureAuto();
+  }
+  whiteBalanceAutoToggle(toggle: { checked: boolean }): void {
+    this.camData.whiteBalanceAuto = toggle.checked ? 1 : 0;
     this.updateWhiteBalanceAuto();
   }
   updateWhiteBalanceAuto(): void {
-    const device = this.configService.getDevice();
-    this.settingsCommand =
-      `v4l2-ctl -d ${device} --set-ctrl ` +
+    const { Device } = this.dataService.getConfigData();
+    const settingsCommand =
+      `v4l2-ctl -d ${Device} --set-ctrl ` +
       `white_balance_temperature_auto=` +
       (this.camData.whiteBalanceAuto ? 1 : 0);
     console.log('white balance auto: ' + this.camData.whiteBalanceAuto);
-    this.sendCameraSettings.emit(this.settingsCommand);
+    this.sendCameraSettings.emit(settingsCommand);
+    this.dataService.setCamData(this.camData);
   }
 }

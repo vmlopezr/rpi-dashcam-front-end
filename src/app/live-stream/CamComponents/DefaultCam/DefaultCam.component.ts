@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { CamData, DataService } from '../../../services/data.service';
-import { StreamService } from '../../../services/streaming.service';
-import { ConfigService } from '../../../services/config.service';
+import { DefaultCamData, DataService } from '../../../services/data.service';
+
 @Component({
   selector: 'DefaultCam',
   templateUrl: './DefaultCam.component.html',
@@ -10,23 +9,17 @@ import { ConfigService } from '../../../services/config.service';
 export class DefaultCam implements OnInit {
   @Output() sendCameraSettings = new EventEmitter<string>();
   @Output() sendVideoLength = new EventEmitter<string>();
-  @Output() rotateStream = new EventEmitter<void>();
-  camData: CamData;
-  videoLength: number;
+  @Output() rotateStream = new EventEmitter<number>();
+  camData: DefaultCamData;
   width: number;
   height: number;
   settingsCommand: string;
   camera: string;
-  constructor(
-    private configService: ConfigService,
-    private dataService: DataService,
-  ) {
-    console.log('default camera constructor');
-    this.videoLength = this.dataService.getVideoLength();
+  constructor(private dataService: DataService) {
     this.camera = this.dataService.getCamera();
     this.width = window.innerWidth;
     this.height = this.width - 100;
-    this.camData = this.dataService.getData() as CamData;
+    this.camData = this.dataService.getData() as DefaultCamData;
   }
   ngOnInit(): void {
     if (this.dataService.getIsRecording()) {
@@ -34,20 +27,23 @@ export class DefaultCam implements OnInit {
     }
   }
   updateVideoLength(): void {
-    this.sendVideoLength.emit(this.videoLength.toString());
+    this.sendVideoLength.emit(this.camData.videoLength.toString());
+    this.dataService.setCamData(this.camData);
   }
-  rotateVideoStream(): void {
-    this.rotateStream.emit();
+  rotateVideoStream(toggle): void {
+    this.camData.verticalFlip = toggle.checked ? 1 : 0;
+    this.rotateStream.emit(this.camData.verticalFlip);
+    this.dataService.setCamData(this.camData);
   }
   setDefault(): void {
     this.camData = this.dataService.getDataDefaults(
       this.dataService.getCamera(),
-    ) as CamData;
+    ) as DefaultCamData;
     this.updateAutoSettings();
     this.updateCameraSettings();
   }
   updateCameraSettings(): void {
-    const device = this.configService.getDevice();
+    const { Device } = this.dataService.getConfigData();
     const settings =
       `brightness=${this.camData.brightness},
       contrast=${this.camData.contrast},
@@ -58,20 +54,21 @@ export class DefaultCam implements OnInit {
       sharpness=${this.camData.sharpness},
       backlight_compensation=${this.getBackLightComp()},` +
       this.getExposure() +
-      `exposure_auto_priority=${this.getExposurePriority()},
+      `exposure_auto_priority=${this.camData.exposureAutoPriority},
       pan_absolute=${this.camData.panAbsolute},
       tilt_absolute=${this.camData.tiltAbsolute},` +
       this.getFocus() +
       `zoom_absolute=${this.camData.zoomAbsolute}`;
 
     this.settingsCommand =
-      `v4l2-ctl -d ${device} --set-ctrl ` + settings.replace(/\s/g, '');
+      `v4l2-ctl -d ${Device} --set-ctrl ` + settings.replace(/\s/g, '');
     this.sendCameraSettings.emit(this.settingsCommand);
+    this.dataService.setCamData(this.camData);
   }
   updateAutoSettings(): void {
-    const device = this.configService.getDevice();
+    const { Device } = this.dataService.getConfigData();
     this.settingsCommand =
-      `v4l2-ctl -d ${device} --set-ctrl ` +
+      `v4l2-ctl -d ${Device} --set-ctrl ` +
       `exposure_auto=` +
       (this.camData.exposureAuto ? 3 : 1) +
       `,white_balance_temperature_auto=` +
@@ -79,6 +76,7 @@ export class DefaultCam implements OnInit {
       `,focus_auto=` +
       (this.camData.focusAuto ? 1 : 0);
     this.sendCameraSettings.emit(this.settingsCommand);
+    this.dataService.setCamData(this.camData);
   }
   getBackLightComp(): number {
     return this.camData.backlightComp ? 1 : 0;
@@ -94,8 +92,9 @@ export class DefaultCam implements OnInit {
       ? ``
       : `exposure_absolute=${this.camData.exposureAbsolute},`;
   }
-  getExposurePriority(): number {
-    return this.camData.exposureAutoPriority ? 1 : 0;
+  autoExposurePriorityToggle(toggle): void {
+    this.camData.exposureAutoPriority = toggle.checked ? 1 : 0;
+    this.updateCameraSettings();
   }
   getWhiteBalance(): string {
     return this.camData.whiteBalanceAuto
@@ -103,37 +102,45 @@ export class DefaultCam implements OnInit {
       : `white_balance_temperature=${this.camData.whiteBalanceTemp},`;
   }
   exposureAutoToggle(toggle): void {
-    this.camData.exposureAuto = toggle.checked;
+    this.camData.exposureAuto = toggle.checked ? 1 : 0;
     this.updateExposureAuto();
   }
   updateExposureAuto(): void {
-    const device = this.configService.getDevice();
+    const { Device } = this.dataService.getConfigData();
     this.settingsCommand =
-      `v4l2-ctl -d ${device} --set-ctrl ` +
+      `v4l2-ctl -d ${Device} --set-ctrl ` +
       `exposure_auto=` +
       (this.camData.exposureAuto ? 3 : 1);
 
     this.sendCameraSettings.emit(this.settingsCommand);
+    this.dataService.setCamData(this.camData);
   }
+
   whiteBalanceAutoToggle(toggle): void {
-    this.camData.whiteBalanceAuto = toggle.checked;
+    this.camData.whiteBalanceAuto = toggle.checked ? 1 : 0;
     this.updateWhiteBalanceAuto();
   }
+  backlightCompensationToggle(toggle): void {
+    this.camData.backlightComp = toggle.checked ? 1 : 0;
+  }
   updateWhiteBalanceAuto(): void {
-    const device = this.configService.getDevice();
+    const { Device } = this.dataService.getConfigData();
     this.settingsCommand =
-      `v4l2-ctl -d ${device} --set-ctrl ` +
+      `v4l2-ctl -d ${Device} --set-ctrl ` +
       `white_balance_temperature_auto=` +
       (this.camData.whiteBalanceAuto ? 1 : 0);
 
     this.sendCameraSettings.emit(this.settingsCommand);
+    this.dataService.setCamData(this.camData);
   }
-  updateFocusSettings(evt): void {
-    const device = this.configService.getDevice();
+  updateFocusSettings(toggle): void {
+    this.camData.focusAuto = toggle.checked ? 1 : 0;
+    const { Device } = this.dataService.getConfigData();
     this.settingsCommand =
-      `v4l2-ctl -d ${device} --set-ctrl ` +
+      `v4l2-ctl -d ${Device} --set-ctrl ` +
       `focus_auto=` +
-      (this.camData.focusAuto ? 1 : 0);
+      this.camData.focusAuto;
     this.sendCameraSettings.emit(this.settingsCommand);
+    this.dataService.setCamData(this.camData);
   }
 }

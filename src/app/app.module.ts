@@ -5,10 +5,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { ConfigService } from './services/config.service';
-import { StreamService } from './services/streaming.service';
 import { DataService } from './services/data.service';
-import { LivestreamModalModule } from './live-stream/Modals/livestream-modal.module';
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -17,12 +15,9 @@ import { LivestreamModalModule } from './live-stream/Modals/livestream-modal.mod
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
-    LivestreamModalModule,
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    ConfigService,
-    StreamService,
     DataService,
   ],
   bootstrap: [AppComponent],

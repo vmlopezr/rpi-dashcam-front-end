@@ -1,33 +1,24 @@
-@media screen and (orientation:portrait){
-	img {
-		width: auto;
-		height: auto;
-	}
-}
-@media screen and (orientation:landscape){
-	img {
-		width: auto;
-		height: auto;
-	}
-}
-$main-bg-color: #fdfdfd;
+$main-bg-color: #e0d9d9;
 .header {
-	--ion-color-primary: #eeeeee;
-	--border-color: #999999;
-	--border-width: 1px;	
+	--ion-color-primary: #353d55;
 }
 ion-back-button {
 	padding: 5px;
-	color: #797979;
+	color: #f7f7f7;
 }
 .page-title {
 	font-size: 20px;
-	color: rgb(88, 88, 88);
+	color: rgb(245, 245, 245);
 }
 .camera-stream {
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: #000;
+	min-height: 300px;
+}
+ion-spinner {
+	--color: #6ecbf7;
 }
 .control-section {
 	background: $main-bg-color;

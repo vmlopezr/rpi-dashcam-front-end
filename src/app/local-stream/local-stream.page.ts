@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
-import { ConfigService } from '../services/config.service';
+import { DataService } from '../services/data.service';
 
 @Component({
   selector: 'app-local-stream',
@@ -13,17 +13,16 @@ class LocalStreamPage {
   showVideo: boolean;
   constructor(
     private http: HttpClient,
+    private dataService: DataService,
     private route: ActivatedRoute,
-    private configService: ConfigService,
   ) {
     this.videoPath = '';
     this.showVideo = true;
   }
   getVideoPath(): string {
-    const address = this.configService.getNodeAddress();
-    const port = this.configService.getNodePort();
+    const { IPAddress, NodePort } = this.dataService.getConfigData();
     const filename = this.route.snapshot.paramMap.get('vid');
-    return `http://${address}:${port}/videos/playvideo/${filename}`;
+    return `http://${IPAddress}:${NodePort}/videos/playvideo/${filename}`;
   }
   onExit(): void {
     this.showVideo = false;

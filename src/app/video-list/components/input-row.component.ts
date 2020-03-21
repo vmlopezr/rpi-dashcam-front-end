@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
-import { ConfigService } from '../../services/config.service';
+import { DataService } from '../../services/data.service';
 @Component({
   selector: 'app-input-row',
   templateUrl: './input-row.component.html',
@@ -13,7 +13,7 @@ export class InputRowComponent {
   @Output() deleteEvent = new EventEmitter<number>();
   constructor(
     private http: HttpClient,
-    private configService: ConfigService,
+    private dataService: DataService,
     public alertController: AlertController,
   ) {}
 
@@ -21,10 +21,9 @@ export class InputRowComponent {
     return '/local-stream/' + this.data;
   }
   getThumbnail(): string {
-    const port = this.configService.getNodePort();
-    const address = this.configService.getNodeAddress();
+    const { IPAddress, NodePort } = this.dataService.getConfigData();
     const filename = this.data.substr(0, this.data.lastIndexOf('.'));
-    return `http://${address}:${port}/videos/thumbnail/${filename}.jpg`;
+    return `http://${IPAddress}:${NodePort}/videos/thumbnail/${filename}.jpg`;
   }
   getDate(): string {
     const date = this.data.substr(0, this.data.indexOf('-'));
@@ -38,20 +37,18 @@ export class InputRowComponent {
     return `${timestamp[0]}:${timestamp[1]}:${timestamp[2]} ${timestamp[3]}`;
   }
   deleteFile(): void {
-    const port = this.configService.getNodePort();
-    const address = this.configService.getNodeAddress();
+    const { IPAddress, NodePort } = this.dataService.getConfigData();
     const filename = this.data.substr(0, this.data.lastIndexOf('.'));
-    const URL = `http://${address}:${port}/videos/delete/${filename}`;
+    const URL = `http://${IPAddress}:${NodePort}/videos/delete/${filename}`;
 
     this.deleteEvent.emit(this.index);
     this.http.get(URL).subscribe();
   }
   downloadPress(): void {
-    const port = this.configService.getNodePort();
-    const address = this.configService.getNodeAddress();
+    const { IPAddress, NodePort } = this.dataService.getConfigData();
     const filename = this.data.substr(0, this.data.lastIndexOf('.'));
 
-    const downloadFile = `http://${address}:${port}/videos/download/${filename}.mp4`;
+    const downloadFile = `http://${IPAddress}:${NodePort}/videos/download/${filename}.mp4`;
     window.location.href = downloadFile;
   }
   async deleteAlertConfirm(): Promise<void> {

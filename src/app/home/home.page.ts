@@ -1,34 +1,36 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AlertController } from '@ionic/angular';
-import { ConfigService } from '../services/config.service';
-import * as attributes from '../../appconfig.json';
+import { DataService, AppSettings } from '../services/data.service';
 
-import { DataService } from '../services/data.service';
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
+export class HomePage implements OnInit {
   isRecording: boolean;
   camImage: string;
   camList: string[];
   camera: string;
+  showSpinner: boolean;
+
   constructor(
     private http: HttpClient,
-    private configService: ConfigService,
     private dataService: DataService,
     private alertController: AlertController,
-  ) {
-    this.camera = this.dataService.getCamera();
-    configService.setNodePort(attributes.NodePort);
-    configService.setNodeAddress(attributes.IPAddress);
-    configService.setLiveStreamPort(attributes.Live_Stream_Port);
-    configService.setDevice(attributes.Device);
+  ) {}
+  ngOnInit(): void {
+    this.showSpinner = true;
+    this.dataService.retrieveDataFromDB().subscribe((data: AppSettings[]) => {
+      setTimeout(() => {
+        this.showSpinner = false;
+        this.camera = data[0].camera;
+        this.dataService.setData(data[0]);
+      }, 100);
+    });
     this.isRecording = this.dataService.getIsRecording();
     this.camImage = this.setCameraImage(this.isRecording);
-
     this.camList = [
       'Microsoft LifeCam Cinema',
       'Microsoft LifeCam HD-5000',
@@ -51,43 +53,42 @@ export class HomePage {
     ];
   }
   startRecording(): void {
-    const address = this.configService.getNodeAddress();
-    const port = this.configService.getNodePort();
+    const { IPAddress, NodePort } = this.dataService.getConfigData();
     this.isRecording = true;
     this.dataService.setIsRecording(true);
-    this.camImage = 'assets/CamOn/' + this.camera + '-on.png';
-    // this.http
-    //   .get(`http://${address}:${port}/livestream/startRecording`)
-    //   .subscribe();
+    this.camImage = `assets/CamOn/${this.camera}-on.png`;
+    this.http
+      .get(`http://${IPAddress}:${NodePort}/livestream/startRecording`)
+      .subscribe();
   }
   stopRecording(): void {
-    const address = this.configService.getNodeAddress();
-    const port = this.configService.getNodePort();
+    const { IPAddress, NodePort } = this.dataService.getConfigData();
     this.isRecording = false;
     this.dataService.setIsRecording(false);
-    this.camImage = 'assets/CamOff/' + this.camera + '-off.png';
-    // this.http
-    //   .get(`http://${address}:${port}/livestream/stopRecording`)
-    //   .subscribe();
+    this.camImage = `assets/CamOff/${this.camera}-off.png`;
+    this.http
+      .get(`http://${IPAddress}:${NodePort}/livestream/stopRecording`)
+      .subscribe();
   }
   setCameraImage(value: boolean): string {
     if (this.isRecording) {
-      return 'assets/CamOn/' + this.camera + '-on.png';
+      return `assets/CamOn/${this.camera}-on.png`;
     } else {
-      return 'assets/CamOff/' + this.camera + '-off.png';
+      return `assets/CamOff/${this.camera}-off.png`;
     }
   }
   selectionChange(): void {
+    // Note: this.camera is two-way bounded. The functions use the new value.
     this.camImage = this.setCameraImage(this.isRecording);
-    this.dataService.setCamera(this.camera);
-    //update with the current values in database
-    this.dataService.setCamData(this.dataService.getDataDefaults(this.camera));
+    this.dataService.updateCamera(this.camera);
+    if (!this.showSpinner) this.dataService.retrieveCamDataFromDB(this.camera);
   }
   startStreamServer(): void {
     if (this.isRecording) {
-      const address = this.configService.getNodeAddress();
-      const port = this.configService.getNodePort();
-      this.http.get(`http://${address}:${port}/livestream/start`).subscribe();
+      const { IPAddress, NodePort } = this.dataService.getConfigData();
+      this.http
+        .get(`http://${IPAddress}:${NodePort}/livestream/start`)
+        .subscribe();
     }
   }
   async shutDownConfirm(): Promise<void> {
@@ -112,8 +113,9 @@ export class HomePage {
     await alert.present();
   }
   shutDown(): void {
-    const address = this.configService.getNodeAddress();
-    const port = this.configService.getNodePort();
-    this.http.get(`http://${address}:${port}/livestream/shutdown`).subscribe();
+    const { IPAddress, NodePort } = this.dataService.getConfigData();
+    this.http
+      .get(`http://${IPAddress}:${NodePort}/videos/shutdown`)
+      .subscribe();
   }
 }

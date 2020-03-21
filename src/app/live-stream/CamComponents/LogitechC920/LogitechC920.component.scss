@@ -10,6 +10,13 @@
 		height: auto;
 	}
 }
+.range-slider {
+	pointer-events: none;
+}
+  
+.range-knob-handle {
+	pointer-events:auto;
+}
 $main-bg-color: #fdfdfd;
 .header {
 	--ion-color-primary: #eeeeee;

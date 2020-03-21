@@ -1,13 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-// import * as io from 'socket.io-client';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { ConfigService } from '../services/config.service';
-import { StreamService } from '../services/streaming.service';
-import { ModalController, IonApp } from '@ionic/angular';
-import { LivestreamModal } from './Modals/livestream-modal';
 import { Platform } from '@ionic/angular';
-import { MSHD3000Data, CamData, DataService } from '../services/data.service';
+import { DataService } from '../services/data.service';
+import * as io from 'socket.io-client';
 
 @Component({
   selector: 'app-live-stream',
@@ -15,123 +11,112 @@ import { MSHD3000Data, CamData, DataService } from '../services/data.service';
   styleUrls: ['./live-stream.page.scss'],
 })
 export class LiveStreamPage implements OnInit {
-  // Back End Info
-  Device: string;
-  LiveStreamPort: number;
-
   imgSrc: string;
   socket: SocketIOClient.Socket;
-  image: SafeUrl;
-  platform: Platform;
-  Camera: string;
   isRecording: boolean;
+  showSpinner: boolean;
   constructor(
     private _platform: Platform,
     private http: HttpClient,
     private sanitizer: DomSanitizer,
-    private modalController: ModalController,
-    private configService: ConfigService,
-    private streamService: StreamService,
     private dataService: DataService,
-  ) {
-    const address = this.configService.getNodeAddress();
-    const port = this.configService.getNodePort();
-    this.LiveStreamPort = this.configService.getLiveStreamPort();
+  ) {}
+  ngOnInit(): void {
+    this.socket = null;
+    this.showSpinner = true;
+    const { IPAddress, NodePort } = this.dataService.getConfigData();
     this.isRecording = this.dataService.getIsRecording();
-    this.Camera = this.dataService.getCamera();
-    this.platform = _platform;
-
-    this.Device = configService.getDevice();
-    this.imgSrc = `http://${address}:${port}/videos/thumbnail/loading.jpg`;
+    console.log(this.isRecording);
+    this.imgSrc = `http://${IPAddress}:${NodePort}/videos/thumbnail/loading.jpg`;
     if (this.isRecording) {
-      this.streamService.startSocket();
-      this.socket = this.streamService.getSocket();
+      this.startSocket();
+    }
+  }
+  startSocket(): void {
+    const { IPAddress, LiveStreamPort } = this.dataService.getConfigData();
+    if (!this.socket) {
+      this.socket = io.connect(`http://${IPAddress}:${LiveStreamPort}`);
       this.startListener();
     }
-
-    console.log('Live stream constructor running');
-  }
-  ngOnInit(): void {
-    console.log('entered live stream page');
-  }
-  async OpenModal(): Promise<void> {
-    const modal = await this.modalController.create({
-      component: LivestreamModal,
-      cssClass: 'caminfo',
-    });
-    modal.onDidDismiss().then(dataReturned => {
-      console.log('Closed Modal');
-    });
-    return modal.present();
-  }
-  backHandler(): void {
-    if (this.isRecording) {
-      const address = this.configService.getNodeAddress();
-      const port = this.configService.getNodePort();
-      // Stop the TCP camera feed on the python application
-      this.http.get(`http://${address}:${port}/livestream/stop`).subscribe();
-      // cleanup socket
-      console.log('back to home page');
-      this.socket.off('image', this.updateImage);
-      // this.socket.destroy();
-      this.socket.close();
-      this.streamService.stopSocket();
-    }
-    console.log('Leaving Streaming Page');
-    // this.streamService.saveData(this.camData);
-  }
-  saveData(data: CamData): void {
-    this.dataService.setCamData(data);
   }
   startListener(): void {
     this.socket.on('image', this.updateImage);
   }
+
+  isPortrait(): boolean {
+    if (this._platform.platforms().includes('desktop')) {
+      return true;
+    } else {
+      return this._platform.isPortrait();
+    }
+  }
+  backHandler(): void {
+    if (this.isRecording) {
+      this.cleanUpSocket();
+    }
+    this.dataService.updateCameraDataDB();
+  }
+  cleanUpSocket(): void {
+    const { IPAddress, NodePort } = this.dataService.getConfigData();
+    // Stop the TCP camera feed on the python application
+    this.http
+      .get(`http://${IPAddress}:${NodePort}/livestream/stop`)
+      .subscribe();
+
+    // cleanup socket
+    this.socket.off('image', this.updateImage);
+    this.socket.close();
+    this.socket = null;
+  }
+
   updateImage = (data): void => {
     this.imgSrc = 'data:image/jpeg;base64, ' + data.toString('base64');
+    if (this.showSpinner) {
+      this.showSpinner = false;
+    }
   };
   getImgContent(): SafeUrl {
     return this.sanitizer.bypassSecurityTrustUrl(this.imgSrc);
   }
   isLogitechC920(): boolean {
-    return this.Camera === 'Logitech Webcam HD C920';
+    return this.dataService.getCamera() === 'Logitech Webcam HD C920';
   }
   isMSHD3000(): boolean {
-    return this.Camera === 'Microsoft LifeCam HD-3000';
+    return this.dataService.getCamera() === 'Microsoft LifeCam HD-3000';
   }
   isDefaultCam(): boolean {
     return (
-      this.Camera !== 'Logitech Webcam HD C920' &&
-      this.Camera !== 'Microsoft LifeCam HD-3000'
+      this.dataService.getCamera() !== 'Logitech Webcam HD C920' &&
+      this.dataService.getCamera() !== 'Microsoft LifeCam HD-3000'
     );
   }
-  sendVideoLength(event): void {
+  sendVideoLength(event: string): void {
     const socketdata = 'newtime ' + event;
-    const address = this.configService.getNodeAddress();
-    const port = this.configService.getNodePort();
+    const { IPAddress, NodePort } = this.dataService.getConfigData();
     if (this.isRecording) {
       this.http
-        .post(`http://${address}:${port}/livestream/VidLength`, {
+        .post(`http://${IPAddress}:${NodePort}/livestream/VidLength`, {
           camSettings: socketdata,
         })
         .subscribe();
     }
-    console.log('data updated');
   }
-  rotateStream(): void {
-    const port = this.configService.getNodePort();
-    const address = this.configService.getNodeAddress();
+  rotateStream(event: string): void {
+    console.log('received verticalFlip: ' + event);
+    const { IPAddress, NodePort } = this.dataService.getConfigData();
     if (this.isRecording) {
-      this.http.get(`http://${address}:${port}/livestream/rotate`).subscribe();
+      this.http
+        .get(`http://${IPAddress}:${NodePort}/livestream/rotate`)
+        .subscribe();
     }
   }
 
   sendCameraSettings(event: string): void {
-    const address = this.configService.getNodeAddress();
-    const port = this.configService.getNodePort();
+    const { IPAddress, NodePort } = this.dataService.getConfigData();
     console.log(event);
     if (this.isRecording) {
       this.http
-        .post(`http://${address}:${port}/livestream/CamSettings`, {
+        .post(`http://${IPAddress}:${NodePort}/livestream/CamSettings`, {
           camSettings: event,
         })
         .subscribe();
