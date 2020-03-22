@@ -15,6 +15,7 @@ export class LiveStreamPage implements OnInit {
   socket: SocketIOClient.Socket;
   isRecording: boolean;
   showSpinner: boolean;
+  timeout: any;
   constructor(
     private _platform: Platform,
     private http: HttpClient,
@@ -26,10 +27,13 @@ export class LiveStreamPage implements OnInit {
     this.showSpinner = true;
     const { IPAddress, NodePort } = this.dataService.getConfigData();
     this.isRecording = this.dataService.getIsRecording();
-    console.log(this.isRecording);
     this.imgSrc = `http://${IPAddress}:${NodePort}/videos/thumbnail/loading.jpg`;
     if (this.isRecording) {
-      this.startSocket();
+      this.timeout = setTimeout(() => {
+        this.startSocket();
+        this.showSpinner = false;
+        this.timeout = null;
+      }, 2000);
     }
   }
   startSocket(): void {
@@ -51,6 +55,10 @@ export class LiveStreamPage implements OnInit {
     }
   }
   backHandler(): void {
+    if (this.timeout) {
+      clearTimeout(this.timeout);
+      this.timeout = null;
+    }
     if (this.isRecording) {
       this.cleanUpSocket();
     }
@@ -63,17 +71,16 @@ export class LiveStreamPage implements OnInit {
       .get(`http://${IPAddress}:${NodePort}/livestream/stop`)
       .subscribe();
 
-    // cleanup socket
-    this.socket.off('image', this.updateImage);
-    this.socket.close();
-    this.socket = null;
+    // Clean up the socket.
+    if (this.socket) {
+      this.socket.off('image', this.updateImage);
+      this.socket.close();
+      this.socket = null;
+    }
   }
 
   updateImage = (data): void => {
     this.imgSrc = 'data:image/jpeg;base64, ' + data.toString('base64');
-    if (this.showSpinner) {
-      this.showSpinner = false;
-    }
   };
   getImgContent(): SafeUrl {
     return this.sanitizer.bypassSecurityTrustUrl(this.imgSrc);
@@ -104,11 +111,11 @@ export class LiveStreamPage implements OnInit {
   rotateStream(event: string): void {
     console.log('received verticalFlip: ' + event);
     const { IPAddress, NodePort } = this.dataService.getConfigData();
-    if (this.isRecording) {
-      this.http
-        .get(`http://${IPAddress}:${NodePort}/livestream/rotate`)
-        .subscribe();
-    }
+    // if (this.isRecording) {
+    this.http
+      .get(`http://${IPAddress}:${NodePort}/livestream/rotate/${event}`)
+      .subscribe();
+    // }
   }
 
   sendCameraSettings(event: string): void {
@@ -116,7 +123,7 @@ export class LiveStreamPage implements OnInit {
     console.log(event);
     if (this.isRecording) {
       this.http
-        .post(`http://${IPAddress}:${NodePort}/livestream/CamSettings`, {
+        .post(`http://${IPAddress}:${NodePort}/livestream/CamSettings/`, {
           camSettings: event,
         })
         .subscribe();

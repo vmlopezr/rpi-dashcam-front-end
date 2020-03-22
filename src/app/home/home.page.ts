@@ -22,15 +22,9 @@ export class HomePage implements OnInit {
   ) {}
   ngOnInit(): void {
     this.showSpinner = true;
-    this.dataService.retrieveDataFromDB().subscribe((data: AppSettings[]) => {
-      setTimeout(() => {
-        this.showSpinner = false;
-        this.camera = data[0].camera;
-        this.dataService.setData(data[0]);
-      }, 100);
-    });
+
     this.isRecording = this.dataService.getIsRecording();
-    this.camImage = this.setCameraImage(this.isRecording);
+
     this.camList = [
       'Microsoft LifeCam Cinema',
       'Microsoft LifeCam HD-5000',
@@ -51,6 +45,21 @@ export class HomePage implements OnInit {
       'Logitech Quickcam Pro 5000',
       'Logitech Quickcam Pro 9000',
     ];
+  }
+  ionViewWillEnter(): void {
+    this.dataService.retrieveDataFromDB().subscribe((data: AppSettings[]) => {
+      this.camera = data[0].camera;
+      this.dataService.setData(data[0]);
+      if (data[0].recordingState === 'ON') {
+        this.isRecording = true;
+        this.dataService.setIsRecording(true);
+      } else {
+        this.isRecording = false;
+        this.dataService.setIsRecording(false);
+      }
+      this.camImage = this.setCameraImage(this.isRecording);
+      this.showSpinner = false;
+    });
   }
   startRecording(): void {
     const { IPAddress, NodePort } = this.dataService.getConfigData();

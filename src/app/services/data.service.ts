@@ -69,6 +69,7 @@ export interface AppSettings {
   TCPStreamPort: number;
   LiveStreamPort: number;
   videoLength: number;
+  recordingState: string;
 }
 interface GetFunctions {
   'Microsoft LifeCam HD-3000': () => void;
@@ -149,7 +150,6 @@ class DataService {
     } else {
       this.updateCameraData[camera]();
     }
-    this.updateInitialVideoLength();
   }
   updateLogitechC920Data = (): void => {
     const { IPAddress, NodePort } = this.ConfigData;
@@ -291,14 +291,6 @@ class DataService {
     this.http
       .put(`http://${IPAddress}:${NodePort}/app-settings/settings/update`, {
         camera: camera,
-      })
-      .subscribe();
-  }
-  updateInitialVideoLength(): void {
-    const { IPAddress, NodePort } = this.ConfigData;
-    this.http
-      .put(`http://${IPAddress}:${NodePort}/app-settings/settings/update`, {
-        videoLength: this.camData.videoLength,
       })
       .subscribe();
   }

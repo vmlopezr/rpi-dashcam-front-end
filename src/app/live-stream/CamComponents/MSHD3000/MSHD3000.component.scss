@@ -10,7 +10,7 @@
 		height: auto;
 	}
 }
-$main-bg-color: #fdfdfd;
+$main-bg-color: #ffffffe3;
 .header {
 	--ion-color-primary: #eeeeee;
 	--border-color: #999999;
@@ -44,7 +44,7 @@ ion-back-button {
 	background: $main-bg-color;
 }
 .heading-text {
-	color: rgb(92, 92, 92);
+	color: rgb(0, 0, 0);
 	font-size: 20px;
 	text-align: start;
 	vertical-align: middle;
@@ -101,6 +101,7 @@ ion-back-button {
 }
 .input-label {
 	--background: $main-bg-color;
+	border: 1px solid rgb(148, 154, 156);
 	padding: 1px;
 }
 .input-text {
@@ -114,6 +115,7 @@ ion-back-button {
 	align-items: flex-start;
 	justify-content: flex-start;
 	background-color: $main-bg-color;
+
 }
 .reset-button {
 	margin-left: 7px;
@@ -121,9 +123,6 @@ ion-back-button {
 	padding-bottom: 5px;
 	display: block !important;
 	--background: #2d0d8f;
-}
-ion-label {
-	--color: #0000ff;
 }
 ion-item {
 	--border-width: 0px;
