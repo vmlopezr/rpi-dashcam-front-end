@@ -68,7 +68,6 @@ export interface AppSettings {
   IPAddress: string;
   TCPStreamPort: number;
   LiveStreamPort: number;
-  videoLength: number;
   recordingState: string;
 }
 interface GetFunctions {
@@ -85,14 +84,12 @@ interface UpdateFunctions {
 class DataService {
   private ConfigData: AppSettings;
   private camData: LogitechC920Data | MSHD3000Data | DefaultCamData;
-  private videoLength: number;
   private isRecording: boolean;
   private getCameraData: GetFunctions;
   private updateCameraData: UpdateFunctions;
   constructor(private http: HttpClient) {
     this.isRecording = false;
     this.initializeCamFunctionLists();
-    this.videoLength = 30;
   }
   retrieveCamDataFromDB(camera: string): void {
     if (
@@ -162,7 +159,6 @@ class DataService {
   };
   updateLifeCamHD3000Data = (): void => {
     const { IPAddress, NodePort } = this.ConfigData;
-    console.log(this.camData);
     this.http
       .put(
         `http://${IPAddress}:${NodePort}/app-settings/mshd3000/update`,
@@ -184,12 +180,6 @@ class DataService {
   }
   getIsRecording(): boolean {
     return this.isRecording;
-  }
-  getVideoLength(): number {
-    return this.videoLength;
-  }
-  setVideoLength(length: number): void {
-    this.videoLength = length;
   }
   setCamera(camera: string): void {
     this.ConfigData.camera = camera;

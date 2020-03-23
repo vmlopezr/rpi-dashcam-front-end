@@ -1,8 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Platform } from '@ionic/angular';
 import { DataService } from '../services/data.service';
+import { AlertController } from '@ionic/angular';
 import * as io from 'socket.io-client';
 
 @Component({
@@ -15,15 +16,18 @@ export class LiveStreamPage implements OnInit {
   socket: SocketIOClient.Socket;
   isRecording: boolean;
   showSpinner: boolean;
-  timeout: any;
+  timeout: NodeJS.Timer;
+  disconnected: boolean;
   constructor(
     private _platform: Platform,
     private http: HttpClient,
     private sanitizer: DomSanitizer,
     private dataService: DataService,
+    private alertController: AlertController,
   ) {}
   ngOnInit(): void {
     this.socket = null;
+    this.disconnected = false;
     this.showSpinner = true;
     const { IPAddress, NodePort } = this.dataService.getConfigData();
     this.isRecording = this.dataService.getIsRecording();
@@ -45,8 +49,31 @@ export class LiveStreamPage implements OnInit {
   }
   startListener(): void {
     this.socket.on('image', this.updateImage);
+    this.socket.on('error', err => {
+      console.log(err);
+    });
+    this.socket.on('connect_error', () => {
+      console.log('connect error');
+      if (this.timeout) {
+        clearTimeout(this.timeout);
+        this.timeout = null;
+      }
+      this.presentAlert();
+      this.disconnected = true;
+      this.cleanUpSocket();
+    });
   }
+  async presentAlert(): Promise<void> {
+    const alert = await this.alertController.create({
+      header: 'Alert',
+      subHeader: 'Server closed',
+      message:
+        'An error occurred with the recording process. \nVerify the camera is the correct one as chosen on the home screen.',
+      buttons: ['OK'],
+    });
 
+    await alert.present();
+  }
   isPortrait(): boolean {
     if (this._platform.platforms().includes('desktop')) {
       return true;
@@ -66,14 +93,17 @@ export class LiveStreamPage implements OnInit {
   }
   cleanUpSocket(): void {
     const { IPAddress, NodePort } = this.dataService.getConfigData();
-    // Stop the TCP camera feed on the python application
-    this.http
-      .get(`http://${IPAddress}:${NodePort}/livestream/stop`)
-      .subscribe();
+    if (!this.disconnected) {
+      // Stop the TCP camera feed on the python application
+      this.http
+        .get(`http://${IPAddress}:${NodePort}/livestream/stop`)
+        .subscribe();
+    }
 
     // Clean up the socket.
     if (this.socket) {
       this.socket.off('image', this.updateImage);
+      this.socket.removeAllListeners();
       this.socket.close();
       this.socket = null;
     }
@@ -109,13 +139,12 @@ export class LiveStreamPage implements OnInit {
     }
   }
   rotateStream(event: string): void {
-    console.log('received verticalFlip: ' + event);
     const { IPAddress, NodePort } = this.dataService.getConfigData();
-    // if (this.isRecording) {
-    this.http
-      .get(`http://${IPAddress}:${NodePort}/livestream/rotate/${event}`)
-      .subscribe();
-    // }
+    if (this.isRecording) {
+      this.http
+        .get(`http://${IPAddress}:${NodePort}/livestream/rotate/${event}`)
+        .subscribe();
+    }
   }
 
   sendCameraSettings(event: string): void {
