@@ -25,10 +25,15 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 
-.caminfo .modal-wrapper{
-    width: 95% !important;
-    height: 50% !important;
-    position: absolute;
-    top: 49%;
-    
-}
+@media only screen and (orientation: landscape)  {
+    .my-modal {
+     .modal-wrapper {
+       position: absolute;
+       top: 0 !important;
+       left: 0 !important;
+       display: block;
+       width: 100% !important;
+       height: 100% !important;
+     } 
+   }
+ }

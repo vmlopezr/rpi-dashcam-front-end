@@ -18,6 +18,13 @@ export interface MSHD3000Data {
   videoLength: number;
   verticalFlip: number;
 }
+export interface ErrorLog {
+  id: number;
+  errorName: string;
+  errorMessage: string;
+  errorCode: number;
+  timeStamp: string;
+}
 export interface LogitechC920Data {
   brightness: number;
   contrast: number;
@@ -87,6 +94,7 @@ class DataService {
   private isRecording: boolean;
   private getCameraData: GetFunctions;
   private updateCameraData: UpdateFunctions;
+  private errorLogs: ErrorLog[];
   constructor(private http: HttpClient) {
     this.isRecording = false;
     this.initializeCamFunctionLists();
@@ -117,24 +125,24 @@ class DataService {
     const { IPAddress, NodePort } = this.ConfigData;
     this.http
       .get(`http://${IPAddress}:${NodePort}/app-settings/logitechC920/data`)
-      .subscribe(data => {
-        this.camData = data[0];
+      .subscribe((data: LogitechC920Data) => {
+        this.camData = data;
       });
   };
   getLifeCamHD3000Data = (): void => {
     const { IPAddress, NodePort } = this.ConfigData;
     this.http
       .get(`http://${IPAddress}:${NodePort}/app-settings/mshd3000/data`)
-      .subscribe(data => {
-        this.camData = data[0];
+      .subscribe((data: MSHD3000Data) => {
+        this.camData = data;
       });
   };
   getDefaultCamData = (): void => {
     const { IPAddress, NodePort } = this.ConfigData;
     this.http
       .get(`http://${IPAddress}:${NodePort}/app-settings/defaultCam/data`)
-      .subscribe(data => {
-        this.camData = data[0];
+      .subscribe((data: DefaultCamData) => {
+        this.camData = data;
       });
   };
   updateCameraDataDB(): void {
@@ -175,6 +183,24 @@ class DataService {
       )
       .subscribe();
   };
+  getErrorLogfromDB(): Observable<any> {
+    const { IPAddress, NodePort } = this.getConfigData();
+    return this.http.get(
+      `http://${IPAddress}:${NodePort}/app-settings/errorlog/data/all`,
+    );
+  }
+  clearErrorLogfromDB(): Observable<any> {
+    const { IPAddress, NodePort } = this.getConfigData();
+    return this.http.get(
+      `http://${IPAddress}:${NodePort}/app-settings/errorlog/clear`,
+    );
+  }
+  setErrorLog(errorLog: ErrorLog[]): void {
+    this.errorLogs = errorLog;
+  }
+  getErrorLog(): ErrorLog[] {
+    return this.errorLogs;
+  }
   setIsRecording(value: boolean): void {
     this.isRecording = value;
   }
@@ -272,7 +298,7 @@ class DataService {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   retrieveDataFromDB(): Observable<any> {
     return this.http.get(
-      'http://192.168.1.98:50000/app-settings/settings/data',
+      'http://192.168.1.106:50000/app-settings/settings/data',
     );
   }
   updateCamera(camera: string): void {

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { AlertController } from '@ionic/angular';
-import { DataService, AppSettings } from '../services/data.service';
+import { AlertController, ModalController } from '@ionic/angular';
+import { DataService, AppSettings, ErrorLog } from '../services/data.service';
+import { ErrorLogModal } from './error-log/ErrorLogModal.page';
 
 @Component({
   selector: 'app-home',
@@ -19,6 +20,7 @@ export class HomePage implements OnInit {
     private http: HttpClient,
     private dataService: DataService,
     private alertController: AlertController,
+    private modalController: ModalController,
   ) {}
   ngOnInit(): void {
     this.showSpinner = true;
@@ -47,10 +49,10 @@ export class HomePage implements OnInit {
     ];
   }
   ionViewWillEnter(): void {
-    this.dataService.retrieveDataFromDB().subscribe((data: AppSettings[]) => {
-      this.camera = data[0].camera;
-      this.dataService.setData(data[0]);
-      if (data[0].recordingState === 'ON') {
+    this.dataService.retrieveDataFromDB().subscribe((data: AppSettings) => {
+      this.camera = data.camera;
+      this.dataService.setData(data);
+      if (data.recordingState === 'ON') {
         this.isRecording = true;
         this.dataService.setIsRecording(true);
       } else {
@@ -58,7 +60,10 @@ export class HomePage implements OnInit {
         this.dataService.setIsRecording(false);
       }
       this.camImage = this.setCameraImage(this.isRecording);
-      this.showSpinner = false;
+      this.dataService.getErrorLogfromDB().subscribe((data: ErrorLog[]) => {
+        this.dataService.setErrorLog(data);
+        this.showSpinner = false;
+      });
     });
   }
   startRecording(): void {
@@ -78,6 +83,21 @@ export class HomePage implements OnInit {
     this.http
       .get(`http://${IPAddress}:${NodePort}/livestream/stopRecording`)
       .subscribe();
+  }
+  getErrorLog(): void {
+    const { IPAddress, NodePort } = this.dataService.getConfigData();
+    this.http
+      .get(`http://${IPAddress}:${NodePort}/app-settings/errorlog/data/all`)
+      .subscribe((data: ErrorLog[]) => {
+        console.log(data);
+      });
+  }
+  async showErrorLog(): Promise<void> {
+    const modal = await this.modalController.create({
+      component: ErrorLogModal,
+      cssClass: 'my-modal',
+    });
+    return await modal.present();
   }
   setCameraImage(value: boolean): string {
     if (this.isRecording) {

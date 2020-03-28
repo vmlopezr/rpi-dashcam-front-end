@@ -1,0 +1,59 @@
+<ion-header>
+	<ion-toolbar class="header" color="primary" mode="ios">
+		<ion-button fill="clear" slot="start" (click)="dismiss()" large>
+			<ion-icon name="ios-arrow-round-back"></ion-icon>
+		</ion-button>
+		<ion-title class="ion-text-center page-title">
+			Error Log
+		</ion-title>
+		<ion-button fill="clear" slot="end" (click)="clearLog()" large>
+			<ion-label>CLEAR</ion-label>
+		</ion-button>
+	</ion-toolbar>
+</ion-header>
+<ion-content>
+	<div>
+		<ion-grid>
+			<ion-row>
+				<ion-col class="ion-text-wrap headerCol ion-no-padding"
+					size="1">
+					<div class="tableHeader">ID</div>
+				</ion-col>
+				<ion-col class="ion-text-wrap headerCol ion-no-padding"
+					size="2">
+					<div class="tableHeader">Time Stamp</div>
+				</ion-col>
+				<ion-col class="ion-text-wrap headerCol ion-no-padding"
+					size="2">
+					<div class="tableHeader">Error Name</div>
+				</ion-col>
+				<ion-col class="ion-text-wrap headerCol ion-no-padding"
+					size="7">
+					<div class="tableHeader">Message</div>
+				</ion-col>
+			</ion-row>
+			<ion-row *ngFor="let error of ErrorList">
+				<ion-col class="ion-text-wrap" size="1">
+					<div>
+						{{error.id}}
+					</div>
+				</ion-col>
+				<ion-col class="ion-text-wrap" size="2">
+					<div>
+						{{error.timeStamp}}
+					</div>
+				</ion-col>
+				<ion-col class="ion-text-wrap" size="2">
+					<div>
+						{{error.errorName}}
+					</div>
+				</ion-col>
+				<ion-col size="7" class="ion-text-wrap">
+					<div>
+						{{error.errorMessage}}
+					</div>
+				</ion-col>
+			</ion-row>
+		</ion-grid>
+	</div>
+</ion-content>

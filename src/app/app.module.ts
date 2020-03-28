@@ -6,6 +6,7 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { DataService } from './services/data.service';
+import { ErrorLogModalModule } from './home/error-log/ErrorLogModal.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -15,6 +16,7 @@ import { DataService } from './services/data.service';
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
+    ErrorLogModalModule,
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
