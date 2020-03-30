@@ -9,8 +9,7 @@ import { DataService } from '../../services/data.service';
 })
 export class InputRowComponent {
   @Input() data: string;
-  @Input() index: number;
-  @Output() deleteEvent = new EventEmitter<number>();
+  @Output() deleteEvent = new EventEmitter<string>();
   constructor(
     private http: HttpClient,
     private dataService: DataService,
@@ -40,8 +39,7 @@ export class InputRowComponent {
     const { IPAddress, NodePort } = this.dataService.getConfigData();
     const filename = this.data.substr(0, this.data.lastIndexOf('.'));
     const URL = `http://${IPAddress}:${NodePort}/videos/delete/${filename}`;
-
-    this.deleteEvent.emit(this.index);
+    this.deleteEvent.emit(this.data);
     this.http.get(URL).subscribe();
   }
   downloadPress(): void {

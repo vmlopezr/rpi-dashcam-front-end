@@ -23,8 +23,12 @@ export class VideoListPage implements OnInit {
   addRow(): void {
     this.dirData.push('new');
   }
-  removeVideo(event): void {
-    this.dirData.splice(event, 1);
+  trackByFn(index: number, item: string): number {
+    return index;
+  }
+  removeVideo(item): void {
+    console.log('deleting ' + item);
+    this.dirData = this.dirData.filter(file => file !== item);
   }
   getDirs(): void {
     const { IPAddress, NodePort } = this.dataService.getConfigData();

@@ -20,9 +20,8 @@ export interface MSHD3000Data {
 }
 export interface ErrorLog {
   id: number;
-  errorName: string;
+  errorSource: string;
   errorMessage: string;
-  errorCode: number;
   timeStamp: string;
 }
 export interface LogitechC920Data {
@@ -212,6 +211,7 @@ class DataService {
   }
   setCamData(camData: LogitechC920Data | MSHD3000Data | DefaultCamData): void {
     this.camData = camData;
+    console.log(camData);
   }
   getData(): LogitechC920Data | MSHD3000Data | DefaultCamData {
     return this.camData;
@@ -296,9 +296,9 @@ class DataService {
     }
   }
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  retrieveDataFromDB(): Observable<any> {
+  retrieveSettingsDataFromDB(): Observable<any> {
     return this.http.get(
-      'http://192.168.1.106:50000/app-settings/settings/data',
+      'http://192.168.1.103:50000/app-settings/settings/data',
     );
   }
   updateCamera(camera: string): void {

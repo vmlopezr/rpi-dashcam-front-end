@@ -6,20 +6,15 @@
 	--border-style: solid;
 	width: 100vw;
 }
-ion-header::after {
-	background-image: none;
-}
-ion-icon {
-	zoom: 3.0;
-	color: #fff;
-}
-ion-button {
-	padding-left: 0px;
-	margin-left: 0px;
-}
 .page-title {
 	font-size: 20px;
 	color: #fcfcfc;
+}
+ion-icon {
+	zoom: 2.0;
+	color: #fff;
+	margin: 0px;
+	padding: 0px;
 }
 ion-button ion-label {
 	color: #fff;
@@ -32,17 +27,15 @@ ion-button ion-label {
 	padding-left: 5px;
 	padding-right: 0px;
 	flex-grow: 1;
-	max-height: 60px;
 }
-.headerCol {
-	--ion-grid-padding: 0px;
-	margin-left: 0px;
-}
-ion-col div {
+.tableCell {
+	padding-top: 5px; 
+	padding-left: 5px;
+	border-bottom: 0.5px solid rgb(175, 175, 175);
 	flex-grow: 1;
-	max-height: 50px;
-	min-width: 300px;
+	padding-bottom: 10px;
 }
+
 ion-row {
 	flex-grow: 1;
 	word-wrap: break-word;
@@ -53,66 +46,15 @@ ion-row {
 	overflow-x: scroll;
 	overflow-y: hidden;
 	white-space: nowrap;
-	width: 100vw;
 }
 ion-grid {
-	display: flex;
-	width: 1200px;
-	flex: 1;
+	min-width: 1000px;
 	height: 100%;  
 	flex-flow: column;
+	--ion-grid-padding: 0px;
 }
-.buttonContainer {
-	border-bottom: 0.5px;
-	border-top: 0px;
-	border-left: 0px;
-	border-right: 0px;
-	border-color: rgb(177, 177, 177); 
-	border-style: solid;
-}
-.buttonContainer ion-button {
-	width: 100%;
-	display:block;
-	margin-left:auto;
-	margin-right:auto;
-	text-align: center;
-	--background: #fff;
-	--color: #000;
-	--border-width: 0.5px 0px 0px 0px;
-	--border-color: rgb(177, 177, 177);
-	--background-hover:  rgb(212, 225, 238);
-	--background-activated: rgb(212, 225, 238);
-	--border-style: solid;
-	--border-radius: 0px;
-	margin-bottom: 0px;
-	margin-top: 0px;
-}
-ion-button {
-	margin-top: 5px;
-	margin-bottom: 5px;
-}
-
 ion-content {
 	--ion-background-color: #fff;
 	width: 100vw;
 	padding-top: 10px;
-}
-ion-item {
-	width: 100%;
-	display:block;
-	margin-left:auto;
-	margin-right:auto;
-	display: flex;
-	--background-color: #fff;
-
-	ion-label {
-		min-width: 25%;
-		--background-color: transparent;
-	}
-	ion-select {
-		min-width: 75%;
-		text-align: right;
-		--background-color: transparent;
-		font-size: 15px;
-	}
 }

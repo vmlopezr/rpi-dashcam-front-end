@@ -1,8 +1,10 @@
-<div class="container" >
-  <div class="image-container" routerLink="{{getVideoPath()}}" routerDirection="forward" >
-    <ion-img
-      [src]="getThumbnail()"
-    ></ion-img>
+<div class="container">
+  <div class="image-container" routerLink="{{getVideoPath()}}"
+    routerDirection="forward">
+    <ion-thumbnail>
+      <ion-img [src]="getThumbnail()"></ion-img>
+    </ion-thumbnail>
+
     <div class="label-container">
       <ion-label class="title">
         {{getDate()}}
@@ -17,8 +19,8 @@
     <ion-icon class="icon" name="more" on></ion-icon>
     <div id="dropdown" class="dropdown-content">
       <div class="menu-label" (click)="downloadPress()">
-          <ion-icon name="md-download"></ion-icon>
-          <ion-label>Download</ion-label>
+        <ion-icon name="md-download"></ion-icon>
+        <ion-label>Download</ion-label>
       </div>
       <div class="menu-label" (click)="deleteAlertConfirm()">
         <ion-icon name="ios-trash"></ion-icon>

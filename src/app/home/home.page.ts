@@ -49,22 +49,25 @@ export class HomePage implements OnInit {
     ];
   }
   ionViewWillEnter(): void {
-    this.dataService.retrieveDataFromDB().subscribe((data: AppSettings) => {
-      this.camera = data.camera;
-      this.dataService.setData(data);
-      if (data.recordingState === 'ON') {
-        this.isRecording = true;
-        this.dataService.setIsRecording(true);
-      } else {
-        this.isRecording = false;
-        this.dataService.setIsRecording(false);
-      }
-      this.camImage = this.setCameraImage(this.isRecording);
-      this.dataService.getErrorLogfromDB().subscribe((data: ErrorLog[]) => {
-        this.dataService.setErrorLog(data);
-        this.showSpinner = false;
+    this.dataService
+      .retrieveSettingsDataFromDB()
+      .subscribe((data: AppSettings) => {
+        this.camera = data.camera;
+        this.dataService.setData(data);
+        if (data.recordingState === 'ON') {
+          this.isRecording = true;
+          this.dataService.setIsRecording(true);
+        } else {
+          this.isRecording = false;
+          this.dataService.setIsRecording(false);
+        }
+        this.camImage = this.setCameraImage(this.isRecording);
+        this.dataService.getErrorLogfromDB().subscribe((data: ErrorLog[]) => {
+          this.dataService.setErrorLog(data);
+          this.showSpinner = false;
+        });
+        this.dataService.retrieveCamDataFromDB(this.camera);
       });
-    });
   }
   startRecording(): void {
     const { IPAddress, NodePort } = this.dataService.getConfigData();

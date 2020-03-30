@@ -1,54 +1,62 @@
 <ion-header>
 	<ion-toolbar class="header" color="primary" mode="ios">
-		<ion-button fill="clear" slot="start" (click)="dismiss()" large>
-			<ion-icon name="ios-arrow-round-back"></ion-icon>
-		</ion-button>
+		<ion-buttons slot="start">
+			<ion-button fill="clear"  (click)="dismiss()" large>
+				<ion-icon name="ios-arrow-round-back"></ion-icon>
+			</ion-button>
+		</ion-buttons>
 		<ion-title class="ion-text-center page-title">
 			Error Log
 		</ion-title>
-		<ion-button fill="clear" slot="end" (click)="clearLog()" large>
-			<ion-label>CLEAR</ion-label>
-		</ion-button>
+		<ion-buttons slot="end">
+			<ion-button fill="clear" slot="end" (click)="clearLog()" large>
+				<ion-label>CLEAR</ion-label>
+			</ion-button>
+		</ion-buttons>
 	</ion-toolbar>
 </ion-header>
 <ion-content>
-	<div>
+	<div class="horizontalScroll">
 		<ion-grid>
 			<ion-row>
-				<ion-col class="ion-text-wrap headerCol ion-no-padding"
+				<ion-col class="ion-text-wrap ion-no-padding tableHeader"
 					size="1">
-					<div class="tableHeader">ID</div>
+					<div>ID</div>
 				</ion-col>
-				<ion-col class="ion-text-wrap headerCol ion-no-padding"
+				<ion-col class="ion-text-wrap ion-no-padding tableHeader"
+					size="3">
+					<div>Time Stamp</div>
+				</ion-col>
+				<ion-col class="ion-text-wrap ion-no-padding tableHeader"
 					size="2">
-					<div class="tableHeader">Time Stamp</div>
+					<div>Error Source</div>
 				</ion-col>
-				<ion-col class="ion-text-wrap headerCol ion-no-padding"
-					size="2">
-					<div class="tableHeader">Error Name</div>
-				</ion-col>
-				<ion-col class="ion-text-wrap headerCol ion-no-padding"
-					size="7">
-					<div class="tableHeader">Message</div>
+				<ion-col class="ion-text-wrap ion-no-padding tableHeader"
+					size="6">
+					<div>Message</div>
 				</ion-col>
 			</ion-row>
 			<ion-row *ngFor="let error of ErrorList">
-				<ion-col class="ion-text-wrap" size="1">
+				<ion-col class="ion-text-wrap ion-no-padding tableCell"
+					size="1">
 					<div>
 						{{error.id}}
 					</div>
 				</ion-col>
-				<ion-col class="ion-text-wrap" size="2">
+				<ion-col class="ion-text-wrap ion-no-padding tableCell"
+					size="3">
 					<div>
 						{{error.timeStamp}}
 					</div>
 				</ion-col>
-				<ion-col class="ion-text-wrap" size="2">
+				<ion-col class="ion-text-wrap ion-no-padding tableCell"
+					size="2">
 					<div>
-						{{error.errorName}}
+						{{error.errorSource}}
 					</div>
 				</ion-col>
-				<ion-col size="7" class="ion-text-wrap">
+				<ion-col class="ion-text-wrap ion-no-padding tableCell"
+					size="6">
 					<div>
 						{{error.errorMessage}}
 					</div>
