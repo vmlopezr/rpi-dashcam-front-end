@@ -23,6 +23,7 @@ www/
 dist/
 node_modules/
 www/
+www1/
 tmp/
 temp/
 platforms/
