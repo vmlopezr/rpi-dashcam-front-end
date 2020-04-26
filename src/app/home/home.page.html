@@ -9,12 +9,11 @@
 <ion-content>
 	<div style="height: 20px;"></div>
 	<div class="buttonContainer">
-		<ion-button mode="ios" routerLink="/video-list"
-			routerDirection="forward">
+		<ion-button mode="ios" routerLink="/video-list">
 			View Videos
 		</ion-button>
 		<ion-button mode="ios" routerLink="/live-stream"
-			routerDirection="forward" (click)="startStreamServer()">
+			(click)="startStreamServer()">
 			View Livestream
 		</ion-button>
 		<ion-button mode="ios" (click)="startRecording()"
