@@ -298,8 +298,8 @@ class DataService {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   retrieveSettingsDataFromDB(): Observable<any> {
     return this.http.get(
-      // 'http://192.168.10.1:50000/app-settings/settings/data',
-      'http://192.168.1.103:50000/app-settings/settings/data',
+      'http://192.168.10.1:50000/app-settings/settings/data',
+      // 'http://192.168.1.103:50000/app-settings/settings/data',
     );
   }
   updateCamera(camera: string): void {

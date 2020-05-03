@@ -19,10 +19,12 @@ export class DefaultCam implements OnInit {
     this.videoLength = this.camData.videoLength.toString();
   }
   ngOnInit(): void {
-    if (this.dataService.getIsRecording()) {
-      this.updateAutoSettings();
-      this.updateCameraSettings();
-    }
+    // For cameras that are currently not supported, settings are disabled.
+    // Only the livestream is available
+    // if (this.dataService.getIsRecording()) {
+    //   this.updateAutoSettings();
+    //   this.updateCameraSettings();
+    // }
   }
   updateVideoLength(): void {
     this.camData.videoLength = parseInt(this.videoLength);

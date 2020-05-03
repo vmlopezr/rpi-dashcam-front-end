@@ -7,7 +7,7 @@
       <p class="p-text">Update the settings for video recording</p>
     </div>
 
-    <ion-range class="slider" pin debounce="300"
+    <ion-range class="slider" pin debounce="300" [disabled]="true"
       (ngModelChange)="updateBrightness($event)" width="100" mode="ios" min="0"
       max="255" [ngModel]="camData.brightness">
       <ion-label class="control-label" slot="start">Brightness</ion-label>
@@ -15,7 +15,7 @@
         <ion-label class="slider-value">{{camData.brightness}}</ion-label>
       </div>
     </ion-range>
-    <ion-range class="slider" pin debounce="300"
+    <ion-range class="slider" pin debounce="300" [disabled]="true"
       (ngModelChange)="updateContrast($event)" mode="ios" min="0" max="255"
       [ngModel]="camData.contrast">
       <ion-label slot="start" class="control-label">Contrast</ion-label>
@@ -23,7 +23,7 @@
         <ion-label class="slider-value">{{camData.contrast}}</ion-label>
       </div>
     </ion-range>
-    <ion-range class="slider" pin debounce="300"
+    <ion-range class="slider" pin debounce="300" [disabled]="true"
       (ngModelChange)="updateSaturation($event)" mode="ios" min="0" max="255"
       [ngModel]="camData.saturation">
       <ion-label slot="start" class="control-label">Saturation</ion-label>
@@ -31,7 +31,7 @@
         <ion-label class="slider-value">{{camData.saturation}}</ion-label>
       </div>
     </ion-range>
-    <ion-range class="slider" pin debounce="300"
+    <ion-range class="slider" pin debounce="300" [disabled]="true"
       (ngModelChange)="updateGain($event)" mode="ios" min="0" max="255"
       [ngModel]="camData.gain">
       <ion-label slot="start" class="control-label">Gain</ion-label>
@@ -39,7 +39,7 @@
         <ion-label class="slider-value">{{camData.gain}}</ion-label>
       </div>
     </ion-range>
-    <ion-range class="slider" pin debounce="300"
+    <ion-range class="slider" pin debounce="300" [disabled]="true"
       (ngModelChange)="updateSharpness($event)" mode="ios" min="0" max="255"
       [ngModel]="camData.sharpness">
       <ion-label slot="start" class="control-label">Sharpness</ion-label>
@@ -56,7 +56,7 @@
     <ion-item>
       <ion-label class="control-label">Auto Focus</ion-label>
       <ion-toggle class="toggle" mode="ios" slot="start"
-        [ngModel]="camData.focusAuto"
+        [ngModel]="camData.focusAuto" [disabled]="true"
         (ngModelChange)="updateFocusSettings($event)"></ion-toggle>
     </ion-item>
     <ion-range class="slider" pin debounce="300"
@@ -77,16 +77,16 @@
     <ion-item>
       <ion-label class="control-label">Auto Exposure</ion-label>
       <ion-toggle class="toggle" mode="ios" slot="start"
-        [ngModel]="camData.exposureAuto"
+        [ngModel]="camData.exposureAuto" [disabled]="true"
         (ngModelChange)="exposureAutoToggle($event)"></ion-toggle>
     </ion-item>
     <ion-item>
       <ion-label class="control-label">Auto Exposure Priority</ion-label>
       <ion-toggle class="toggle" mode="ios" slot="start"
-        [ngModel]="camData.exposureAutoPriority"
+        [ngModel]="camData.exposureAutoPriority" [disabled]="true"
         (ngModelChange)="autoExposurePriorityToggle($event)"></ion-toggle>
     </ion-item>
-    <ion-range class="slider" pin debounce="300"
+    <ion-range class="slider" pin debounce="300" [disabled]="true"
       (ngModelChange)="updateExposureAbsolute($event)" [disabled]="camData.exposureAuto"
       mode="ios" min="3" max="2047" [ngModel]="camData.exposureAbsolute">
       <ion-label slot="start" class="control-label">Exposure Absolute
@@ -105,11 +105,11 @@
       <ion-label class="control-label">White Balance Temperature Auto
       </ion-label>
       <ion-toggle class="toggle" mode="ios" slot="start"
-        [ngModel]="camData.whiteBalanceAuto"
+        [ngModel]="camData.whiteBalanceAuto" [disabled]="true"
         (ngModelChange)="whiteBalanceAutoToggle($event)"></ion-toggle>
     </ion-item>
     <ion-range class="slider" pin debounce="300"
-      (ngModelChange)="updateWhiteBalanceTemp($event)"
+      (ngModelChange)="updateWhiteBalanceTemp($event)" [disabled]="true"
       [disabled]="camData.whiteBalanceAuto" mode="ios" min="2000" max="6500"
       [ngModel]="camData.whiteBalanceTemp">
       <ion-label class="control-label" slot="start">White Balance Temperature
@@ -127,10 +127,10 @@
     <ion-item>
       <ion-label class="control-label">Backlight Compensation</ion-label>
       <ion-toggle class="toggle" mode="ios" slot="start"
-        [ngModel]="camData.backlightComp"
+        [ngModel]="camData.backlightComp" [disabled]="true"
         (ngModelChange)="backlightCompensationToggle($event)"></ion-toggle>
     </ion-item>
-    <ion-range class="slider" pin debounce="300"
+    <ion-range class="slider" pin debounce="300" [disabled]="true"
       (ngModelChange)="updateTiltAbsolute($event)" mode="ios" step="3600"
       min="-36000" max="36000" [ngModel]="camData.tiltAbsolute">
       <ion-label class="control-label" slot="start">Tilt Absolute</ion-label>
@@ -138,7 +138,7 @@
         <ion-label class="slider-value">{{camData.tiltAbsolute}}</ion-label>
       </div>
     </ion-range>
-    <ion-range class="slider" pin debounce="300"
+    <ion-range class="slider" pin debounce="300" [disabled]="true"
       (ngModelChange)="updateZoomAbsolute($event)" mode="ios" min="100" max="500"
       [ngModel]="camData.zoomAbsolute">
       <ion-label slot="start" class="control-label">Zoom Absolute</ion-label>
@@ -146,7 +146,7 @@
         <ion-label class="slider-value">{{camData.zoomAbsolute}}</ion-label>
       </div>
     </ion-range>
-    <ion-range class="slider" pin debounce="300"
+    <ion-range class="slider" pin debounce="300" [disabled]="true"
       (ngModelChange)="updatePanAbsolute($event)" mode="ios" step="3600"
       min="-36000" max="36000" [ngModel]="camData.panAbsolute">
       <ion-label slot="start" class="control-label">Pan Absolute</ion-label>
@@ -154,7 +154,7 @@
         <ion-label class="slider-value">{{camData.panAbsolute}}</ion-label>
       </div>
     </ion-range>
-    <ion-range class="slider" pin debounce="300" snaps="true"
+    <ion-range class="slider" pin debounce="300" snaps="true" [disabled]="true"
       (ngModelChange)="updatePowerLineFreq($event)" mode="ios" min="0" max="2"
       [ngModel]="camData.powerFreq">
       <ion-label slot="start" class="control-label">Power Line Frequency
@@ -168,7 +168,7 @@
   <div class="control-section">
     <ion-item class="input-item">
       <ion-label class="input-text">Video Length (Seconds):</ion-label>
-      <ion-input class="input-label" [(ngModel)]="videoLength"
+      <ion-input class="input-label" [(ngModel)]="videoLength" 
         inputmode="numeric" (ionBlur)=" updateVideoLength()"></ion-input>
     </ion-item>
     <ion-item>
