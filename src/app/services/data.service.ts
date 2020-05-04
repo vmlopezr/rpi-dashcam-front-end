@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
+import { SERVER_URL } from '../../environments/environment';
 export interface MSHD3000Data {
   brightness: number;
   contrast: number;
@@ -119,6 +120,27 @@ class DataService {
       'Logitech Webcam HD C920': this.updateLogitechC920Data,
       default: this.updateDefaultCamData,
     };
+  }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  retrieveSettingsDataFromDB(): Observable<any> {
+    console.log(SERVER_URL)
+    return this.http.get(
+      // The listed IP address is the wlan0 address of the Raspberry Pi.
+      // 'http://192.168.10.1:50000/app-settings/settings/data',
+
+      // The listed IP is the local address used for development.
+      // 'http://192.168.1.103:50000/app-settings/settings/data',
+      SERVER_URL + '/app-settings/settings/data'
+    );
+  }
+  updateCamera(camera: string): void {
+    const { IPAddress, NodePort } = this.ConfigData;
+    this.ConfigData.camera = camera;
+    this.http
+      .put(`http://${IPAddress}:${NodePort}/app-settings/settings/update`, {
+        camera: camera,
+      })
+      .subscribe();
   }
   getLogitechC920Data = (): void => {
     const { IPAddress, NodePort } = this.ConfigData;
@@ -294,22 +316,6 @@ class DataService {
     } else {
       return this.CameraDefault();
     }
-  }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  retrieveSettingsDataFromDB(): Observable<any> {
-    return this.http.get(
-      'http://192.168.10.1:50000/app-settings/settings/data',
-      // 'http://192.168.1.103:50000/app-settings/settings/data',
-    );
-  }
-  updateCamera(camera: string): void {
-    const { IPAddress, NodePort } = this.ConfigData;
-    this.ConfigData.camera = camera;
-    this.http
-      .put(`http://${IPAddress}:${NodePort}/app-settings/settings/update`, {
-        camera: camera,
-      })
-      .subscribe();
   }
   setData(data: AppSettings): void {
     this.ConfigData = data;
