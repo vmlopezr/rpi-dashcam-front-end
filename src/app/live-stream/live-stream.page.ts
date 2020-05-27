@@ -5,7 +5,8 @@ import { Platform } from '@ionic/angular';
 import { DataService } from '../services/data.service';
 import { AlertController } from '@ionic/angular';
 import * as io from 'socket.io-client';
-
+// Update needed: If accessed directly by url show default image and give message,
+// to enter from the home screen.
 @Component({
   selector: 'app-live-stream',
   templateUrl: './live-stream.page.html',
@@ -32,6 +33,7 @@ export class LiveStreamPage implements OnInit {
     const { IPAddress, NodePort } = this.dataService.getConfigData();
     this.isRecording = this.dataService.getIsRecording();
     this.imgSrc = `http://${IPAddress}:${NodePort}/videos/thumbnail/loading.jpg`;
+    // Allow time for the python script to create and stream the camera feed
     if (this.isRecording) {
       this.timeout = setTimeout(() => {
         this.startSocket();

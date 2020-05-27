@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { RouteReuseStrategy } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
-import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { IonicModule } from '@ionic/angular';
 import { AppComponent } from './app.component';
+import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { AppRoutingModule } from './app-routing.module';
 import { DataService } from './services/data.service';
 import { ErrorLogModalModule } from './home/error-log/ErrorLogModal.module';
@@ -19,7 +19,8 @@ import { ErrorLogModalModule } from './home/error-log/ErrorLogModal.module';
     ErrorLogModalModule,
   ],
   providers: [
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    // { provide: RouteReuseStrategy, useClass: HashLocationStrategy },
+    { provide: LocationStrategy, useClass: HashLocationStrategy },
     DataService,
   ],
   bootstrap: [AppComponent],

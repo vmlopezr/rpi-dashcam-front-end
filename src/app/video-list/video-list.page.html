@@ -1,22 +1,26 @@
 <ion-header>
-  <ion-toolbar class="header" color="primary" mode="ios">
+  <ion-toolbar class="header"
+    color="primary"
+    mode="ios">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/home">
+      <ion-back-button defaultHref=""
+        routerLink="/home"
+        routerDirection="root"
+        text="home"
+        class="ion-text-capitalize">
       </ion-back-button>
     </ion-buttons>
-    <ion-title class="ion-text-center page-title">Video Library</ion-title>
+    <ion-title>Video Library</ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
-  <!-- <div class="image" *ngFor="let file of dirData; trackBy : trackByFn; let i = index" tappable
-    style="font-size:smaller">
-    <app-input-row (deleteEvent)="removeVideo($event)" [data]="file"
-      [index]="i"></app-input-row>
-  </div> -->
-  <ion-virtual-scroll [items]="dirData" approxItemHeight="100px">
-    <div class="image" *virtualItem="let item" style="font-size:smaller">
-      <app-input-row (deleteEvent)="removeVideo($event)" [data]="item">
+  <ion-virtual-scroll [items]="dirData"
+    approxItemHeight="100px">
+    <div class="image"
+      *virtualItem="let item"
+      style="font-size:smaller">
+      <app-input-row (deleteEvent)="removeVideo($event)"
+        [data]="item">
       </app-input-row>
     </div>
   </ion-virtual-scroll>

@@ -28,24 +28,9 @@ export class HomePage implements OnInit {
     this.isRecording = this.dataService.getIsRecording();
 
     this.camList = [
-      'Microsoft LifeCam Cinema',
-      'Microsoft LifeCam HD-5000',
-      'Microsoft LifeCam VX-700',
-      'Microsoft LifeCam Studio',
       'Microsoft LifeCam HD-3000',
-      'Logitech Webcam C200',
-      'Logitech Webcam C210',
-      'Logitech Webcam C250',
-      'Logitech Webcam HD C270',
-      'Logitech Webcam HD C310',
-      'Logitech Webcam C600',
-      'Logitech Webcam HD C525',
-      'Logitech Webcam HD C615',
-      'Logitech Webcam C905',
-      'Logitech Webcam HD C910',
       'Logitech Webcam HD C920',
-      'Logitech Quickcam Pro 5000',
-      'Logitech Quickcam Pro 9000',
+      'Default UVC Camera',
     ];
   }
   ionViewWillEnter(): void {

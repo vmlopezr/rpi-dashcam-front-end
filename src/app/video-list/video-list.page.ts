@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DataService } from '../services/data.service';
 
@@ -11,7 +11,11 @@ export class VideoListPage implements OnInit {
   dirData: string[];
   storageDirectory = '';
 
-  constructor(private http: HttpClient, private dataService: DataService) {
+  constructor(
+    private http: HttpClient,
+    private dataService: DataService,
+    private zone: NgZone,
+  ) {
     const cache = localStorage.getItem('dirData');
     if (cache) {
       this.dirData = JSON.parse(cache);
@@ -27,8 +31,11 @@ export class VideoListPage implements OnInit {
     return index;
   }
   removeVideo(item): void {
-    console.log('deleting ' + item);
-    this.dirData = this.dirData.filter(file => file !== item);
+    // Run zone for change detection as a item is deleted in the virtual scroll
+    this.zone.run(() => {
+      this.dirData.splice(this.dirData.indexOf(item), 1);
+      this.dirData = [...this.dirData];
+    });
   }
   getDirs(): void {
     const { IPAddress, NodePort } = this.dataService.getConfigData();
