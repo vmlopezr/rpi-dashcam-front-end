@@ -14,7 +14,9 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
+
   <ion-virtual-scroll [items]="dirData"
+    [trackBy]="trackByFn"
     approxItemHeight="100px">
     <div class="image"
       *virtualItem="let item"

@@ -1,116 +1,32 @@
-$main-bg-color: #e0d9d9;
-
 .camera-stream {
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: #000;
   min-height: 300px;
+  flex: 1;
   @media (orientation: landscape) {
     height: 100%;
     width: 100%;
   }
 }
+ion-content {
+  flex: 2;
+}
 ion-spinner {
   --color: #6ecbf7;
 }
-.control-section {
-  background: $main-bg-color;
-  border-bottom: 1px;
-  border-top: 0px;
-  border-left: 0px;
-  border-right: 0px;
-  border-color: rgb(185, 185, 185);
-  border-style: solid;
-}
-.card-header {
-  display: flex;
-  position: relative;
-  background: $main-bg-color;
-}
 
-.info-icon {
-  position: absolute;
-  top: 0px;
-  right: 4%;
-  margin: 0;
-  padding: 0;
-}
-.p-text {
-  color: black;
-  background: $main-bg-color;
-  margin: 0;
-  padding-bottom: 8px;
-  padding-left: 16px;
-}
-.slider {
-  margin-left: 0px;
-  --knob-background: #e0e0e0;
-  --bar-background-active: #1aafb4;
-  --bar-background: #3a2a2a;
-  --bar-height: 3px;
-  --knob-size: 15px;
-  --knob-border-radius: 50%;
-  --bar-border-radius: 20px;
-  --knob-box-shadow: 0px 0px 0px 1px rgb(0, 0, 0);
-  padding-top: 5px;
-  padding-bottom: 5px;
-}
-.control-label {
-  width: 95px;
-  word-wrap: break-word;
-  font-size: 16px;
-}
-.slider-value-container {
-  width: 15%;
-  text-align: center;
-}
-.slider-value {
-  --color: #ff0404;
-}
-.toggle {
-  --background: $main-bg-color;
-  --background-checked: #1aafb4 !important;
-  --handle-background-checked: rgb(245, 245, 245) !important;
-  border: 0px;
-}
-.input-label {
-  --background: $main-bg-color;
-  padding: 1px;
-}
-.input-text {
-  padding: 5px;
-  font-weight: bold;
-  font-size: 16px;
-  color: black;
-}
-.input-item {
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  background-color: $main-bg-color;
-}
-.reset-button {
-  margin-left: 7px;
-  margin-right: 7px;
-  padding-bottom: 5px;
-  display: block !important;
-  --background: #2d0d8f;
-}
 .container {
   height: 100%;
   width: 100%;
+  display: flex;
+  flex-direction: column;
 }
-ion-label {
-  --color: #0000ff;
-}
-ion-item {
-  --border-width: 0px;
-  --border-style: none;
-  --background: $main-bg-color;
-}
-@media (min-width: 900px) {
+
+@media (min-width: 800px) {
   .camera-stream {
+    flex: 3;
     width: 60%;
     height: 100%;
     padding: 20px;
@@ -118,5 +34,8 @@ ion-item {
   .container {
     display: flex;
     flex-direction: row;
+  }
+  ion-content {
+    height: 100vh;
   }
 }

@@ -13,13 +13,13 @@ import { ErrorLogModalModule } from './home/error-log/ErrorLogModal.module';
   entryComponents: [],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(),
+    IonicModule,
     AppRoutingModule,
     HttpClientModule,
     ErrorLogModalModule,
   ],
   providers: [
-    // { provide: RouteReuseStrategy, useClass: HashLocationStrategy },
+    // { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     DataService,
   ],

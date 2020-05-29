@@ -4,7 +4,6 @@ import { MSHD3000Data } from '../../../services/data.service';
 @Component({
   selector: 'MSHD3000',
   templateUrl: './MSHD3000.component.html',
-  styleUrls: ['./MSHD3000.component.scss'],
 })
 export class MSHD3000 implements OnInit {
   @Output() sendCameraSettings = new EventEmitter<string>();

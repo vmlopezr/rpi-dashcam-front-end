@@ -1,17 +1,26 @@
 <ion-header>
-  <ion-toolbar class="header" color="primary">
+  <ion-toolbar class="header"
+    color="primary">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/video-list" (click)="onExit()"></ion-back-button>
+      <ion-back-button defaultHref="/video-list"
+        class="ion-text-capitalize"
+        routerDirection="root"
+        (click)="onExit()"
+        text="back"></ion-back-button>
     </ion-buttons>
-
   </ion-toolbar>
 </ion-header>
 <ion-content>
   <div class="page-centered-element">
     <div class="content">
-      <video *ngIf="showVideo" width="350" height="300" controls
-        pleload="metadata" autoplay="">
-        <source src="{{ getVideoPath() }}" type="video/mp4" />
+      <video *ngIf="showVideo"
+        width="350"
+        height="300"
+        controls
+        pleload="metadata"
+        autoplay="">
+        <source src="{{ getVideoPath() }}"
+          type="video/mp4" />
       </video>
     </div>
   </div>

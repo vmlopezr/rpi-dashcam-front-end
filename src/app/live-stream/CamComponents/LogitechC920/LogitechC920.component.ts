@@ -4,7 +4,6 @@ import { LogitechC920Data, DataService } from '../../../services/data.service';
 @Component({
   selector: 'LogitechC920',
   templateUrl: './LogitechC920.component.html',
-  styleUrls: ['./LogitechC920.component.scss'],
 })
 export class LogitechC920 implements OnInit {
   @Output() sendCameraSettings = new EventEmitter<string>();
@@ -62,10 +61,10 @@ export class LogitechC920 implements OnInit {
       backlight_compensation=${this.camData.backlightComp},` +
       this.getExposure() +
       `exposure_auto_priority=${this.camData.exposureAutoPriority},
-      pan_absolute=${this.camData.panAbsolute},
-      tilt_absolute=${this.camData.tiltAbsolute},` +
+      pan_absolute=${this.camData.panAbsolute * 3600},
+      tilt_absolute=${this.camData.tiltAbsolute * 3600},` +
       this.getFocus() +
-      `zoom_absolute=${this.camData.zoomAbsolute}`;
+      `zoom_absolute=${this.camData.zoomAbsolute * 4 + 100}`;
 
     const settingsCommand =
       `v4l2-ctl -d ${Device} --set-ctrl ` + settings.replace(/\s/g, '');
@@ -113,84 +112,77 @@ export class LogitechC920 implements OnInit {
     }
   }
   updateSharpness(newValue: number): void {
-    if (newValue !== this.camData.sharpness) {
-      const { Device } = this.dataService.getConfigData();
-      this.camData.sharpness = newValue;
-      const settings = `sharpness=${this.camData.sharpness}`;
-      const settingsCommand = `v4l2-ctl -d ${Device} --set-ctrl ${settings}`;
-      this.sendCameraSettings.emit(settingsCommand);
-      this.dataService.setCamData(this.camData);
-    }
+    if (newValue === this.camData.sharpness) return;
+    const { Device } = this.dataService.getConfigData();
+    this.camData.sharpness = newValue;
+    const settings = `sharpness=${this.camData.sharpness}`;
+    const settingsCommand = `v4l2-ctl -d ${Device} --set-ctrl ${settings}`;
+    this.sendCameraSettings.emit(settingsCommand);
+    this.dataService.setCamData(this.camData);
   }
   updateFocusAbsolute(newValue: number): void {
-    if (newValue !== this.camData.focusAbsolute) {
-      const { Device } = this.dataService.getConfigData();
-      this.camData.focusAbsolute = newValue;
-      const settings = `focus_absolute=${this.camData.focusAbsolute}`;
-      const settingsCommand = `v4l2-ctl -d ${Device} --set-ctrl ${settings}`;
-      this.sendCameraSettings.emit(settingsCommand);
-      this.dataService.setCamData(this.camData);
-    }
+    if (newValue === this.camData.focusAbsolute) return;
+    const { Device } = this.dataService.getConfigData();
+    this.camData.focusAbsolute = newValue;
+    const settings = `focus_absolute=${(newValue * 2.5).toFixed(0)}`;
+    const settingsCommand = `v4l2-ctl -d ${Device} --set-ctrl ${settings}`;
+    this.sendCameraSettings.emit(settingsCommand);
+    this.dataService.setCamData(this.camData);
   }
   updateExposureAbsolute(newValue: number): void {
-    if (newValue !== this.camData.exposureAbsolute) {
-      const { Device } = this.dataService.getConfigData();
-      this.camData.exposureAbsolute = newValue;
-      const settings = `exposure_absolute=${this.camData.exposureAbsolute}`;
-      const settingsCommand = `v4l2-ctl -d ${Device} --set-ctrl ${settings}`;
-      this.sendCameraSettings.emit(settingsCommand);
-      this.dataService.setCamData(this.camData);
-    }
+    if (newValue === this.camData.exposureAbsolute) return;
+    const { Device } = this.dataService.getConfigData();
+    this.camData.exposureAbsolute = newValue;
+    const settings = `exposure_absolute=${(newValue * 20.44 + 3).toFixed(0)}`;
+    const settingsCommand = `v4l2-ctl -d ${Device} --set-ctrl ${settings}`;
+    this.sendCameraSettings.emit(settingsCommand);
+    this.dataService.setCamData(this.camData);
   }
   updateWhiteBalanceTemp(newValue: number): void {
     if (newValue !== this.camData.whiteBalanceTemp) {
       const { Device } = this.dataService.getConfigData();
       this.camData.whiteBalanceTemp = newValue;
-      const settings = `white_balance_temperature=${this.camData.whiteBalanceTemp}`;
+      const settings = `white_balance_temperature=${newValue * 45 + 2000}`;
       const settingsCommand = `v4l2-ctl -d ${Device} --set-ctrl ${settings}`;
       this.sendCameraSettings.emit(settingsCommand);
       this.dataService.setCamData(this.camData);
     }
   }
   updateTiltAbsolute(newValue: number): void {
-    if (newValue !== this.camData.tiltAbsolute) {
-      const { Device } = this.dataService.getConfigData();
-      this.camData.tiltAbsolute = newValue;
-      const settings = `tilt_absolute=${this.camData.tiltAbsolute}`;
-      const settingsCommand = `v4l2-ctl -d ${Device} --set-ctrl ${settings}`;
-      this.sendCameraSettings.emit(settingsCommand);
-      this.dataService.setCamData(this.camData);
-    }
+    if (newValue === this.camData.tiltAbsolute) return;
+    const { Device } = this.dataService.getConfigData();
+    this.camData.tiltAbsolute = newValue;
+    const settings = `tilt_absolute=${newValue * 3600}`;
+    const settingsCommand = `v4l2-ctl -d ${Device} --set-ctrl ${settings}`;
+    this.sendCameraSettings.emit(settingsCommand);
+    this.dataService.setCamData(this.camData);
   }
   updateZoomAbsolute(newValue: number): void {
-    if (newValue !== this.camData.zoomAbsolute) {
-      const { Device } = this.dataService.getConfigData();
-      this.camData.zoomAbsolute = newValue;
-      const settings = `zoom_absolute=${this.camData.zoomAbsolute}`;
-      const settingsCommand = `v4l2-ctl -d ${Device} --set-ctrl ${settings}`;
-      this.sendCameraSettings.emit(settingsCommand);
-      this.dataService.setCamData(this.camData);
-    }
+    if (newValue === this.camData.zoomAbsolute) return;
+    const { Device } = this.dataService.getConfigData();
+    this.camData.zoomAbsolute = newValue;
+    const settings = `zoom_absolute=${(newValue * 4 + 100).toFixed(0)}`;
+    const settingsCommand = `v4l2-ctl -d ${Device} --set-ctrl ${settings}`;
+    this.sendCameraSettings.emit(settingsCommand);
+    this.dataService.setCamData(this.camData);
   }
   updatePanAbsolute(newValue: number): void {
-    if (newValue !== this.camData.panAbsolute) {
-      const { Device } = this.dataService.getConfigData();
-      this.camData.panAbsolute = newValue;
-      const settings = `pan_absolute=${this.camData.panAbsolute}`;
-      const settingsCommand = `v4l2-ctl -d ${Device} --set-ctrl ${settings}`;
-      this.sendCameraSettings.emit(settingsCommand);
-      this.dataService.setCamData(this.camData);
-    }
+    if (newValue === this.camData.panAbsolute) return;
+    const { Device } = this.dataService.getConfigData();
+    this.camData.panAbsolute = newValue;
+    const settings = `pan_absolute=${this.camData.panAbsolute * 3600}`;
+    const settingsCommand = `v4l2-ctl -d ${Device} --set-ctrl ${settings}`;
+    this.sendCameraSettings.emit(settingsCommand);
+    this.dataService.setCamData(this.camData);
   }
   updatePowerLineFreq(newValue: number): void {
-    if (newValue !== this.camData.powerFreq) {
-      const { Device } = this.dataService.getConfigData();
-      this.camData.powerFreq = newValue;
-      const settings = `power_line_frequency=${this.camData.powerFreq}`;
-      const settingsCommand = `v4l2-ctl -d ${Device} --set-ctrl ${settings}`;
-      this.sendCameraSettings.emit(settingsCommand);
-      this.dataService.setCamData(this.camData);
-    }
+    if (newValue === this.camData.powerFreq) return;
+    const { Device } = this.dataService.getConfigData();
+    this.camData.powerFreq = newValue;
+    const settings = `power_line_frequency=${this.camData.powerFreq}`;
+    const settingsCommand = `v4l2-ctl -d ${Device} --set-ctrl ${settings}`;
+    this.sendCameraSettings.emit(settingsCommand);
+    this.dataService.setCamData(this.camData);
   }
   getBackLightComp(): number {
     return this.camData.backlightComp ? 1 : 0;
@@ -198,17 +190,18 @@ export class LogitechC920 implements OnInit {
   getWhiteBalance(): string {
     return this.camData.whiteBalanceAuto
       ? ``
-      : `white_balance_temperature=${this.camData.whiteBalanceTemp},`;
+      : `white_balance_temperature=${this.camData.whiteBalanceTemp * 45 +
+          2000},`;
   }
   getFocus(): string {
     return this.camData.focusAuto
       ? ``
-      : `focus_absolute=${this.camData.focusAbsolute},`;
+      : `focus_absolute=${this.camData.focusAbsolute * 2.5},`;
   }
   getExposure(): string {
     return this.camData.exposureAuto
       ? ``
-      : `exposure_absolute=${this.camData.exposureAbsolute},`;
+      : `exposure_absolute=${this.camData.exposureAbsolute * 20.44 + 3},`;
   }
   rotateVideoStream(toggle: boolean): void {
     if ((toggle ? 1 : 0) !== this.camData.verticalFlip) {

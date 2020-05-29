@@ -47,23 +47,6 @@ export interface LogitechC920Data {
   verticalFlip: number;
 }
 export interface DefaultCamData {
-  brightness: number;
-  contrast: number;
-  saturation: number;
-  gain: number;
-  whiteBalanceTemp: number;
-  sharpness: number;
-  exposureAbsolute: number;
-  panAbsolute: number;
-  tiltAbsolute: number;
-  focusAbsolute: number;
-  zoomAbsolute: number;
-  powerFreq: number;
-  exposureAuto: number;
-  whiteBalanceAuto: number;
-  exposureAutoPriority: number;
-  focusAuto: number;
-  backlightComp: number;
   videoLength: number;
   verticalFlip: number;
 }
@@ -123,14 +106,14 @@ class DataService {
   }
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   retrieveSettingsDataFromDB(): Observable<any> {
-    console.log(SERVER_URL)
+    console.log(SERVER_URL);
     return this.http.get(
       // The listed IP address is the wlan0 address of the Raspberry Pi.
       // 'http://192.168.10.1:50000/app-settings/settings/data',
 
       // The listed IP is the local address used for development.
       // 'http://192.168.1.103:50000/app-settings/settings/data',
-      SERVER_URL + '/app-settings/settings/data'
+      SERVER_URL + '/app-settings/settings/data',
     );
   }
   updateCamera(camera: string): void {
@@ -233,7 +216,6 @@ class DataService {
   }
   setCamData(camData: LogitechC920Data | MSHD3000Data | DefaultCamData): void {
     this.camData = camData;
-    console.log(camData);
   }
   getData(): LogitechC920Data | MSHD3000Data | DefaultCamData {
     return this.camData;
@@ -244,9 +226,9 @@ class DataService {
       contrast: 128,
       saturation: 128,
       gain: 0,
-      whiteBalanceTemp: 4000,
+      whiteBalanceTemp: 44,
       sharpness: 128,
-      exposureAbsolute: 250,
+      exposureAbsolute: 12,
       panAbsolute: 0,
       tiltAbsolute: 0,
       focusAbsolute: 0,
@@ -263,23 +245,6 @@ class DataService {
   }
   CameraDefault(): Partial<LogitechC920Data> {
     return {
-      brightness: 128,
-      contrast: 128,
-      saturation: 128,
-      gain: 0,
-      whiteBalanceTemp: 4000,
-      sharpness: 128,
-      exposureAbsolute: 250,
-      panAbsolute: 0,
-      tiltAbsolute: 0,
-      focusAbsolute: 0,
-      zoomAbsolute: 100,
-      powerFreq: 2,
-      whiteBalanceAuto: 1,
-      exposureAuto: 1,
-      exposureAutoPriority: 0,
-      focusAuto: 1,
-      backlightComp: 1,
       verticalFlip: 0,
       videoLength: 30,
     };

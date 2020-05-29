@@ -151,7 +151,7 @@ export class LiveStreamPage implements OnInit {
 
   sendCameraSettings(event: string): void {
     const { IPAddress, NodePort } = this.dataService.getConfigData();
-    console.log(event);
+
     if (this.isRecording) {
       this.http
         .post(`http://${IPAddress}:${NodePort}/livestream/CamSettings/`, {
