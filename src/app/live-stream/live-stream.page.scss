@@ -24,18 +24,15 @@ ion-spinner {
   flex-direction: column;
 }
 
-@media (min-width: 800px) {
+@media (min-width: 900px) {
   .camera-stream {
     flex: 3;
     width: 60%;
     height: 100%;
-    padding: 20px;
   }
   .container {
     display: flex;
     flex-direction: row;
-  }
-  ion-content {
-    height: 100vh;
+    height: 100%;
   }
 }

@@ -5,7 +5,6 @@ import { DataService } from '../services/data.service';
 @Component({
   selector: 'app-video-list',
   templateUrl: './video-list.page.html',
-  styleUrls: ['./video-list.page.scss'],
 })
 export class VideoListPage implements OnInit {
   dirData: string[];
@@ -20,11 +19,10 @@ export class VideoListPage implements OnInit {
     if (cache) {
       this.dirData = JSON.parse(cache);
     }
-    console.log('video list constructor');
   }
   ngOnInit(): void {
+    // on gh-pages branch, give dummy array and link to sample video
     this.getDirs();
-    console.log('list on init');
   }
   addRow(): void {
     this.dirData.push('new');

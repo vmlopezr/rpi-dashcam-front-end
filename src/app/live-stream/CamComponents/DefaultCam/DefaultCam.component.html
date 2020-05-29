@@ -1,27 +1,23 @@
-<div class="container">
+<div class="cam-config-container">
   <div class="control-section">
     <h1 class="heading-text">{{camera + ' Settings'}}</h1>
-
-    <div class="control-section">
-      <ion-item class="input-item">
-        <ion-label class="input-text">Video Length (Seconds):</ion-label>
-        <ion-input class="input-label"
-          [(ngModel)]="videoLength"
-          inputmode="numeric"
-          (ionBlur)=" updateVideoLength()"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label>Rotate Camera Stream</ion-label>
-        <ion-toggle class="toggle"
-          mode="ios"
-          slot="start"
-          [ngModel]="camData.verticalFlip"
-          (ngModelChange)="rotateVideoStream($event)"></ion-toggle>
-      </ion-item>
-      <ion-button class="reset-button"
-        mode="ios"
-        (click)="setDefault()">
-        <ion-label>Reset Defaults</ion-label>
-      </ion-button>
-    </div>
+    <ion-item class="input-item">
+      <ion-label class="input-text">Video Length (Seconds):</ion-label>
+      <ion-input [(ngModel)]="videoLength"
+        placeholder="Enter the video length..."
+        inputmode="numeric"
+        (ionBlur)=" updateVideoLength()"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Rotate Camera Stream</ion-label>
+      <ion-toggle mode="ios"
+        slot="start"
+        [ngModel]="camData.verticalFlip"
+        (ngModelChange)="rotateVideoStream($event)"></ion-toggle>
+    </ion-item>
+    <ion-button mode="ios"
+      (click)="setDefault()">
+      Reset Defaults
+    </ion-button>
   </div>
+</div>

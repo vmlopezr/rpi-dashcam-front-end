@@ -1,60 +1,24 @@
-
-.header {
-	--ion-color-primary: #353d55;
-	--border-color: #222;
-	--border-width: 1px 0px;
-	--border-style: solid;
-	width: 100vw;
-}
-.page-title {
-	font-size: 20px;
-	color: #fcfcfc;
-}
 ion-icon {
-	zoom: 2.0;
-	color: #fff;
-	margin: 0px;
-	padding: 0px;
+  zoom: 2;
+  color: #fff;
+  margin: 0px;
+  padding: 0px;
 }
 ion-button ion-label {
-	color: #fff;
-	font-weight: bold;
-}
-.tableHeader {
-	background-color: lightgray;
-	padding-top: 10px;
-	padding-bottom: 10px;
-	padding-left: 5px;
-	padding-right: 0px;
-	flex-grow: 1;
-}
-.tableCell {
-	padding-top: 5px; 
-	padding-left: 5px;
-	border-bottom: 0.5px solid rgb(175, 175, 175);
-	flex-grow: 1;
-	padding-bottom: 10px;
+  color: #fff;
+  font-weight: bold;
 }
 
 ion-row {
-	flex-grow: 1;
-	word-wrap: break-word;
-	font-size:0.8em;
-	font-weight:300;
+  flex-grow: 1;
+  word-wrap: break-word;
+  font-size: 0.8em;
+  font-weight: 300;
 }
-.horizontalScroll {
-	overflow-x: scroll;
-	overflow-y: hidden;
-	white-space: nowrap;
-}
+
 ion-grid {
-	min-width: 1000px;
-	height: 100%;  
-	flex-flow: column;
-	--ion-grid-padding: 0px;
-}
-ion-content {
-	--ion-background-color: #fff;
-	width: 100vw;
-	padding-top: 10px;
+  min-width: 1000px;
+  height: 100%;
+  flex-flow: column;
+  --ion-grid-padding: 0px;
 }

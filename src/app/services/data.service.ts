@@ -78,8 +78,10 @@ class DataService {
   private getCameraData: GetFunctions;
   private updateCameraData: UpdateFunctions;
   private errorLogs: ErrorLog[];
+  private theme: string;
   constructor(private http: HttpClient) {
     this.isRecording = false;
+    this.theme = 'sunny';
     this.initializeCamFunctionLists();
   }
   retrieveCamDataFromDB(camera: string): void {
@@ -106,7 +108,6 @@ class DataService {
   }
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   retrieveSettingsDataFromDB(): Observable<any> {
-    console.log(SERVER_URL);
     return this.http.get(
       // The listed IP address is the wlan0 address of the Raspberry Pi.
       // 'http://192.168.10.1:50000/app-settings/settings/data',
@@ -148,6 +149,12 @@ class DataService {
       .subscribe((data: DefaultCamData) => {
         this.camData = data;
       });
+  };
+  getTheme = (): string => {
+    return this.theme;
+  };
+  setTheme = (theme: string): void => {
+    this.theme = theme;
   };
   updateCameraDataDB(): void {
     const camera = this.ConfigData.camera;
@@ -256,11 +263,11 @@ class DataService {
       saturation: 83,
       whiteBalanceAuto: 1,
       powerFreq: 2,
-      whiteBalanceTemp: 4500,
+      whiteBalanceTemp: 23,
       sharpness: 25,
       backlightComp: 0,
       exposureAuto: 1,
-      exposureAbsolute: 156,
+      exposureAbsolute: 3,
       panAbsolute: 0,
       tiltAbsolute: 0,
       zoomAbsolute: 0,

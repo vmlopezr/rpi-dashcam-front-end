@@ -24,22 +24,334 @@
 @import '~@ionic/angular/css/text-alignment.css';
 @import '~@ionic/angular/css/text-transformation.css';
 @import '~@ionic/angular/css/flex-utils.css';
-
+body {
+  font-family: 'Roboto';
+}
+:root {
+  --background-color: #181818;
+  --toggle-background: #383838;
+  --toggle-background-checked: #1ab474;
+  --knob-bg: #979797;
+  --range-background-disabled: #838383;
+  --range-background: #0c0c0c75;
+  --range-background-active: #1480fba2;
+  --input-background: #0c0c0c75;
+  --input-border-color: transparent;
+  --heading-font-color: #d4d4d4;
+  --font-color: #c5c5c5;
+  --control-section-bg: #5c5b5b;
+  --control-section-border: #4b4b4b;
+  --button-bg: #1480fba2;
+  --button-bg-hover: #1480fb6e;
+  --button-bg-activated: #568bc0b2;
+  --button-color: #d8dde2;
+  --video-bg-options: #424242;
+  --menu-label-hover-bg: #b1b1b1;
+  --font-hover: #4b4b4b;
+  --header-color: #0b151db9;
+  --image-background: #858080;
+  --table-header: #3a3535;
+  --table-row-bg: #5e5d5d;
+}
 ion-back-button {
   padding: 0px 5px;
   color: #f7f7f7;
 }
 ion-header {
-  height: 50px;
+  height: 44px;
+  ion-title {
+    height: 44px;
+    font-size: 30px;
+  }
+  ion-button {
+    height: 38px !important;
+  }
 }
 ion-toolbar {
-  --ion-color-primary: #353d55;
-  --border-color: #797979;
-  --border-width: 1px;
-  height: 100%;
-  --border-color: #353d55;
+  --ion-color-primary: var(--header-color);
+  --border-width: 0px;
+  height: 44px;
+  --border-color: transparent;
 }
 
+ion-content {
+  --background: var(--background-color);
+}
+/* Configuration for the home page */
+.buttonContainer {
+  border-color: var(--font-color);
+  ion-button {
+    display: block;
+    text-align: center;
+    --background: var(--control-section-bg);
+    --color: var(--font-color);
+    --color-hover: var(--font-hover);
+    --border-width: 1px;
+    --border-color: var(--control-section-border);
+    --background-hover: var(--menu-label-hover-bg);
+    --background-activated: var(--menu-label-hover-bg);
+    --background-activated-opacity: 0.5;
+    --border-style: solid;
+    --border-radius: 0px;
+    margin: 20px auto;
+  }
+  ion-button.button-disabled {
+    --background: rgb(189, 189, 189);
+    --color: #7a7a7a;
+  }
+}
+.camera-image-container {
+  margin: 20px 20%;
+  min-height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--image-background);
+}
+.cam-select {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  --border-width: 1px;
+  --border-color: var(--control-section-border);
+  --background: var(--control-section-bg);
+  --background-hover: var(--menu-label-hover-bg);
+  --color: var(--font-color);
+  --color-hover: var(--font-hover);
+  ion-label {
+    min-width: 25%;
+  }
+  ion-select {
+    min-width: 75%;
+    text-align: right;
+    font-size: 15px;
+  }
+}
+/* Configuration for the error log modal */
+.horizontalScroll {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+  background-color: var(--table-row-bg);
+  div {
+    color: var(--font-color);
+  }
+}
+.tableHeader {
+  background-color: var(--table-header);
+  font-weight: 600;
+  font-size: 18px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 5px;
+  padding-right: 0px;
+  flex-grow: 1;
+}
+.tableCell {
+  padding-top: 5px;
+  padding-left: 5px;
+  font-size: 15px;
+  border-bottom: 0.5px solid var(--font-color);
+  flex-grow: 1;
+  padding-bottom: 10px;
+}
+/* Configuration for the video list page */
+.video-item {
+  background-color: var(--control-section-bg);
+
+  padding: 10px;
+  margin: 15px 10px;
+  .title {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--heading-font-color);
+  }
+  .sub-title {
+    font-size: 17px;
+    color: var(--font-color);
+  }
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0px;
+    top: 30px;
+    background-color: var(--video-bg-options);
+    border: 0.5px solid var(--font-color);
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 6;
+  }
+  .dropdown-content .menu-label:hover {
+    background-color: var(--menu-label-hover-bg);
+    color: var(--font-hover);
+    ion-icon {
+      color: var(--font-hover);
+    }
+  }
+  .iconContainer:hover .icon {
+    background-color: var(--menu-label-hover-bg);
+    color: var(--font-hover);
+    ion-icon {
+      color: var(--font-hover);
+    }
+  }
+  ion-icon {
+    color: var(--font-color);
+  }
+  .dropdown-content .menu-label {
+    color: var(--font-color);
+    padding: 12px 16px;
+    min-height: 35px;
+    text-decoration: none;
+    width: 100%;
+    position: relative;
+  }
+}
+/* Configuration for the live stream page */
+.cam-config-container {
+  padding: 10px;
+}
+.range-pin {
+  color: #fff;
+  --pin-color: #fff;
+}
+.control-section {
+  background: var(--control-section-bg);
+  font-family: 'Roboto';
+  margin-top: 10px;
+  padding: 10px 0px;
+  border: 1px solid var(--control-section-border);
+  border-radius: 10px;
+  .heading-text {
+    color: var(--heading-font-color);
+    font-size: 20px;
+    text-align: start;
+    vertical-align: middle;
+    padding-top: 7px;
+    padding-bottom: 8px;
+    padding-left: 16px;
+    font-weight: 400;
+    margin: 0;
+  }
+  p {
+    color: var(--font-color);
+    padding-left: 16px;
+    margin: 0px;
+  }
+
+  ion-range {
+    margin-left: 0px;
+    --knob-background: #ffffff;
+    --bar-background-active: var(--range-background-active);
+    --bar-background: var(--range-background);
+    --border-color: var(--font-color);
+    --bar-height: 15px;
+    --knob-size: 20px;
+    --knob-border-radius: 3px;
+    --knob-box-shadow: 0 0 0 1px var(--font-color);
+    --bar-border-radius: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    --pin-background: rgb(134, 8, 8) portant;
+    --pin-color: red !important;
+    // .button {
+    //   border: 1px solid #000;
+    // }
+  }
+  ion-range.range-disabled {
+    --knob-background: var(--knob-bg);
+    --bar-background-active: var(--range-background-disabled);
+    --bar-background: var(--range-background-disabled);
+    --knob-box-shadow: 0 0 0 1px var(--knob-bg);
+  }
+  ion-range:hover {
+    // opacity: 0.8;
+    --knob-background: rgb(160, 160, 160);
+  }
+  .slider-value-container {
+    width: 10%;
+    text-align: center;
+  }
+  ion-label {
+    width: 28%;
+    word-wrap: break-word;
+    font-size: 14px;
+    color: var(--font-color) !important;
+  }
+  ion-toggle {
+    --background-checked: var(--toggle-background-checked);
+    --background: var(--toggle-background);
+    box-sizing: border-box;
+  }
+
+  .exposure-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  ion-input {
+    border: 1px solid var(--input-border-color);
+    padding: 1px;
+    --background: var(--input-background);
+    border-radius: 10px;
+    text-align: right;
+    --padding-end: 10px;
+    --color: var(--font-color);
+    --highlight-color-focused: red !important;
+  }
+
+  .input-text {
+    width: auto;
+    padding: 5px;
+    font-weight: bold;
+    color: var(--font-color);
+  }
+
+  ion-button {
+    display: block;
+    margin: 0px 15px;
+    --background: var(--button-bg);
+    --background-hover: var(--button-bg-hover);
+    --background-activated: var(--button-bg-activated);
+    --background-activated-opacity: 0.5;
+    --border-radius: 10px;
+    --color: var(--button-color);
+    --border-width: 1px;
+    --border-style: solid;
+    --border-color: transparent;
+  }
+
+  ion-item {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    --background: var(--control-section-bg);
+    --border-width: 0px;
+    --border-style: none;
+    --border-color: transparent;
+    --highlight-background: none !important;
+  }
+}
+ion-alert {
+  --background: var(--control-section-bg) !important;
+  --color: var(--font-color) !important;
+  --ion-text-color: var(--font-color);
+  button {
+    color: var(--font-color) !important;
+    border: 1px solid white;
+  }
+  .alert-message {
+    color: #ddd;
+  }
+}
+ion-content::-webkit-scrollbar {
+  width: 5px;
+  background-color: red;
+}
+ion-content::-webkit-scrollbar-thumb {
+  background-color: #ff0000;
+}
 @media only screen and (orientation: landscape) {
   .my-modal {
     .modal-wrapper {
@@ -52,103 +364,13 @@ ion-toolbar {
     }
   }
 }
-
-$background-color: #a3b8bd;
-$toggle-background: #a0a0a0;
-$toggle-background-checked: #70d9ff;
-$input-background: #c4dfe6;
-$font-color: #ffffff;
-$button-color: rgb(40, 23, 105);
-.control-section {
-  background: $background-color;
-  font-family: 'Segoe UI';
-
-  .heading-text {
-    color: $font-color;
-    font-size: 20px;
-    text-align: start;
-    vertical-align: middle;
-    padding-top: 7px;
-    padding-bottom: 8px;
-    padding-left: 16px;
-    font-weight: 900;
-    margin: 0;
-  }
-
-  p {
-    color: $font-color;
-    padding-left: 16px;
-    margin: 0px;
-  }
-
-  ion-range {
-    margin-left: 0px;
-    --knob-background: #ffffff;
-    --bar-background-active: #1aafb4;
-    --bar-background: #3a2a2a;
-    --bar-height: 10px;
-    --knob-size: 15px;
-    --knob-border-radius: 3px;
-    --bar-border-radius: 20px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-  }
-
-  .slider-value-container {
-    width: 15%;
-    text-align: center;
-  }
-
-  ion-toggle {
-    --background-checked: #{$toggle-background-checked};
-    --background: #{$toggle-background};
-    box-sizing: border-box;
-  }
-
-  .exposure-container {
-    display: flex;
-    flex-direction: column;
-  }
-
-  ion-input {
-    border: 1px solid rgb(148, 154, 156);
-    padding: 1px;
-    background-color: $input-background;
-    border-radius: 10px;
-  }
-
-  .input-text {
-    width: auto;
-    padding: 5px;
-    font-weight: bold;
-    color: $font-color;
-  }
-
-  ion-label {
-    width: 95px;
-    word-wrap: break-word;
-    font-size: 14px;
-    color: #{$font-color} !important;
-  }
-
-  .reset-button {
-    margin-left: 7px;
-    margin-right: 7px;
-    padding-bottom: 5px;
-    display: block !important;
-    --background: #{$button-color};
-  }
-
-  ion-item {
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    --background: #{$background-color};
-    --border-width: 0px;
-    --border-style: none;
+@media (min-width: 900px) {
+  .video-item {
+    margin: 15px 20%;
   }
 }
-@media (min-width: 800px) {
+
+@media (min-width: 1000px) {
   .control-section {
     .heading-text {
       font-size: 26px;
@@ -164,7 +386,12 @@ $button-color: rgb(40, 23, 105);
       }
     }
   }
-  ion-content {
-    --background: #{$background-color};
+  .buttonContainer {
+    ion-button {
+      margin: 20px 20%;
+    }
+  }
+  .cam-select {
+    margin: 20px 20%;
   }
 }

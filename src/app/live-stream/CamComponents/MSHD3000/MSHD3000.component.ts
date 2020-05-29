@@ -47,8 +47,8 @@ export class MSHD3000 implements OnInit {
       sharpness=${this.camData.sharpness},
       backlight_compensation=${this.camData.backlightComp},` +
       this.getExposure() +
-      `pan_absolute=${this.camData.panAbsolute},
-      tilt_absolute=${this.camData.tiltAbsolute},` +
+      `pan_absolute=${this.camData.panAbsolute * 3600},
+      tilt_absolute=${this.camData.tiltAbsolute * 3600},` +
       `zoom_absolute=${this.camData.zoomAbsolute}`;
 
     const settingsCommand =
@@ -100,7 +100,9 @@ export class MSHD3000 implements OnInit {
     if (newValue !== this.camData.exposureAbsolute) {
       const { Device } = this.dataService.getConfigData();
       this.camData.exposureAbsolute = newValue;
-      const settings = `exposure_absolute=${this.camData.exposureAbsolute}`;
+      const settings = `exposure_absolute=${this.camData.exposureAbsolute *
+        199 +
+        5}`;
       const settingsCommand = `v4l2-ctl -d ${Device} --set-ctrl ${settings}`;
       this.sendCameraSettings.emit(settingsCommand);
       this.dataService.setCamData(this.camData);
@@ -110,7 +112,10 @@ export class MSHD3000 implements OnInit {
     if (newValue !== this.camData.whiteBalanceTemp) {
       const { Device } = this.dataService.getConfigData();
       this.camData.whiteBalanceTemp = newValue;
-      const settings = `white_balance_temperature=${this.camData.whiteBalanceTemp}`;
+      const settings = `white_balance_temperature=${this.camData
+        .whiteBalanceTemp *
+        72 +
+        2800}`;
       const settingsCommand = `v4l2-ctl -d ${Device} --set-ctrl ${settings}`;
       this.sendCameraSettings.emit(settingsCommand);
       this.dataService.setCamData(this.camData);
@@ -130,7 +135,7 @@ export class MSHD3000 implements OnInit {
     if (newValue !== this.camData.tiltAbsolute) {
       const { Device } = this.dataService.getConfigData();
       this.camData.tiltAbsolute = newValue;
-      const settings = `tilt_absolute=${this.camData.tiltAbsolute}`;
+      const settings = `tilt_absolute=${this.camData.tiltAbsolute * 3600}`;
       const settingsCommand = `v4l2-ctl -d ${Device} --set-ctrl ${settings}`;
       this.sendCameraSettings.emit(settingsCommand);
       this.dataService.setCamData(this.camData);
@@ -150,7 +155,7 @@ export class MSHD3000 implements OnInit {
     if (newValue !== this.camData.panAbsolute) {
       const { Device } = this.dataService.getConfigData();
       this.camData.panAbsolute = newValue;
-      const settings = `pan_absolute=${this.camData.panAbsolute}`;
+      const settings = `pan_absolute=${this.camData.panAbsolute * 3600}`;
       const settingsCommand = `v4l2-ctl -d ${Device} --set-ctrl ${settings}`;
       this.sendCameraSettings.emit(settingsCommand);
       this.dataService.setCamData(this.camData);
@@ -181,12 +186,13 @@ export class MSHD3000 implements OnInit {
   getExposure(): string {
     return this.camData.exposureAuto
       ? ``
-      : `exposure_absolute=${this.camData.exposureAbsolute},`;
+      : `exposure_absolute=${this.camData.exposureAbsolute * 199 + 5},`;
   }
   getWhiteBalance(): string {
     return this.camData.whiteBalanceAuto
       ? ``
-      : `white_balance_temperature=${this.camData.whiteBalanceTemp},`;
+      : `white_balance_temperature=${this.camData.whiteBalanceTemp * 72 +
+          2800},`;
   }
   rotateVideoStream(toggle: boolean): void {
     if ((toggle ? 1 : 0) !== this.camData.verticalFlip) {

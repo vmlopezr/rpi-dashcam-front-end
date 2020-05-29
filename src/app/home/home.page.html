@@ -1,13 +1,12 @@
 <ion-header>
 	<ion-toolbar color="primary"
 		mode="ios">
-		<ion-buttons slot="start">
-			<ion-back-button defaultHref=""
-				disabled="true"
-				class="home-back"
-				routerLink="/home"
-				routerDirection="root"
-				(click)="backHandler()"></ion-back-button>
+		<ion-buttons slot="end">
+			<ion-button (click)="updateTheme()"
+				fill="clear">
+				<ion-icon slot="icon-only"
+					name="{{theme}}"></ion-icon>
+			</ion-button>
 		</ion-buttons>
 		<ion-title>
 			Pi Dashcam
@@ -15,7 +14,6 @@
 	</ion-toolbar>
 </ion-header>
 <ion-content>
-	<div style="height: 20px;"></div>
 	<div class="buttonContainer">
 		<ion-button mode="ios"
 			routerLink="/video-list"
@@ -43,22 +41,18 @@
 			Error Log
 		</ion-button>
 	</div>
-
-	<div class="button"
-		style="padding-left: 2px;">
-		<ion-item>
-			<ion-label va>Webcam</ion-label>
-			<ion-select mode="ios"
-				[(ngModel)]="camera"
-				(ionChange)="selectionChange()"
-				disabled="{{isRecording}}">
-				<ion-select-option *ngFor="let camera of camList"
-					value="{{camera}}">{{camera}}
-				</ion-select-option>
-			</ion-select>
-		</ion-item>
-	</div>
-	<div class="image-container">
+	<ion-item class="cam-select">
+		<ion-label>Webcam</ion-label>
+		<ion-select mode="ios"
+			[(ngModel)]="camera"
+			(ionChange)="selectionChange()"
+			disabled="{{isRecording}}">
+			<ion-select-option *ngFor="let camera of camList"
+				value="{{camera}}">{{camera}}
+			</ion-select-option>
+		</ion-select>
+	</ion-item>
+	<div class="camera-image-container">
 		<ion-spinner *ngIf="showSpinner"></ion-spinner>
 		<ion-img *ngIf="!showSpinner"
 			[src]="camImage"></ion-img>
@@ -68,4 +62,5 @@
 		(click)="shutDownConfirm()">
 		Shutdown
 	</ion-button>
+
 </ion-content>
