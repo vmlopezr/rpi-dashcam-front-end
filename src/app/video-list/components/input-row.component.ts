@@ -20,9 +20,10 @@ export class InputRowComponent {
     return '/local-stream/' + this.data;
   }
   getThumbnail(): string {
-    const { IPAddress, NodePort } = this.dataService.getConfigData();
-    const filename = this.data.substr(0, this.data.lastIndexOf('.'));
-    return `http://${IPAddress}:${NodePort}/videos/thumbnail/${filename}.jpg`;
+    // const { IPAddress, NodePort } = this.dataService.getConfigData();
+    // const filename = this.data.substr(0, this.data.lastIndexOf('.'));
+    // return `http://${IPAddress}:${NodePort}/videos/thumbnail/${filename}.jpg`;
+    return 'assets/icon/default-image.jpg';
   }
   getDate(): string {
     const date = this.data.substr(0, this.data.indexOf('-'));
@@ -36,18 +37,19 @@ export class InputRowComponent {
     return `${timestamp[0]}:${timestamp[1]}:${timestamp[2]} ${timestamp[3]}`;
   }
   deleteFile(): void {
-    const { IPAddress, NodePort } = this.dataService.getConfigData();
-    const filename = this.data.substr(0, this.data.lastIndexOf('.'));
-    const URL = `http://${IPAddress}:${NodePort}/videos/delete/${filename}`;
+    // const { IPAddress, NodePort } = this.dataService.getConfigData();
+    // const filename = this.data.substr(0, this.data.lastIndexOf('.'));
+    // const URL = `http://${IPAddress}:${NodePort}/videos/delete/${filename}`;
     this.deleteEvent.emit(this.data);
-    this.http.get(URL).subscribe();
+    // this.http.get(URL).subscribe();
   }
   downloadPress(): void {
-    const { IPAddress, NodePort } = this.dataService.getConfigData();
-    const filename = this.data.substr(0, this.data.lastIndexOf('.'));
+    // const { IPAddress, NodePort } = this.dataService.getConfigData();
+    // const filename = this.data.substr(0, this.data.lastIndexOf('.'));
 
-    const downloadFile = `http://${IPAddress}:${NodePort}/videos/download/${filename}.mp4`;
-    window.location.href = downloadFile;
+    // const downloadFile = `http://${IPAddress}:${NodePort}/videos/download/${filename}.mp4`;
+    // window.location.href = downloadFile;
+    alert('This is a demo of the application.');
   }
   async deleteAlertConfirm(): Promise<void> {
     const alert = await this.alertController.create({

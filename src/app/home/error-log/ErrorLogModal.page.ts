@@ -20,8 +20,9 @@ export class ErrorLogModal {
     });
   }
   clearLog(): void {
-    this.dataService.clearErrorLogfromDB().subscribe(() => {
-      this.ErrorList.splice(0, this.ErrorList.length);
-    });
+    // this.dataService.clearErrorLogfromDB().subscribe(() => {
+    //   this.ErrorList.splice(0, this.ErrorList.length);
+    // });
+    this.dataService.clearErrorLogfromDB();
   }
 }

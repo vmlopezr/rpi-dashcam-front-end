@@ -49,17 +49,21 @@ export class VideoListPage implements OnInit {
     setTimeout(() => {
       this.dirData.splice(this.dirData.indexOf(item), 1);
       this.dirData = [...this.dirData];
+      this.dataService.updateRecordings(this.dirData);
       this.app.tick();
     }, 0);
   }
 
   getDirs(): void {
-    const { IPAddress, NodePort } = this.dataService.getConfigData();
-    this.http
-      .get(`http://${IPAddress}:${NodePort}/videos/dir`)
-      .subscribe(res => {
-        localStorage.setItem('dirData', JSON.stringify(res['data']));
-        this.dirData = res['data'];
-      });
+    // const { IPAddress, NodePort } = this.dataService.getConfigData();
+    // this.http
+    //   .get(`http://${IPAddress}:${NodePort}/videos/dir`)
+    //   .subscribe(res => {
+    //     localStorage.setItem('dirData', JSON.stringify(res['data']));
+    //     this.dirData = res['data'];
+    //   });
+    const files = this.dataService.getRecordings();
+    localStorage.setItem('dirData', JSON.stringify(files));
+    this.dirData = [...files];
   }
 }

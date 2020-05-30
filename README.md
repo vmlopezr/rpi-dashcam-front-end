@@ -1,3 +1,7 @@
+# DEMO BRANCH
+**Note:** This branch is used to build the demo used for github pages. Use the master branch to 
+build the raspberry pi application.
+ 
 # RPI Webcam Front End
 
 The project uses USB Webcams with Raspberry Pi 3b+

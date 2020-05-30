@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
 import { SERVER_URL } from '../../environments/environment';
+import { files, errorData } from '../demoData';
+import { stringify } from 'querystring';
 export interface MSHD3000Data {
   brightness: number;
   contrast: number;
@@ -81,11 +83,31 @@ class DataService {
   private errorLogs: ErrorLog[];
   private theme: string;
   private scrollPosition: number;
+  private recordings: string[];
   constructor(private http: HttpClient) {
     this.isRecording = false;
     this.theme = 'sunny';
+    this.recordings = [...files];
     this.scrollPosition = 0;
+    this.errorLogs = [...errorData];
     this.initializeCamFunctionLists();
+    this.ConfigData = {
+      camera: 'Default UVC Camera',
+      id: 1,
+      Device: '',
+      NodePort: 5000,
+      IPAddress: '',
+      TCPStreamPort: 52055,
+      LiveStreamPort: 50002,
+      recordingState: 'OFF',
+    };
+    this.camData = this.CameraDefault() as DefaultCamData;
+  }
+  getRecordings(): string[] {
+    return [...this.recordings];
+  }
+  updateRecordings(list: string[]): void {
+    this.recordings = [...list];
   }
   retrieveCamDataFromDB(camera: string): void {
     if (
@@ -110,17 +132,15 @@ class DataService {
     };
   }
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  retrieveSettingsDataFromDB(): Observable<any> {
-    console.log('url is: ' + SERVER_URL);
-    return this.http.get(
-      // The listed IP address is the wlan0 address of the Raspberry Pi.
-      // 'http://192.168.10.1:50000/app-settings/settings/data',
-
-      // The listed IP is the local address used for development.
-      // 'http://192.168.1.76:50000/app-settings/settings/data',
-
-      SERVER_URL + '/app-settings/settings/data',
-    );
+  retrieveSettingsDataFromDB(): void {
+    // console.log('url is: ' + SERVER_URL);
+    // return this.http.get(
+    // The listed IP address is the wlan0 address of the Raspberry Pi.
+    // 'http://192.168.10.1:50000/app-settings/settings/data',
+    // The listed IP is the local address used for development.
+    // 'http://192.168.1.76:50000/app-settings/settings/data',
+    // SERVER_URL + '/app-settings/settings/data',
+    // );
   }
   setScrollPosition(pos: number): void {
     this.scrollPosition = pos;
@@ -131,35 +151,38 @@ class DataService {
   updateCamera(camera: string): void {
     const { IPAddress, NodePort } = this.ConfigData;
     this.ConfigData.camera = camera;
-    this.http
-      .put(`http://${IPAddress}:${NodePort}/app-settings/settings/update`, {
-        camera: camera,
-      })
-      .subscribe();
+    // this.http
+    //   .put(`http://${IPAddress}:${NodePort}/app-settings/settings/update`, {
+    //     camera: camera,
+    //   })
+    //   .subscribe();
   }
   getLogitechC920Data = (): void => {
-    const { IPAddress, NodePort } = this.ConfigData;
-    this.http
-      .get(`http://${IPAddress}:${NodePort}/app-settings/logitechC920/data`)
-      .subscribe((data: LogitechC920Data) => {
-        this.camData = data;
-      });
+    // const { IPAddress, NodePort } = this.ConfigData;
+    this.camData = this.LogitechC920Defaults() as LogitechC920Data;
+    // this.http
+    //   .get(`http://${IPAddress}:${NodePort}/app-settings/logitechC920/data`)
+    //   .subscribe((data: LogitechC920Data) => {
+    //     this.camData = data;
+    //   });
   };
   getLifeCamHD3000Data = (): void => {
-    const { IPAddress, NodePort } = this.ConfigData;
-    this.http
-      .get(`http://${IPAddress}:${NodePort}/app-settings/mshd3000/data`)
-      .subscribe((data: MSHD3000Data) => {
-        this.camData = data;
-      });
+    // const { IPAddress, NodePort } = this.ConfigData;
+    this.camData = this.MSHD3000Defaults() as MSHD3000Data;
+    // this.http
+    //   .get(`http://${IPAddress}:${NodePort}/app-settings/mshd3000/data`)
+    //   .subscribe((data: MSHD3000Data) => {
+    //     this.camData = data;
+    //   });
   };
   getDefaultCamData = (): void => {
-    const { IPAddress, NodePort } = this.ConfigData;
-    this.http
-      .get(`http://${IPAddress}:${NodePort}/app-settings/defaultCam/data`)
-      .subscribe((data: DefaultCamData) => {
-        this.camData = data;
-      });
+    this.camData = this.CameraDefault() as DefaultCamData;
+    // const { IPAddress, NodePort } = this.ConfigData;
+    // this.http
+    //   .get(`http://${IPAddress}:${NodePort}/app-settings/defaultCam/data`)
+    //   .subscribe((data: DefaultCamData) => {
+    //     this.camData = data;
+    //   });
   };
   getTheme = (): string => {
     return this.theme;
@@ -179,49 +202,50 @@ class DataService {
     }
   }
   updateLogitechC920Data = (): void => {
-    const { IPAddress, NodePort } = this.ConfigData;
-    this.http
-      .put(
-        `http://${IPAddress}:${NodePort}/app-settings/logitechC920/update`,
-        this.camData,
-      )
-      .subscribe();
+    // const { IPAddress, NodePort } = this.ConfigData;
+    // this.http
+    //   .put(
+    //     `http://${IPAddress}:${NodePort}/app-settings/logitechC920/update`,
+    //     this.camData,
+    //   )
+    //   .subscribe();
   };
   updateLifeCamHD3000Data = (): void => {
-    const { IPAddress, NodePort } = this.ConfigData;
-    this.http
-      .put(
-        `http://${IPAddress}:${NodePort}/app-settings/mshd3000/update`,
-        this.camData,
-      )
-      .subscribe();
+    // const { IPAddress, NodePort } = this.ConfigData;
+    // this.http
+    //   .put(
+    //     `http://${IPAddress}:${NodePort}/app-settings/mshd3000/update`,
+    //     this.camData,
+    //   )
+    //   .subscribe();
   };
   updateDefaultCamData = (): void => {
-    const { IPAddress, NodePort } = this.ConfigData;
-    this.http
-      .put(
-        `http://${IPAddress}:${NodePort}/app-settings/defaultCam/update`,
-        this.camData,
-      )
-      .subscribe();
+    // const { IPAddress, NodePort } = this.ConfigData;
+    // this.http
+    //   .put(
+    //     `http://${IPAddress}:${NodePort}/app-settings/defaultCam/update`,
+    //     this.camData,
+    //   )
+    //   .subscribe();
   };
-  getErrorLogfromDB(): Observable<any> {
-    const { IPAddress, NodePort } = this.getConfigData();
-    return this.http.get(
-      `http://${IPAddress}:${NodePort}/app-settings/errorlog/data/all`,
-    );
-  }
-  clearErrorLogfromDB(): Observable<any> {
-    const { IPAddress, NodePort } = this.getConfigData();
-    return this.http.get(
-      `http://${IPAddress}:${NodePort}/app-settings/errorlog/clear`,
-    );
+  // getErrorLogfromDB(): Observable<any> {
+  //   const { IPAddress, NodePort } = this.getConfigData();
+  //   return this.http.get(
+  //     `http://${IPAddress}:${NodePort}/app-settings/errorlog/data/all`,
+  //   );
+  // }
+  clearErrorLogfromDB(): void {
+    // const { IPAddress, NodePort } = this.getConfigData();
+    // return this.http.get(
+    //   `http://${IPAddress}:${NodePort}/app-settings/errorlog/clear`,
+    // );
+    this.errorLogs = [];
   }
   setErrorLog(errorLog: ErrorLog[]): void {
-    this.errorLogs = errorLog;
+    this.errorLogs = [...errorLog];
   }
   getErrorLog(): ErrorLog[] {
-    return this.errorLogs;
+    return [...this.errorLogs];
   }
   setIsRecording(value: boolean): void {
     this.isRecording = value;

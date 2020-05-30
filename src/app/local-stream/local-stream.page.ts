@@ -20,9 +20,9 @@ class LocalStreamPage {
     this.showVideo = true;
   }
   getVideoPath(): string {
-    const { IPAddress, NodePort } = this.dataService.getConfigData();
-    const filename = this.route.snapshot.paramMap.get('vid');
-    return `http://${IPAddress}:${NodePort}/videos/playvideo/${filename}`;
+    // const { IPAddress, NodePort } = this.dataService.getConfigData();
+    // const filename = this.route.snapshot.paramMap.get('vid');
+    return `assets/May_28_2020-02.12.19.AM.mp4`;
   }
   onExit(): void {
     this.showVideo = false;

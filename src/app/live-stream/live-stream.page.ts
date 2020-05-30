@@ -97,9 +97,9 @@ export class LiveStreamPage implements OnInit {
     const { IPAddress, NodePort } = this.dataService.getConfigData();
     if (!this.disconnected) {
       // Stop the TCP camera feed on the python application
-      this.http
-        .get(`http://${IPAddress}:${NodePort}/livestream/stop`)
-        .subscribe();
+      // this.http
+      //   .get(`http://${IPAddress}:${NodePort}/livestream/stop`)
+      //   .subscribe();
     }
 
     // Clean up the socket.
@@ -143,9 +143,9 @@ export class LiveStreamPage implements OnInit {
   rotateStream(event: string): void {
     const { IPAddress, NodePort } = this.dataService.getConfigData();
     if (this.isRecording) {
-      this.http
-        .get(`http://${IPAddress}:${NodePort}/livestream/rotate/${event}`)
-        .subscribe();
+      // this.http
+      //   .get(`http://${IPAddress}:${NodePort}/livestream/rotate/${event}`)
+      //   .subscribe();
     }
   }
 

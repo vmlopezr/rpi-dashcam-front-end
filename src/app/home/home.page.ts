@@ -32,6 +32,8 @@ export class HomePage implements OnInit {
       'Logitech Webcam HD C920',
       'Default UVC Camera',
     ];
+    // this.camera = 'Default UVC Camera';
+    this.setCameraImage(this.isRecording);
   }
   updateTheme(): void {
     if (this.theme === 'sunny') {
@@ -163,46 +165,53 @@ export class HomePage implements OnInit {
     document.documentElement.style.setProperty('--table-row-bg', '#fff');
   }
   ionViewWillLeave(): void {
-    this.dataService.setTheme(this.theme);
+    // this.dataService.setTheme(this.theme);
   }
   ionViewWillEnter(): void {
-    this.dataService
-      .retrieveSettingsDataFromDB()
-      .subscribe((data: AppSettings) => {
-        this.camera = data.camera;
-        this.dataService.setData(data);
-        if (data.recordingState === 'ON') {
-          this.isRecording = true;
-          this.dataService.setIsRecording(true);
-        } else {
-          this.isRecording = false;
-          this.dataService.setIsRecording(false);
-        }
-        this.camImage = this.setCameraImage(this.isRecording);
-        this.dataService.getErrorLogfromDB().subscribe((data: ErrorLog[]) => {
-          this.dataService.setErrorLog(data);
-          this.showSpinner = false;
-        });
-        this.dataService.retrieveCamDataFromDB(this.camera);
-      });
+    const data = this.dataService.getConfigData();
+    this.camera = data.camera;
+    // this.dataService
+    //   .retrieveSettingsDataFromDB()
+    //   .subscribe((data: AppSettings) => {
+    //     this.camera = data.camera;
+    //     this.dataService.setData(data);
+    //     if (data.recordingState === 'ON') {
+    //       this.isRecording = true;
+    //       this.dataService.setIsRecording(true);
+    //     } else {
+    //       this.isRecording = false;
+    //       this.dataService.setIsRecording(false);
+    //     }
+    //     this.camImage = this.setCameraImage(this.isRecording);
+    //     this.dataService.getErrorLogfromDB().subscribe((data: ErrorLog[]) => {
+    //       this.dataService.setErrorLog(data);
+    //       this.showSpinner = false;
+    //     });
+    //     this.dataService.retrieveCamDataFromDB(this.camera);
+    //   });
+    setTimeout(() => {
+      this.showSpinner = false;
+      this.camImage = this.setCameraImage(this.isRecording);
+      // this.dataService.setErrorLog([{}])
+    }, 500);
   }
   startRecording(): void {
-    const { IPAddress, NodePort } = this.dataService.getConfigData();
+    // const { IPAddress, NodePort } = this.dataService.getConfigData();
     this.isRecording = true;
-    this.dataService.setIsRecording(true);
+    // this.dataService.setIsRecording(true);
     this.camImage = `assets/CamOn/${this.camera}-on.png`;
-    this.http
-      .get(`http://${IPAddress}:${NodePort}/livestream/startRecording`)
-      .subscribe();
+    // this.http
+    //   .get(`http://${IPAddress}:${NodePort}/livestream/startRecording`)
+    //   .subscribe();
   }
   stopRecording(): void {
-    const { IPAddress, NodePort } = this.dataService.getConfigData();
+    // const { IPAddress, NodePort } = this.dataService.getConfigData();
     this.isRecording = false;
     this.dataService.setIsRecording(false);
     this.camImage = `assets/CamOff/${this.camera}-off.png`;
-    this.http
-      .get(`http://${IPAddress}:${NodePort}/livestream/stopRecording`)
-      .subscribe();
+    // this.http
+    //   .get(`http://${IPAddress}:${NodePort}/livestream/stopRecording`)
+    //   .subscribe();
   }
 
   async showErrorLog(): Promise<void> {
@@ -229,9 +238,9 @@ export class HomePage implements OnInit {
   startStreamServer(): void {
     if (this.isRecording) {
       const { IPAddress, NodePort } = this.dataService.getConfigData();
-      this.http
-        .get(`http://${IPAddress}:${NodePort}/livestream/start`)
-        .subscribe();
+      // this.http
+      //   .get(`http://${IPAddress}:${NodePort}/livestream/start`)
+      //   .subscribe();
     }
   }
   async shutDownConfirm(): Promise<void> {
@@ -257,9 +266,9 @@ export class HomePage implements OnInit {
     await alert.present();
   }
   shutDown(): void {
-    const { IPAddress, NodePort } = this.dataService.getConfigData();
-    this.http
-      .get(`http://${IPAddress}:${NodePort}/videos/shutdown`)
-      .subscribe();
+    // const { IPAddress, NodePort } = this.dataService.getConfigData();
+    // this.http
+    //   .get(`http://${IPAddress}:${NodePort}/videos/shutdown`)
+    //   .subscribe();
   }
 }

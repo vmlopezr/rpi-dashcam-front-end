@@ -26,3 +26,29 @@ export const files = [
   'May_28_2020-02.12.54.AM.mp4',
   'May_28_2020-02.12.59.AM.mp4',
 ];
+export const errorData = [
+  {
+    id: 1,
+    errorSource: 'demo Source',
+    errorMessage: 'demo message',
+    timeStamp: '02.12.59.AM',
+  },
+  {
+    id: 2,
+    errorSource: 'demo Source',
+    errorMessage: 'demo message',
+    timeStamp: '02.20.59.AM',
+  },
+  {
+    id: 3,
+    errorSource: 'demo Source',
+    errorMessage: 'demo message',
+    timeStamp: '02.45.59.AM',
+  },
+  {
+    id: 4,
+    errorSource: 'demo Source',
+    errorMessage: 'demo message',
+    timeStamp: '05.50.59.AM',
+  },
+];
