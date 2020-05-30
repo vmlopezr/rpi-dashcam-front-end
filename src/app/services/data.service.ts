@@ -258,13 +258,13 @@ class DataService {
       focusAuto: 1,
       backlightComp: 1,
       verticalFlip: 0,
-      videoLength: 30,
+      videoLength: 300,
     };
   }
   CameraDefault(): Partial<LogitechC920Data> {
     return {
       verticalFlip: 0,
-      videoLength: 30,
+      videoLength: 300,
     };
   }
   MSHD3000Defaults(): Partial<MSHD3000Data> {
@@ -283,7 +283,7 @@ class DataService {
       tiltAbsolute: 0,
       zoomAbsolute: 0,
       verticalFlip: 0,
-      videoLength: 30,
+      videoLength: 300,
     };
   }
   getDataDefaults(

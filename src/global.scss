@@ -27,6 +27,8 @@
 body {
   font-family: 'Roboto';
 }
+
+/* Variables set dynamically in js for theming */
 :root {
   --background-color: #181818;
   --toggle-background: #646464;
@@ -53,6 +55,8 @@ body {
   --table-header: #3a3535;
   --table-row-bg: #5e5d5d;
 }
+
+/* Header styling */
 ion-back-button {
   padding: 0px 5px;
   color: #f7f7f7;
@@ -74,10 +78,15 @@ ion-toolbar {
   --border-color: transparent;
 }
 
+/* App background color*/
 ion-content {
   --background: var(--background-color);
 }
-/* Configuration for the home page */
+p {
+  text-align: justify;
+  padding-right: 16px;
+}
+/* Styling for the home page */
 .buttonContainer {
   border-color: var(--font-color);
   ion-button {
@@ -128,7 +137,7 @@ ion-content {
     font-size: 15px;
   }
 }
-/* Configuration for the error log modal */
+/* Styling for the error log modal */
 .horizontalScroll {
   overflow-x: scroll;
   overflow-y: hidden;
@@ -156,10 +165,10 @@ ion-content {
   flex-grow: 1;
   padding-bottom: 10px;
 }
-/* Configuration for the video list page */
+
+/* Styling for the video list page */
 .video-item {
   background-color: var(--control-section-bg);
-
   padding: 10px;
   margin: 15px 10px;
   .title {
@@ -208,7 +217,7 @@ ion-content {
     position: relative;
   }
 }
-/* Configuration for the live stream page */
+/* Styling for the live stream page */
 .cam-config-container {
   padding: 10px;
 }
@@ -328,6 +337,7 @@ ion-content {
     --highlight-background: none !important;
   }
 }
+/* Styling for alert modals*/
 ion-alert {
   button {
     color: #3188eb !important;
@@ -369,13 +379,7 @@ ion-alert {
   --border-radius: 0px;
   margin: 20px auto;
 }
-ion-content::-webkit-scrollbar {
-  width: 5px;
-  background-color: red;
-}
-ion-content::-webkit-scrollbar-thumb {
-  background-color: #ff0000;
-}
+/* Make the modal fullscreen in landscape */
 @media only screen and (orientation: landscape) {
   .my-modal {
     .modal-wrapper {
@@ -388,12 +392,13 @@ ion-content::-webkit-scrollbar-thumb {
     }
   }
 }
+/* Styling for video items in video list page */
 @media (min-width: 900px) {
   .video-item {
     margin: 15px 20%;
   }
 }
-
+/* Styling for large screens */
 @media (min-width: 1000px) {
   .control-section {
     .heading-text {
