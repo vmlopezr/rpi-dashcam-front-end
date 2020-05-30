@@ -1,12 +1,14 @@
-import { Component, OnInit, ApplicationRef } from '@angular/core';
+import { Component, OnInit, ApplicationRef, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DataService } from '../services/data.service';
+import { IonContent } from '@ionic/angular';
 
 @Component({
   selector: 'app-video-list',
   templateUrl: './video-list.page.html',
 })
 export class VideoListPage implements OnInit {
+  @ViewChild(IonContent, { static: true }) content: IonContent;
   dirData: string[];
   storageDirectory = '';
 
@@ -30,9 +32,20 @@ export class VideoListPage implements OnInit {
   trackByFn(index: number, item: string): number {
     return index;
   }
-  ionViewDidEnter(): void {
-    this.app.tick();
+  ionViewWillLeave(): void {
+    this.saveScrollPos();
   }
+  ionViewDidEnter = (): void => {
+    const scrollPos = this.dataService.getScrollPosition();
+    this.content.scrollToPoint(0, scrollPos, 200);
+    console.log('entering ' + scrollPos);
+  };
+  saveScrollPos = (): void => {
+    this.content.getScrollElement().then(data => {
+      this.dataService.setScrollPosition(data.scrollTop);
+      console.log('saving position ' + data.scrollTop);
+    });
+  };
   removeVideo(item): void {
     // Change detection on item delete
     setTimeout(() => {

@@ -53,11 +53,11 @@ export class InputRowComponent {
     const alert = await this.alertController.create({
       header: 'Warning',
       message: 'Video will be deleted. Are you sure?',
+      mode: 'ios',
       buttons: [
         {
           text: 'Cancel',
           role: 'cancel',
-          cssClass: 'secondary',
         },
         {
           text: 'Delete',

@@ -79,9 +79,11 @@ class DataService {
   private updateCameraData: UpdateFunctions;
   private errorLogs: ErrorLog[];
   private theme: string;
+  private scrollPosition: number;
   constructor(private http: HttpClient) {
     this.isRecording = false;
     this.theme = 'sunny';
+    this.scrollPosition = 0;
     this.initializeCamFunctionLists();
   }
   retrieveCamDataFromDB(camera: string): void {
@@ -108,14 +110,21 @@ class DataService {
   }
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   retrieveSettingsDataFromDB(): Observable<any> {
+    console.log('url is: ' + SERVER_URL);
     return this.http.get(
       // The listed IP address is the wlan0 address of the Raspberry Pi.
       // 'http://192.168.10.1:50000/app-settings/settings/data',
 
       // The listed IP is the local address used for development.
-      // 'http://192.168.1.103:50000/app-settings/settings/data',
+      // 'http://192.168.1.76:50000/app-settings/settings/data',
       SERVER_URL + '/app-settings/settings/data',
     );
+  }
+  setScrollPosition(pos: number): void {
+    this.scrollPosition = pos;
+  }
+  getScrollPosition(): number {
+    return this.scrollPosition;
   }
   updateCamera(camera: string): void {
     const { IPAddress, NodePort } = this.ConfigData;

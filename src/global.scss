@@ -39,7 +39,7 @@ body {
   --input-border-color: transparent;
   --heading-font-color: #d4d4d4;
   --font-color: #c5c5c5;
-  --control-section-bg: #5c5b5b;
+  --control-section-bg: #353333;
   --control-section-border: #4b4b4b;
   --button-bg: #1480fba2;
   --button-bg-hover: #1480fb6e;
@@ -61,7 +61,7 @@ ion-header {
   height: 44px;
   ion-title {
     height: 44px;
-    font-size: 30px;
+    font-size: 25px;
   }
   ion-button {
     height: 38px !important;
@@ -253,11 +253,6 @@ ion-content {
     --bar-border-radius: 10px;
     padding-top: 5px;
     padding-bottom: 5px;
-    --pin-background: rgb(134, 8, 8) portant;
-    --pin-color: red !important;
-    // .button {
-    //   border: 1px solid #000;
-    // }
   }
   ion-range.range-disabled {
     --knob-background: var(--knob-bg);
@@ -266,7 +261,6 @@ ion-content {
     --knob-box-shadow: 0 0 0 1px var(--knob-bg);
   }
   ion-range:hover {
-    // opacity: 0.8;
     --knob-background: rgb(160, 160, 160);
   }
   .slider-value-container {
@@ -276,7 +270,7 @@ ion-content {
   ion-label {
     width: 28%;
     word-wrap: break-word;
-    font-size: 14px;
+    font-size: 14px !important;
     color: var(--font-color) !important;
   }
   ion-toggle {
@@ -296,6 +290,7 @@ ion-content {
     --background: var(--input-background);
     border-radius: 10px;
     text-align: right;
+    font-size: 14px;
     --padding-end: 10px;
     --color: var(--font-color);
     --highlight-color-focused: red !important;
@@ -334,17 +329,36 @@ ion-content {
   }
 }
 ion-alert {
-  --background: var(--control-section-bg) !important;
-  --color: var(--font-color) !important;
-  --ion-text-color: var(--font-color);
   button {
-    color: var(--font-color) !important;
-    border: 1px solid white;
+    color: #3188eb !important;
+    font-weight: 600 !important;
+  }
+  button:hover {
+    background-color: var(--menu-label-hover-bg) !important;
   }
   .alert-message {
-    color: #ddd;
+    color: var(--font-color) !important;
+    word-wrap: break-word;
+    font-size: 16px !important;
+  }
+  .alert-title {
+    color: var(--font-color) !important;
+    font-size: 28px !important;
+    font-weight: bold !important;
+  }
+  .alert-radio-label {
+    font-weight: 500;
+    font-size: 16px;
+  }
+  .alert-wrapper {
+    --width: 100% !important;
+    --color: var(--font-color) !important;
+    --ion-text-color: var(--font-color);
+    --background: var(--control-section-bg);
+    border: 1px solid var(--font-color);
   }
 }
+
 ion-content::-webkit-scrollbar {
   width: 5px;
   background-color: red;
@@ -376,7 +390,10 @@ ion-content::-webkit-scrollbar-thumb {
       font-size: 26px;
     }
     ion-label {
-      font-size: 16px;
+      font-size: 18px;
+    }
+    ion-input {
+      font-size: 18px !important;
     }
     .exposure-container {
       flex-direction: row;

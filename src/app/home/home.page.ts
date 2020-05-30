@@ -81,7 +81,7 @@ export class HomePage implements OnInit {
     document.documentElement.style.setProperty('--font-color', '#c5c5c5');
     document.documentElement.style.setProperty(
       '--control-section-bg',
-      '#5c5b5b',
+      '#353333',
     );
     document.documentElement.style.setProperty(
       '--control-section-border',
@@ -169,6 +169,7 @@ export class HomePage implements OnInit {
     this.dataService
       .retrieveSettingsDataFromDB()
       .subscribe((data: AppSettings) => {
+        console.log(data);
         this.camera = data.camera;
         this.dataService.setData(data);
         if (data.recordingState === 'ON') {
@@ -246,6 +247,7 @@ export class HomePage implements OnInit {
       mode: 'ios',
       header: 'Warning',
       message: 'RaspberryPi will shutdown. Are you sure?',
+      cssClass: 'custom-alert',
       buttons: [
         {
           text: 'Cancel',

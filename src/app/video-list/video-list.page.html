@@ -13,8 +13,7 @@
     <ion-title>Video Library</ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content>
-
+<ion-content [scrollEvents]="true">
   <ion-virtual-scroll [items]="dirData"
     [trackBy]="trackByFn"
     approxItemHeight="100px">
