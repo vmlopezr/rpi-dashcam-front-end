@@ -358,7 +358,17 @@ ion-alert {
     border: 1px solid var(--font-color);
   }
 }
-
+.shutdown-button {
+  display: block;
+  text-align: center;
+  --background: rgba(253, 56, 56, 0.747);
+  --background-activated-opacity: 0.5;
+  --color: #000;
+  --background-hover: rgb(255, 162, 162);
+  --background-activated: rgb(236, 181, 181);
+  --border-radius: 0px;
+  margin: 20px auto;
+}
 ion-content::-webkit-scrollbar {
   width: 5px;
   background-color: red;
@@ -409,6 +419,9 @@ ion-content::-webkit-scrollbar-thumb {
     }
   }
   .cam-select {
+    margin: 20px 20%;
+  }
+  .shutdown-button {
     margin: 20px 20%;
   }
 }

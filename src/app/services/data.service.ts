@@ -118,6 +118,7 @@ class DataService {
 
       // The listed IP is the local address used for development.
       // 'http://192.168.1.76:50000/app-settings/settings/data',
+
       SERVER_URL + '/app-settings/settings/data',
     );
   }
