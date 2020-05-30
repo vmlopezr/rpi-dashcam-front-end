@@ -47,7 +47,7 @@ export class HomePage implements OnInit {
     document.documentElement.style.setProperty('--header-color', '#0b151db9');
     document.documentElement.style.setProperty(
       '--toggle-background',
-      '#bebebe',
+      '#646464',
     );
     document.documentElement.style.setProperty(
       '--toggle-background-checked',
