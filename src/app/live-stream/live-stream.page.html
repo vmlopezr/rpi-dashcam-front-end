@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <div class="livestream-page">
-  <ion-header>
-    <ion-toolbar *ngIf="isPortrait()"
-      color="primary"
+  <ion-header *ngIf="isPortrait()">
+    <ion-toolbar color="primary"
       mode="ios">
       <ion-buttons slot="start">
         <ion-back-button defaultHref=""
@@ -36,6 +35,8 @@
         (sendCameraSettings)="sendCameraSettings($event)"
         (sendVideoLength)="sendVideoLength($event)"
         (rotateStream)="rotateStream($event)"></LogitechC920>
+      <div style="height:80px; width:100%; background-color: transparent;">
+      </div>
     </ion-content>
   </div>
 </div>
