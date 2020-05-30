@@ -1,4 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
 };
 export const SERVER_URL = 'http://rpidashcam.pi';

@@ -38,12 +38,10 @@ export class VideoListPage implements OnInit {
   ionViewDidEnter = (): void => {
     const scrollPos = this.dataService.getScrollPosition();
     this.content.scrollToPoint(0, scrollPos, 200);
-    console.log('entering ' + scrollPos);
   };
   saveScrollPos = (): void => {
     this.content.getScrollElement().then(data => {
       this.dataService.setScrollPosition(data.scrollTop);
-      console.log('saving position ' + data.scrollTop);
     });
   };
   removeVideo(item): void {

@@ -159,7 +159,7 @@ export class HomePage implements OnInit {
       '#d3d3d3',
     );
     document.documentElement.style.setProperty('--image-background', '#ebebeb');
-    document.documentElement.style.setProperty('--table-header', '#868686');
+    document.documentElement.style.setProperty('--table-header', '#aaa');
     document.documentElement.style.setProperty('--table-row-bg', '#fff');
   }
   ionViewWillLeave(): void {
@@ -169,7 +169,6 @@ export class HomePage implements OnInit {
     this.dataService
       .retrieveSettingsDataFromDB()
       .subscribe((data: AppSettings) => {
-        console.log(data);
         this.camera = data.camera;
         this.dataService.setData(data);
         if (data.recordingState === 'ON') {
@@ -205,14 +204,7 @@ export class HomePage implements OnInit {
       .get(`http://${IPAddress}:${NodePort}/livestream/stopRecording`)
       .subscribe();
   }
-  getErrorLog(): void {
-    const { IPAddress, NodePort } = this.dataService.getConfigData();
-    this.http
-      .get(`http://${IPAddress}:${NodePort}/app-settings/errorlog/data/all`)
-      .subscribe((data: ErrorLog[]) => {
-        console.log(data);
-      });
-  }
+
   async showErrorLog(): Promise<void> {
     const modal = await this.modalController.create({
       component: ErrorLogModal,
