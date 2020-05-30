@@ -9,7 +9,8 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "deploy-gh": "ionic build --prod -- --base-href https://vmlopezr.github.io/rpi-dashcam-front-end/ && npx angular-cli-ghpages --dir=www"
   },
   "private": true,
   "dependencies": {
