@@ -1,39 +1,41 @@
 <!DOCTYPE html>
-<ion-header>
-  <ion-toolbar *ngIf="isPortrait()"
-    color="primary"
-    mode="ios">
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref=""
-        text="home"
-        routerLink="/home"
-        routerDirection="root"
-        (click)="backHandler()"
-        class="ion-text-capitalize"></ion-back-button>
-    </ion-buttons>
-    <ion-title>Camera Stream</ion-title>
-  </ion-toolbar>
-</ion-header>
-<div class="livestream-container">
-  <div class="camera-stream">
-    <img *ngIf="isRecording && !showSpinner"
-      [src]="getImgContent()">
-    <img *ngIf="!isRecording"
-      src="assets/icon/default-image.jpg">
-    <ion-spinner *ngIf="showSpinner && isRecording"></ion-spinner>
+<div class="livestream-page">
+  <ion-header>
+    <ion-toolbar *ngIf="isPortrait()"
+      color="primary"
+      mode="ios">
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref=""
+          text="home"
+          routerLink="/home"
+          routerDirection="root"
+          (click)="backHandler()"
+          class="ion-text-capitalize"></ion-back-button>
+      </ion-buttons>
+      <ion-title>Camera Stream</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <div class="livestream-container">
+    <div class="camera-stream">
+      <img *ngIf="isRecording && !showSpinner"
+        [src]="getImgContent()">
+      <img *ngIf="!isRecording"
+        src="assets/icon/default-image.jpg">
+      <ion-spinner *ngIf="showSpinner && isRecording"></ion-spinner>
+    </div>
+    <ion-content *ngIf="isPortrait()">
+      <DefaultCam *ngIf="isDefaultCam()"
+        (sendCameraSettings)="sendCameraSettings($event)"
+        (sendVideoLength)="sendVideoLength($event)"
+        (rotateStream)="rotateStream($event)"></DefaultCam>
+      <MSHD3000 *ngIf="isMSHD3000()"
+        (sendCameraSettings)="sendCameraSettings($event)"
+        (sendVideoLength)="sendVideoLength($event)"
+        (rotateStream)="rotateStream($event)"></MSHD3000>
+      <LogitechC920 *ngIf="isLogitechC920()"
+        (sendCameraSettings)="sendCameraSettings($event)"
+        (sendVideoLength)="sendVideoLength($event)"
+        (rotateStream)="rotateStream($event)"></LogitechC920>
+    </ion-content>
   </div>
-  <ion-content *ngIf="isPortrait()">
-    <DefaultCam *ngIf="isDefaultCam()"
-      (sendCameraSettings)="sendCameraSettings($event)"
-      (sendVideoLength)="sendVideoLength($event)"
-      (rotateStream)="rotateStream($event)"></DefaultCam>
-    <MSHD3000 *ngIf="isMSHD3000()"
-      (sendCameraSettings)="sendCameraSettings($event)"
-      (sendVideoLength)="sendVideoLength($event)"
-      (rotateStream)="rotateStream($event)"></MSHD3000>
-    <LogitechC920 *ngIf="isLogitechC920()"
-      (sendCameraSettings)="sendCameraSettings($event)"
-      (sendVideoLength)="sendVideoLength($event)"
-      (rotateStream)="rotateStream($event)"></LogitechC920>
-  </ion-content>
 </div>
