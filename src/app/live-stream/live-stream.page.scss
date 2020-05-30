@@ -20,10 +20,12 @@ ion-spinner {
       padding: 15px 0px;
       width: 80%;
     }
-    @media (orientation: landscape) {
+    @media only screen and (orientation: landscape) and (max-device-width: 800px) {
       height: 100%;
       width: 100%;
-      padding: 0px;
+      img {
+        padding: 0px;
+      }
     }
   }
 }
