@@ -26,24 +26,27 @@ export class VideoListPage implements OnInit {
     // on gh-pages branch, give dummy array and link to sample video
     this.getDirs();
   }
-  addRow(): void {
-    this.dirData.push('new');
-  }
   trackByFn(index: number, item: string): number {
     return index;
   }
+  /** On page exit save the current scroll position.*/
   ionViewWillLeave(): void {
     this.saveScrollPos();
   }
+  /** On page enter move the scroll to the previous scroll postiion.*/
   ionViewDidEnter = (): void => {
     const scrollPos = this.dataService.getScrollPosition();
     this.content.scrollToPoint(0, scrollPos, 200);
   };
+  /** Retrieve the current scroll position, and save it to the data service.*/
   saveScrollPos = (): void => {
     this.content.getScrollElement().then(data => {
       this.dataService.setScrollPosition(data.scrollTop);
     });
   };
+  /** Remove a video from the list, and send command to the back-end to delete the video.backdrop-no-scroll
+   * This will additionally run tick to update the display.
+   */
   removeVideo(item): void {
     // Change detection on item delete
     setTimeout(() => {
@@ -52,7 +55,7 @@ export class VideoListPage implements OnInit {
       this.app.tick();
     }, 0);
   }
-
+  /** Get a list of videos recorded by the back-end server.*/
   getDirs(): void {
     const { IPAddress, NodePort } = this.dataService.getConfigData();
     this.http

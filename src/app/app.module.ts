@@ -7,7 +7,6 @@ import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { AppRoutingModule } from './app-routing.module';
 import { DataService } from './services/data.service';
 import { ErrorLogModalModule } from './home/error-log/ErrorLogModal.module';
-
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],

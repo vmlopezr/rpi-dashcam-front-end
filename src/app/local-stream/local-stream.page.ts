@@ -19,6 +19,7 @@ class LocalStreamPage {
     this.videoPath = '';
     this.showVideo = true;
   }
+  /** Extract the video name from the URL.*/
   getVideoPath(): string {
     const { IPAddress, NodePort } = this.dataService.getConfigData();
     const filename = this.route.snapshot.paramMap.get('vid');

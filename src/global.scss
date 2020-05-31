@@ -28,34 +28,6 @@ body {
   font-family: 'Roboto';
 }
 
-/* Variables set dynamically in js for theming */
-:root {
-  --background-color: #181818;
-  --toggle-background: #646464;
-  --toggle-background-checked: #1ab474;
-  --knob-bg: #979797;
-  --range-background-disabled: #838383;
-  --range-background: #0c0c0c75;
-  --range-background-active: #1480fba2;
-  --input-background: #0c0c0c75;
-  --input-border-color: transparent;
-  --heading-font-color: #d4d4d4;
-  --font-color: #c5c5c5;
-  --control-section-bg: #353333;
-  --control-section-border: #4b4b4b;
-  --button-bg: #1480fba2;
-  --button-bg-hover: #1480fb6e;
-  --button-bg-activated: #568bc0b2;
-  --button-color: #d8dde2;
-  --video-bg-options: #424242;
-  --menu-label-hover-bg: #b1b1b1;
-  --font-hover: #4b4b4b;
-  --header-color: #0b151db9;
-  --image-background: #858080;
-  --table-header: #3a3535;
-  --table-row-bg: #5e5d5d;
-}
-
 /* Header styling */
 ion-back-button {
   padding: 0px 5px;

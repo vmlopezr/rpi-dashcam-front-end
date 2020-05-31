@@ -87,6 +87,7 @@ class DataService {
     this.scrollPosition = 0;
     this.initializeCamFunctionLists();
   }
+  /** Run callback functions based on camera name input. */
   retrieveCamDataFromDB(camera: string): void {
     if (
       camera !== 'Microsoft LifeCam HD-3000' &&
@@ -97,6 +98,9 @@ class DataService {
       this.getCameraData[camera]();
     }
   }
+  /** Iniailize an array with callback functions used to retrieve database data
+   * depending on the camera name.
+   */
   initializeCamFunctionLists(): void {
     this.getCameraData = {
       'Microsoft LifeCam HD-3000': this.getLifeCamHD3000Data,
@@ -111,23 +115,17 @@ class DataService {
   }
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   retrieveSettingsDataFromDB(): Observable<any> {
-    console.log('url is: ' + SERVER_URL);
-    return this.http.get(
-      // The listed IP address is the wlan0 address of the Raspberry Pi.
-      // 'http://192.168.10.1:50000/app-settings/settings/data',
-
-      // The listed IP is the local address used for development.
-      // 'http://192.168.1.76:50000/app-settings/settings/data',
-
-      SERVER_URL + '/app-settings/settings/data',
-    );
+    return this.http.get(SERVER_URL + '/app-settings/settings/data');
   }
+  /** Save the scroll position from the video list page. */
   setScrollPosition(pos: number): void {
     this.scrollPosition = pos;
   }
+  /** Return the scroll position from the video list page.*/
   getScrollPosition(): number {
     return this.scrollPosition;
   }
+  /** Send application settings data to the back-end for database updates.*/
   updateCamera(camera: string): void {
     const { IPAddress, NodePort } = this.ConfigData;
     this.ConfigData.camera = camera;
@@ -137,6 +135,7 @@ class DataService {
       })
       .subscribe();
   }
+  /** Retrieve Logitech C920 settings from database. */
   getLogitechC920Data = (): void => {
     const { IPAddress, NodePort } = this.ConfigData;
     this.http
@@ -145,6 +144,7 @@ class DataService {
         this.camData = data;
       });
   };
+  /** Retrieve Lifecam HD3000 settings from database. */
   getLifeCamHD3000Data = (): void => {
     const { IPAddress, NodePort } = this.ConfigData;
     this.http
@@ -153,6 +153,7 @@ class DataService {
         this.camData = data;
       });
   };
+  /** Retrieve default camera settings from database.*/
   getDefaultCamData = (): void => {
     const { IPAddress, NodePort } = this.ConfigData;
     this.http
@@ -161,12 +162,15 @@ class DataService {
         this.camData = data;
       });
   };
+  /** Send the current theme of the application. */
   getTheme = (): string => {
     return this.theme;
   };
+  /** Save the current save of the application. */
   setTheme = (theme: string): void => {
     this.theme = theme;
   };
+  /** Run function from callback array based on camera name.*/
   updateCameraDataDB(): void {
     const camera = this.ConfigData.camera;
     if (
@@ -178,6 +182,7 @@ class DataService {
       this.updateCameraData[camera]();
     }
   }
+  /** Update Logitech C920 camera settings in the databse. */
   updateLogitechC920Data = (): void => {
     const { IPAddress, NodePort } = this.ConfigData;
     this.http
@@ -187,6 +192,7 @@ class DataService {
       )
       .subscribe();
   };
+  /** Update Lifecam HD3000 camera settings in the databse. */
   updateLifeCamHD3000Data = (): void => {
     const { IPAddress, NodePort } = this.ConfigData;
     this.http
@@ -196,6 +202,7 @@ class DataService {
       )
       .subscribe();
   };
+  /** Update default camera data in the database.*/
   updateDefaultCamData = (): void => {
     const { IPAddress, NodePort } = this.ConfigData;
     this.http
@@ -205,39 +212,49 @@ class DataService {
       )
       .subscribe();
   };
+  /** Receive error log data from the database*/
   getErrorLogfromDB(): Observable<any> {
     const { IPAddress, NodePort } = this.getConfigData();
     return this.http.get(
       `http://${IPAddress}:${NodePort}/app-settings/errorlog/data/all`,
     );
   }
+  /** Erase the error log data in the database. */
   clearErrorLogfromDB(): Observable<any> {
     const { IPAddress, NodePort } = this.getConfigData();
     return this.http.get(
       `http://${IPAddress}:${NodePort}/app-settings/errorlog/clear`,
     );
   }
+  /** Save the error data for display in the modal. */
   setErrorLog(errorLog: ErrorLog[]): void {
     this.errorLogs = errorLog;
   }
+  /** Return the error log data stored in the service.*/
   getErrorLog(): ErrorLog[] {
     return this.errorLogs;
   }
+  /** Update recording state.*/
   setIsRecording(value: boolean): void {
     this.isRecording = value;
   }
+  /** Return recording state.*/
   getIsRecording(): boolean {
     return this.isRecording;
   }
+  /** Save the current camera name. */
   setCamera(camera: string): void {
     this.ConfigData.camera = camera;
   }
+  /** Save the camera settings received from the livestream page. */
   setCamData(camData: LogitechC920Data | MSHD3000Data | DefaultCamData): void {
     this.camData = camData;
   }
+  /** Return the camera settings saved in the data service.*/
   getData(): LogitechC920Data | MSHD3000Data | DefaultCamData {
     return this.camData;
   }
+  /** Return default settings for the logitechC920 camera.*/
   LogitechC920Defaults(): Partial<LogitechC920Data> {
     return {
       brightness: 128,
@@ -261,12 +278,14 @@ class DataService {
       videoLength: 300,
     };
   }
+  /** Return default settings for default camera.*/
   CameraDefault(): Partial<LogitechC920Data> {
     return {
       verticalFlip: 0,
       videoLength: 300,
     };
   }
+  /** Return default settings for the Lifecam HD3000*/
   MSHD3000Defaults(): Partial<MSHD3000Data> {
     return {
       brightness: 133,
@@ -286,6 +305,7 @@ class DataService {
       videoLength: 300,
     };
   }
+  /** Return camera defaults based on the current camera name. */
   getDataDefaults(
     camera: string,
   ):
@@ -296,19 +316,21 @@ class DataService {
       return this.LogitechC920Defaults();
     } else if (camera === 'Microsoft LifeCam HD-3000') {
       return this.MSHD3000Defaults();
-    } else {
-      return this.CameraDefault();
-    }
+    } else return this.CameraDefault();
   }
+  /** Update app settings data stored in the data service. */
   setData(data: AppSettings): void {
     this.ConfigData = data;
   }
+  /** Return current camera name saved in the data service.*/
   getCamera(): string {
     return this.ConfigData.camera;
   }
+  /** Return app settings data stored in the data service.*/
   getConfigData(): AppSettings {
     return this.ConfigData;
   }
+  /** Return usb device name stored in the data service.*/
   getDevice(): string {
     return this.ConfigData.Device;
   }

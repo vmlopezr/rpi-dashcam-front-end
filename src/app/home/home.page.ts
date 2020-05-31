@@ -33,6 +33,9 @@ export class HomePage implements OnInit {
       'Default UVC Camera',
     ];
   }
+  /**
+   * Update the app theme based on the value of the theme property.
+   */
   updateTheme(): void {
     if (this.theme === 'sunny') {
       this.theme = 'moon';
@@ -42,6 +45,9 @@ export class HomePage implements OnInit {
       this.setDarkTheme();
     }
   }
+  /**
+   * Set the theme to dark colors.
+   */
   setDarkTheme(): void {
     document.documentElement.style.setProperty('--background-color', '#181818');
     document.documentElement.style.setProperty('--header-color', '#0b151db9');
@@ -107,6 +113,9 @@ export class HomePage implements OnInit {
     document.documentElement.style.setProperty('--table-header', '#3a3535');
     document.documentElement.style.setProperty('--table-row-bg', '#5e5d5d');
   }
+  /**
+   * Set the theme to a light color.
+   */
   setLightTheme(): void {
     document.documentElement.style.setProperty('--background-color', '#ebebeb');
     document.documentElement.style.setProperty('--header-color', '#758797');
@@ -162,15 +171,19 @@ export class HomePage implements OnInit {
     document.documentElement.style.setProperty('--table-header', '#aaa');
     document.documentElement.style.setProperty('--table-row-bg', '#fff');
   }
+  /** On page exit save the current theme of the application.*/
   ionViewWillLeave(): void {
     this.dataService.setTheme(this.theme);
   }
+  /** On page enter load the current camera data as well as error log data.*/
   ionViewWillEnter(): void {
     this.dataService
       .retrieveSettingsDataFromDB()
       .subscribe((data: AppSettings) => {
         this.camera = data.camera;
         this.dataService.setData(data);
+
+        // Update page state based on recordingState
         if (data.recordingState === 'ON') {
           this.isRecording = true;
           this.dataService.setIsRecording(true);
@@ -179,13 +192,18 @@ export class HomePage implements OnInit {
           this.dataService.setIsRecording(false);
         }
         this.camImage = this.setCameraImage(this.isRecording);
+
+        // Retrieve error logs
         this.dataService.getErrorLogfromDB().subscribe((data: ErrorLog[]) => {
           this.dataService.setErrorLog(data);
           this.showSpinner = false;
         });
+
+        // Retrieve camera settings
         this.dataService.retrieveCamDataFromDB(this.camera);
       });
   }
+  /** Update page state when recording is started.*/
   startRecording(): void {
     const { IPAddress, NodePort } = this.dataService.getConfigData();
     this.isRecording = true;
@@ -195,6 +213,7 @@ export class HomePage implements OnInit {
       .get(`http://${IPAddress}:${NodePort}/livestream/startRecording`)
       .subscribe();
   }
+  /** Update page state when recording is stopped. */
   stopRecording(): void {
     const { IPAddress, NodePort } = this.dataService.getConfigData();
     this.isRecording = false;
@@ -204,7 +223,7 @@ export class HomePage implements OnInit {
       .get(`http://${IPAddress}:${NodePort}/livestream/stopRecording`)
       .subscribe();
   }
-
+  /** Open modal to display error logs. */
   async showErrorLog(): Promise<void> {
     const modal = await this.modalController.create({
       component: ErrorLogModal,
@@ -212,20 +231,24 @@ export class HomePage implements OnInit {
     });
     return await modal.present();
   }
-
-  setCameraImage(value: boolean): string {
-    if (this.isRecording) {
+  /** Choose the camera image on the home page based on recordingState.
+   * @param {boolean} isRecording - Recording state of the camera.
+   */
+  setCameraImage(isRecording: boolean): string {
+    if (isRecording) {
       return `assets/CamOn/${this.camera}-on.png`;
     } else {
       return `assets/CamOff/${this.camera}-off.png`;
     }
   }
+  /** Update the camera image and stop the loading spinner.*/
   selectionChange(): void {
     // Note: this.camera is two-way bounded. The functions use the new value.
     this.camImage = this.setCameraImage(this.isRecording);
     this.dataService.updateCamera(this.camera);
     if (!this.showSpinner) this.dataService.retrieveCamDataFromDB(this.camera);
   }
+  /** Communicate to the back-end server to start the livestream socket.*/
   startStreamServer(): void {
     if (this.isRecording) {
       const { IPAddress, NodePort } = this.dataService.getConfigData();
@@ -234,6 +257,7 @@ export class HomePage implements OnInit {
         .subscribe();
     }
   }
+  /** Show alert when shutdown button is pressed. */
   async shutDownConfirm(): Promise<void> {
     const alert = await this.alertController.create({
       mode: 'ios',
@@ -253,13 +277,13 @@ export class HomePage implements OnInit {
         },
       ],
     });
-
     await alert.present();
   }
+  /** Shutdown actions for the process. */
   shutDown(): void {
     const { IPAddress, NodePort } = this.dataService.getConfigData();
     this.http
-      .get(`http://${IPAddress}:${NodePort}/videos/shutdown`)
+      .get(`http://${IPAddress}:${NodePort}/livestream/shutdown`)
       .subscribe();
   }
 }

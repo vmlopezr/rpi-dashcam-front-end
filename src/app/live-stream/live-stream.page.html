@@ -8,7 +8,6 @@
           text="home"
           routerLink="/home"
           routerDirection="root"
-          (click)="backHandler()"
           class="ion-text-capitalize"></ion-back-button>
       </ion-buttons>
       <ion-title>Camera Stream</ion-title>
@@ -20,7 +19,10 @@
         [src]="getImgContent()">
       <img *ngIf="!isRecording"
         src="assets/icon/default-image.jpg">
-      <ion-spinner *ngIf="showSpinner && isRecording"></ion-spinner>
+      <div class="spinnerContainer"
+        *ngIf="showSpinner && isRecording">
+        <ion-spinner></ion-spinner>
+      </div>
     </div>
     <ion-content *ngIf="isPortrait()">
       <DefaultCam *ngIf="isDefaultCam()"

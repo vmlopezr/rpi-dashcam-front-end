@@ -2,7 +2,7 @@
   "name": "rpi-dashcam",
   "version": "0.0.1",
   "author": "Ionic Framework",
-  "homepage": "https://ionicframework.com/",
+  "homepage": "https://vmlopezr.github.io/rpi-dashcam-front-end",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -29,9 +29,6 @@
     "socket.io": "^2.3.0",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"
-  },
-  "resolutions": {
-    "@babel/preset-env": "^7.8.7"
   },
   "devDependencies": {
     "@angular-devkit/architect": "~0.801.2",
