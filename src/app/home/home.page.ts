@@ -1,9 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ApplicationRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AlertController, ModalController } from '@ionic/angular';
 import { DataService, AppSettings, ErrorLog } from '../services/data.service';
 import { ErrorLogModal } from './error-log/ErrorLogModal.page';
 
+const errorHeader = 'Python process error';
+const errorMsg =
+  `The python process has exited prematurely. An error may ` +
+  `have occurred, the recent error logs for more detail.`;
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -21,17 +25,56 @@ export class HomePage implements OnInit {
     private dataService: DataService,
     private alertController: AlertController,
     private modalController: ModalController,
+    private app: ApplicationRef,
   ) {}
   ngOnInit(): void {
     this.showSpinner = true;
     this.theme = this.dataService.getTheme();
     this.isRecording = this.dataService.getIsRecording();
-
     this.camList = [
       'Microsoft LifeCam HD-3000',
       'Logitech Webcam HD C920',
       'Default UVC Camera',
     ];
+  }
+  /** On page enter load the current camera data as well as error log data.*/
+  ionViewWillEnter(): void {
+    // Retrieve App settings data from the database
+    this.dataService
+      .retrieveSettingsDataFromDB()
+      .subscribe((data: AppSettings) => {
+        // Update the camera and locally store the data
+        this.camera = data.camera;
+        this.dataService.setData(data);
+
+        // Check the current state of the python program
+        this.dataService
+          .checkIfPythonRunning()
+          .subscribe((isRecording: boolean) => {
+            // This situation happens if the python program exits when failing to open its socket
+            if (this.isRecording === true && isRecording == false) {
+              this.dataService.presentAlert(errorHeader, errorMsg);
+            }
+            // Update page state based on recordingState
+            if (isRecording) {
+              this.isRecording = true;
+              this.dataService.setIsRecording(true);
+            } else {
+              this.isRecording = false;
+              this.dataService.setIsRecording(false);
+            }
+            this.camImage = this.setCameraImage(isRecording);
+          });
+
+        // Retrieve error logs
+        this.dataService.getErrorLogfromDB().subscribe((data: ErrorLog[]) => {
+          this.dataService.setErrorLog(data);
+          this.showSpinner = false;
+        });
+
+        // Retrieve camera settings
+        this.dataService.retrieveCamDataFromDB(this.camera);
+      });
   }
   /**
    * Update the app theme based on the value of the theme property.
@@ -175,34 +218,6 @@ export class HomePage implements OnInit {
   ionViewWillLeave(): void {
     this.dataService.setTheme(this.theme);
   }
-  /** On page enter load the current camera data as well as error log data.*/
-  ionViewWillEnter(): void {
-    this.dataService
-      .retrieveSettingsDataFromDB()
-      .subscribe((data: AppSettings) => {
-        this.camera = data.camera;
-        this.dataService.setData(data);
-
-        // Update page state based on recordingState
-        if (data.recordingState === 'ON') {
-          this.isRecording = true;
-          this.dataService.setIsRecording(true);
-        } else {
-          this.isRecording = false;
-          this.dataService.setIsRecording(false);
-        }
-        this.camImage = this.setCameraImage(this.isRecording);
-
-        // Retrieve error logs
-        this.dataService.getErrorLogfromDB().subscribe((data: ErrorLog[]) => {
-          this.dataService.setErrorLog(data);
-          this.showSpinner = false;
-        });
-
-        // Retrieve camera settings
-        this.dataService.retrieveCamDataFromDB(this.camera);
-      });
-  }
   /** Update page state when recording is started.*/
   startRecording(): void {
     const { IPAddress, NodePort } = this.dataService.getConfigData();
@@ -212,6 +227,28 @@ export class HomePage implements OnInit {
     this.http
       .get(`http://${IPAddress}:${NodePort}/livestream/startRecording`)
       .subscribe();
+
+    // Check if error has occurred after 1 second
+    setTimeout(() => {
+      this.dataService
+        .checkIfPythonRunning()
+        .subscribe((isRecording: boolean) => {
+          if (isRecording == false) {
+            this.dataService.presentAlert(errorHeader, errorMsg);
+            this.dataService.setIsRecording(false);
+            this.isRecording = false;
+            this.camImage = this.setCameraImage(false);
+            // Retrieve error logs
+            this.dataService
+              .getErrorLogfromDB()
+              .subscribe((data: ErrorLog[]) => {
+                this.dataService.setErrorLog(data);
+                this.showSpinner = false;
+              });
+            this.app.tick();
+          }
+        });
+    }, 1500);
   }
   /** Update page state when recording is stopped. */
   stopRecording(): void {

@@ -3,13 +3,15 @@ import { HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Platform } from '@ionic/angular';
 import { DataService } from '../services/data.service';
-import { AlertController } from '@ionic/angular';
 import * as io from 'socket.io-client';
 
 const errmessage =
-  'An error occurred with the recording process. \nVerify the camera is the correct one as chosen on the home screen.';
+  `An error occurred with the recording process. Verify the ` +
+  `camera is the correct one as chosen on the home screen.`;
 const errconnectmsg =
-  'Could not connect to the livestream server. \nVerify the camera is running, and that the Raspberry Pi operational.';
+  `Could not connect to the livestream server. \nVerify the ` +
+  `camera is running, and that the Raspberry Pi operational. The recording process ` +
+  `may have exited. Check the error log for more information.`;
 @Component({
   selector: 'app-live-stream',
   templateUrl: './live-stream.page.html',
@@ -27,24 +29,43 @@ export class LiveStreamPage implements OnInit {
     private http: HttpClient,
     private sanitizer: DomSanitizer,
     private dataService: DataService,
-    private alertController: AlertController,
   ) {}
   ngOnInit(): void {
+    const { IPAddress, NodePort } = this.dataService.getConfigData();
+
     this.socket = null;
+    // disconnected flag only get set if a socket event handler detects an error
     this.disconnected = false;
     this.showSpinner = true;
-    const { IPAddress, NodePort } = this.dataService.getConfigData();
     this.isRecording = this.dataService.getIsRecording();
     this.imgSrc = `http://${IPAddress}:${NodePort}/videos/thumbnail/loading.jpg`;
     this.liveStreamConnect();
+
+    // Check for window close
+    window.addEventListener('beforeunload', this.handleUnload);
+
+    // Check if tab is blurred or put in background
+    document.addEventListener('visibilitychange', this.handleVisibilityChange);
   }
   /**
    *  Handle browser and header back buttons to close socket cleanly
    */
   ionViewWillLeave(): void {
-    console.log('leaving page');
-    this.backHandler();
+    this.handleExit();
   }
+  /** Detect whether the user moved tabs and put the application in the background.
+   *  In such a case, stop the streaming and prompt to re-enter to access the stream.
+   */
+  handleVisibilityChange = (): void => {
+    if (document.visibilityState === 'hidden' && this.isRecording) {
+      this.handleExit();
+      this.dataService.presentAlert(
+        'Application Tab moved to background',
+        `The tab has been detected in the background. The livestream connection ` +
+          `will be closed. Re-enter the page to view the livestream.`,
+      );
+    }
+  };
   /**
    * Start attempt to connect to livestream server. Sets timeout to cancel and
    * warn user if theres issues.
@@ -59,45 +80,72 @@ export class LiveStreamPage implements OnInit {
       this.disconnected = true;
       // Clear the spinner animation
       this.showSpinner = false;
-
-      this.presentAlert('Connection Error', errconnectmsg);
+      this.dataService.setIsRecording(false);
+      this.dataService.presentAlert('Connection Timeout Error', errconnectmsg);
       this.cleanUpSocket();
-    }, 15000);
+    }, 10000);
   }
+  /** Action run when page is exited. Starts socket.io cleanup if it is established.*/
+  handleExit = (): void => {
+    if (this.timeout) {
+      clearTimeout(this.timeout);
+      this.timeout = null;
+    }
+    if (this.isRecording) {
+      this.isRecording = false;
+      this.cleanUpSocket();
+    }
+    this.dataService.updateCameraDataDB();
+    window.removeEventListener('beforeunload', this.handleExit);
+    document.removeEventListener(
+      'visibilitychange',
+      this.handleVisibilityChange,
+    );
+  };
+  /** Starts the exit handler when the page is closed */
+  handleUnload = (): void => {
+    this.handleExit();
+  };
   /** Connect socket.io to livestream server */
   startSocket(): void {
     const { IPAddress, LiveStreamPort } = this.dataService.getConfigData();
     if (!this.socket) {
-      this.socket = io.connect(`http://${IPAddress}:${LiveStreamPort}`);
+      this.socket = io.connect(`http://${IPAddress}:${LiveStreamPort}`, {
+        transports: ['websocket'],
+      });
       this.startListener();
     }
   }
+
   /** Set listeners for socket.io */
   startListener(): void {
+    /* The python process stops the livestream socket on v4l2-ctl error*/
+    this.socket.on('v4l2-error', () => {
+      this.disconnected = true;
+      this.cleanUpSocket();
+      this.dataService.presentAlert(
+        'Caught a V4L2 Error',
+        `The camera connected may not be ` +
+          `one of the cameras selected in the home screen. The V4L drivers support ` +
+          `different settings for each camera and may result in errors.`,
+      );
+    });
     this.socket.on('connect', () => {
       clearTimeout(this.timeout);
-      console.log('Livestream connection successful.');
       this.showSpinner = false;
       this.timeout = null;
     });
-
+    /** Update image in the html*/
     this.socket.on('image', this.updateImage);
-    this.socket.on('error', err => {
-      console.log(err);
-      this.presentAlert('Streaming Error', errmessage);
-    });
-  }
-  /** Present an alert with a header and message */
-  async presentAlert(header: string, message: string): Promise<void> {
-    const alert = await this.alertController.create({
-      header: 'Alert',
-      subHeader: header,
-      message: message,
-      buttons: ['OK'],
-    });
 
-    await alert.present();
+    /** Catch errors on socket.io */
+    this.socket.on('error', err => {
+      this.disconnected = true;
+      this.dataService.presentAlert('Streaming Error', errmessage);
+      this.cleanUpSocket();
+    });
   }
+
   /** Return true if orientation is portrait, false otherwise. For PC's this is defaulted to true. */
   isPortrait(): boolean {
     if (this._platform.platforms().includes('desktop')) {
@@ -106,17 +154,7 @@ export class LiveStreamPage implements OnInit {
       return this._platform.isPortrait();
     }
   }
-  /** Action run when page is exited. Starts socket.io cleanup if it is established.*/
-  backHandler(): void {
-    if (this.timeout) {
-      clearTimeout(this.timeout);
-      this.timeout = null;
-    }
-    if (this.isRecording) {
-      this.cleanUpSocket();
-    }
-    this.dataService.updateCameraDataDB();
-  }
+
   /** Clean up socket.io and tell back-end server to stop the livestream gstreamer pipeline. */
   cleanUpSocket(): void {
     const { IPAddress, NodePort } = this.dataService.getConfigData();
@@ -125,6 +163,7 @@ export class LiveStreamPage implements OnInit {
       this.http
         .get(`http://${IPAddress}:${NodePort}/livestream/stop`)
         .subscribe();
+      this.disconnected = false;
     }
 
     // Clean up the socket.

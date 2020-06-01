@@ -1,26 +1,31 @@
 # RPI Webcam Front End
 
 The project uses USB Webcams with Raspberry Pi 3b+
-and Raspberry Pi 4 to record and stream over a Raspberry Pi access point. The repository contains the front-end for the application built using ionic 4.
+and Raspberry Pi 4 to record and stream over a Raspberry Pi access point. The repository contains the front-end for the application built using ionic 4 and is only used to build the static files for the [back end server](https://github.com/vmlopezr/rpi-dashcam).
 
 The application serves a static website that allows control of the USB Webcam. The Raspberry Pi is configured as an Access Point, so devices must be connected to the network.
 Recorded videos can be watched as well as downloaded onto your devices.
 
-There is support for updating camera settings, such as brightness, saturation, etc. There is initial support for Logitech C920 and Microsoft LifeCam HD3000. The application should be able to record with UVC, v4l2 [compatible devices](https://www.ideasonboard.org/uvc/).
+There is support for updating camera settings, such as brightness, saturation, etc. Currently, only Logitech C920 and Microsoft LifeCam HD3000 are supported for settings controls. The application should be able to record with UVC, v4l2 [compatible devices](https://www.ideasonboard.org/uvc/), but only support updating video length and orientation.
 
 The live video streaming with camera settings is only supported for the Logitect C920 and Microsoft LifeCam HD3000. The camera settings are disabled for other cameras, although the stream will be available.
 
+The Logitech C920, and Microsoft LifeCam HD 3000 are set to record at 720p 30fps, while other cameras at 720p 20fps. 
+
+**Note:** Depending on the camera, the automatic settings such as automatic exposure, white balance, etc. may cause the camera to drop frame rate.
+
 The Application establishes the Raspberry Pi as a wireless Access Point.
 
-- Network SSID: **_RPI_Webcam_View_**
+- Network SSID: **_RPI_Webcam_Viewer_**
 - Password: **_rpiCamView_**
+
 
 ## Prerequisites
 
 The project is developed with the following tools.
 
 - Ionic 4 Framework
-- REST Api developed in the back-end repository
+- REST Api developed with nestJS in the back-end repository
 
 For this repository the following are needed:
 
@@ -87,7 +92,7 @@ Any http address using domain "pi" is redirected to the local application websit
 
 The access Point information is shown below:
 
-- Network SSID: **_RPI-Webcam-Viewer_**
+- Network SSID: **_RPI_Webcam_Viewer_**
 - Password: **_rpiCamView_**
 
 To change the network SSID and password, update the following settings near the end of the script ["AP-install.sh"](./install-scripts/AP-install.sh).

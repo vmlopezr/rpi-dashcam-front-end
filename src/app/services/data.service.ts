@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
 import { SERVER_URL } from '../../environments/environment';
+import { AlertController } from '@ionic/angular';
 export interface MSHD3000Data {
   brightness: number;
   contrast: number;
@@ -81,7 +82,10 @@ class DataService {
   private errorLogs: ErrorLog[];
   private theme: string;
   private scrollPosition: number;
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+    private alertController: AlertController,
+  ) {
     this.isRecording = false;
     this.theme = 'sunny';
     this.scrollPosition = 0;
@@ -113,9 +117,29 @@ class DataService {
       default: this.updateDefaultCamData,
     };
   }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  retrieveSettingsDataFromDB(): Observable<any> {
-    return this.http.get(SERVER_URL + '/app-settings/settings/data');
+  /** Present an alert with a header and message */
+  async presentAlert(header: string, message: string): Promise<void> {
+    const alert = await this.alertController.create({
+      mode: 'ios',
+      header: 'Alert',
+      subHeader: header,
+      message: message,
+      backdropDismiss: false,
+      buttons: ['OK'],
+    });
+
+    await alert.present();
+  }
+  retrieveSettingsDataFromDB(): Observable<AppSettings> {
+    return this.http.get(
+      SERVER_URL + '/app-settings/settings/data',
+    ) as Observable<AppSettings>;
+  }
+  checkIfPythonRunning(): Observable<boolean> {
+    const { IPAddress, NodePort } = this.ConfigData;
+    return this.http.get(
+      `http://${IPAddress}:${NodePort}/livestream/isPythonRunning`,
+    ) as Observable<boolean>;
   }
   /** Save the scroll position from the video list page. */
   setScrollPosition(pos: number): void {

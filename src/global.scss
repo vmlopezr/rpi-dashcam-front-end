@@ -37,7 +37,7 @@ ion-header {
   height: 44px;
   ion-title {
     height: 44px;
-    font-size: 25px;
+    font-size: 20px;
   }
   ion-button {
     height: 38px !important;
@@ -328,12 +328,18 @@ ion-alert {
     font-size: 28px !important;
     font-weight: bold !important;
   }
+  .alert-sub-title {
+    font-weight: 600 !important;
+    font-size: 16px !important;
+    white-space: nowrap !important;
+  }
   .alert-radio-label {
     font-weight: 500;
     font-size: 16px;
   }
   .alert-wrapper {
     --width: 100% !important;
+    --min-width: 95% !important;
     --color: var(--font-color) !important;
     --ion-text-color: var(--font-color);
     --background: var(--control-section-bg);
@@ -372,6 +378,10 @@ ion-alert {
 }
 /* Styling for large screens */
 @media (min-width: 1000px) {
+  ion-title {
+    font-size: 25px;
+  }
+
   .control-section {
     .heading-text {
       font-size: 26px;
