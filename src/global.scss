@@ -339,7 +339,7 @@ ion-alert {
   }
   .alert-wrapper {
     --width: 100% !important;
-    --min-width: 95% !important;
+    --min-width: 300px !important;
     --color: var(--font-color) !important;
     --ion-text-color: var(--font-color);
     --background: var(--control-section-bg);
