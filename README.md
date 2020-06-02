@@ -3,6 +3,8 @@
 The project uses USB Webcams with Raspberry Pi 3b+
 and Raspberry Pi 4 to record and stream over a Raspberry Pi access point. The repository contains the front-end for the application built using ionic 4 and is only used to build the static files for the [back end server](https://github.com/vmlopezr/rpi-dashcam).
 
+A Demo of this can be seen at: https://vmlopezr.github.io/rpi-dashcam-front-end/
+
 The application serves a static website that allows control of the USB Webcam. The Raspberry Pi is configured as an Access Point, so devices must be connected to the network.
 Recorded videos can be watched as well as downloaded onto your devices.
 
